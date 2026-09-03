@@ -1,151 +1,489 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>U.S. Outdoor Tools | Chris Izworski</title>
-<meta name="description" content="Live U.S. outdoor tools for aurora, rivers, coastal water, snowpack, White Christmas odds, frost, planting and fall foliage using authoritative public data.">
+<meta name="description" content="Free U.S. outdoor tools for aurora, rivers, coastal water, snowpack, White Christmas odds, frost, planting and fall color. Open the specialist tool for the decision you are making.">
 <link rel="canonical" href="https://chrisizworski.com/national-tools/">
-<meta name="robots" content="index,follow,max-image-preview:large"><link rel="stylesheet" href="/assets/national-tools.css?v=20260901-compare1">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://chrisizworski.com/#person","name":"Chris Izworski","url":"https://chrisizworski.com/"},{"@type":"WebSite","@id":"https://chrisizworski.com/#website","url":"https://chrisizworski.com/","name":"Chris Izworski","author":{"@id":"https://chrisizworski.com/#person"}},{"@type":"CollectionPage","@id":"https://chrisizworski.com/national-tools/#page","url":"https://chrisizworski.com/national-tools/","name":"U.S. Outdoor Tools","description":"Live U.S. outdoor tools for aurora, rivers, coastal water, frost, planting and fall foliage using NOAA, NWS, USGS and phenology data.","dateModified":"2026-09-02","author":{"@id":"https://chrisizworski.com/#person"},"isPartOf":{"@id":"https://chrisizworski.com/#website"}}]}</script></head>
-<body><header class="site-head"><div class="wrap head-in"><a class="brand" href="/">Chris Izworski</a><nav class="nav" aria-label="Primary"><a href="/national-tools/">U.S. Outdoor Tools</a><a href="/tools/">Michigan Tools</a></nav></div></header>
-<main>
-<section class="hero"><div class="wrap"><div class="eyebrow">Outdoor conditions · United States</div><h1>U.S. Outdoor Tools</h1><p class="lede">One place. Five core outdoor signals, plus coastal and snowpack context where they apply. See what matters first, then open the underlying source-backed decision tool.</p></div></section>
-
-<section class="section desk-entry"><div class="wrap">
-<form id="hub-location" class="locator"><label class="sr-only" for="hub-q">City or ZIP</label><input id="hub-q" autocomplete="postal-code" placeholder="Enter a U.S. city or ZIP" required><button class="btn" type="submit">Build my outdoor desk</button><button type="button" class="secondary-btn geo-btn" data-use-location>Use my location</button></form><p class="near-me-note">Works anywhere in the United States: tap <strong>Use my location</strong> for conditions near me, or type any U.S. city or ZIP code.</p>
-<p class="location-privacy">Optional. Your browser shares a location rounded to about 0.001° only after you tap. It is used to load nearby conditions and is not included in analytics.</p>
-<div class="status" aria-live="polite">Choose a place to load the five core decision signals independently, with coastal and snowpack context added only where relevant source coverage exists.</div>
-<div class="saved-row"><strong>Saved places</strong><div id="saved-places" class="place-chips"></div></div>
-
-<section id="outdoor-desk" class="outdoor-desk" hidden aria-live="polite">
-  <div class="desk-heading"><div><span class="tool-kicker">Your outdoor desk</span><h2 data-desk-title>Today near your location</h2><p data-desk-health class="small"></p></div><button id="save-place" type="button" class="secondary-btn">Save this place</button></div>
-  <div class="desk-note"><strong>Read this top-to-bottom.</strong> Higher cards are the signals most likely to change a decision right now. A failed source stays isolated to its own card.</div>
-  <div class="decision-grid" data-desk-grid></div>
-  <details class="method-details"><summary>Why are these cards in this order?</summary><p>The desk orders live hazards and time-sensitive opportunities ahead of routine context. Official flood/freeze signals outrank seasonal or low-urgency conditions. This is a display priority, not a universal safety score.</p></details>
-</section>
-
-<section id="place-compare" class="place-compare" hidden aria-live="polite">
-  <div class="compare-title"><div><span class="tool-kicker">Saved-place comparison</span><h2>Compare two places across the same core signals</h2></div><p>No overall winner or safety score. Coastal and snowpack context appear only where relevant coverage exists, and every source-backed signal stays separate.</p></div>
-  <form id="compare-form" class="compare-controls">
-    <label>First place<select id="compare-a" aria-label="First saved place"></select></label>
-    <label>Second place<select id="compare-b" aria-label="Second saved place"></select></label>
-    <button class="btn" type="submit">Compare places</button>
-  </form>
-  <div id="compare-status" class="status" aria-live="polite"></div>
-  <div class="compare-matrix" data-compare-grid></div>
-</section>
-</div></section>
-
-<section class="section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Go deeper</span><h2>Open the full decision tools</h2></div><p class="small">These links remain crawlable and useful even when a live feed is unavailable.</p></div><div class="grid">
-<a class="card tool-card" data-tool="/national-tools/aurora/" href="/national-tools/aurora/"><div class="tool-kicker">Tonight</div><h3>Aurora Tonight</h3><p>NOAA aurora signal + darkness + NWS clouds + moon context, with the best dark-weather window and confidence shown separately.</p></a>
-<a class="card tool-card" data-tool="/national-tools/rivers/" href="/national-tools/rivers/"><div class="tool-kicker">Rivers</div><h3>River Conditions</h3><p>Nearby USGS gauges with current flow, six-hour trend, same-date historical percentiles, and official NOAA flood forecasts when a gauge match exists.</p></a>\n<a class="card tool-card" data-tool="/national-tools/coastal/" href="/national-tools/coastal/"><div class="tool-kicker">Coast &amp; beaches</div><h3>Beach &amp; Coastal Conditions</h3><p>Official NWS rip/swim risk first, then nearby NDBC waves, wind and water temperature plus NOAA tide predictions where they apply.</p></a>
-<a class="card tool-card" data-tool="/national-tools/snow/" href="/national-tools/snow/"><div class="tool-kicker">Snowpack &amp; melt</div><h3>Snowpack &amp; Snowmelt Conditions</h3><p>Nearby measured snow depth and SWE, recent pack change, plus a separate 48-hour NWS melt, refreeze and snowfall weather pattern.</p></a>
-<a class="card tool-card" data-tool="/national-tools/white-christmas/" href="/national-tools/white-christmas/"><div class="tool-kicker">Seasonal special · Christmas</div><h3>Will I Have a White Christmas?</h3><p>1991-2020 Christmas snow-depth history blended with CPC outlooks, current snowpack and the NWS forecast as December 25 approaches.</p></a>
-<a class="card tool-card" data-tool="/national-tools/frost/" href="/national-tools/frost/"><div class="tool-kicker">Freeze risk</div><h3>Frost Dates & Freeze Risk</h3><p>Spring and fall NOAA freeze probabilities, live NWS freeze risk, hard-freeze detection, and station-distance confidence.</p></a>
-<a class="card tool-card" data-tool="/national-tools/planting/" href="/national-tools/planting/"><div class="tool-kicker">Garden</div><h3>Planting Calendar</h3><p>A sourced 20-crop decision engine tied to NOAA freeze climatology and the live NWS cold forecast.</p></a>
-<a class="card tool-card" data-tool="/national-tools/fall-color/" href="/national-tools/fall-color/"><div class="tool-kicker">This season · beta</div><h3>Fall Color Timing</h3><p>USA-NPN historical autumn timing band plus separate current NWS weather context. No invented live “percent peak” score.</p></a>
-</div></div></section>
-
-<section class="section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Plan by intent</span><h2>Start with the decision, then open the live tool</h2></div><p class="small">These guides connect related signals without creating thin city or ZIP pages.</p></div><div class="grid">
-<a class="card tool-card" data-tool="/national-tools/garden/" href="/national-tools/garden/"><div class="tool-kicker">Garden</div><h3>Garden Planning</h3><p>Use frost risk and crop-specific planting timing together instead of treating one average frost date as a guarantee.</p></a>
-<a class="card tool-card" data-tool="/national-tools/fall/" href="/national-tools/fall/"><div class="tool-kicker">Autumn</div><h3>Fall Trip Planning</h3><p>Combine foliage timing, current leaf observations and separate first-freeze context without fake peak precision.</p></a>
-<a class="card tool-card" data-tool="/national-tools/water/" href="/national-tools/water/"><div class="tool-kicker">Rivers</div><h3>River Trip Planning</h3><p>Understand flow, stage, recent trend, historical context and official forecasts before interpreting a gauge.</p></a>
-<a class="card tool-card" data-tool="/national-tools/night-sky/" href="/national-tools/night-sky/"><div class="tool-kicker">Night sky</div><h3>Aurora Viewing Planning</h3><p>Separate the aurora signal from local clouds, darkness and moon context before deciding whether to head out.</p></a>
-</div></div></section>
-
-<section class="section"><div class="wrap grid">
-<div class="source-box"><h2>One location, separate source truth</h2><p>The desk does not blend observations, forecasts, climatology and derived estimates into a mystery score. Each card keeps its own source class, freshness and uncertainty, then links to the full explanation.</p></div>
-<div class="source-box"><h2>Michigan stays deeper</h2><p>The existing <a href="/tools/">Michigan & Great Lakes tools</a> remain intact. When Michigan already has a richer canonical product, the national tool points there rather than cloning it.</p></div>
-</div></section>
-
-<script src="/assets/national-tools.js?v=20260901-placebar1"></script>
-<script src="/assets/national-dashboard.js?v=20260901-compare1"></script>
-<script>
-document.addEventListener("DOMContentLoaded",function(){
-  const N=window.NationalTools,D=window.NationalDashboard;
-  const form=document.getElementById("hub-location"),input=document.getElementById("hub-q");
-  const desk=document.getElementById("outdoor-desk"),status=form.parentElement.querySelector(".status");
-  const savedRoot=document.getElementById("saved-places"),saveButton=document.getElementById("save-place");
-
-  async function showLocation(loc){
-    N.remember(loc);input.value=loc.query||N.label(loc);
-    document.querySelectorAll("[data-tool]").forEach(function(a){a.href=N.withQuery(a.dataset.tool,loc)});
-    await D.load(loc,{root:desk,status:status,saveButton:saveButton,savedRoot:savedRoot,onPick:showLocation});
-  }
-  D.renderSaved(savedRoot,showLocation);
-  N.bind(form,showLocation);
-
-  const compareSection=document.getElementById("place-compare");
-  const compareForm=document.getElementById("compare-form");
-  const compareA=document.getElementById("compare-a"),compareB=document.getElementById("compare-b");
-  const compareStatus=document.getElementById("compare-status"),compareGrid=compareSection.querySelector("[data-compare-grid]");
-
-  function compareOption(place){
-    return '<option value="'+N.esc(N.locationKey(place))+'">'+N.esc(N.label(place))+'</option>';
-  }
-  function comparePlaces(){
-    const places=N.savedPlaces();
-    if(places.length<2){compareSection.hidden=true;compareGrid.innerHTML="";return places}
-    const oldA=compareA.value,oldB=compareB.value;
-    compareA.innerHTML=places.map(compareOption).join("");
-    compareB.innerHTML=places.map(compareOption).join("");
-    if(places.some(function(p){return N.locationKey(p)===oldA}))compareA.value=oldA;
-    if(places.some(function(p){return N.locationKey(p)===oldB}))compareB.value=oldB;
-    if(!compareA.value)compareA.value=N.locationKey(places[0]);
-    if(!compareB.value||compareB.value===compareA.value){
-      const alternate=places.find(function(p){return N.locationKey(p)!==compareA.value});
-      if(alternate)compareB.value=N.locationKey(alternate);
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:title" content="U.S. Outdoor Tools | Chris Izworski">
+<meta property="og:description" content="A national library of practical outdoor decision tools for rivers, coasts, snow, gardens, aurora and seasonal conditions.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrisizworski.com/national-tools/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"CollectionPage",
+      "@id":"https://chrisizworski.com/national-tools/#page",
+      "url":"https://chrisizworski.com/national-tools/",
+      "name":"U.S. Outdoor Tools",
+      "description":"Free specialist outdoor decision tools for locations across the United States.",
+      "author":{"@id":"https://chrisizworski.com/#person"},
+      "about":{"@id":"https://chrisizworski.com/#person"},
+      "dateModified":"2026-09-03",
+      "mainEntity":{"@id":"https://chrisizworski.com/national-tools/#toollist"}
+    },
+    {
+      "@type":"Person",
+      "@id":"https://chrisizworski.com/#person",
+      "name":"Chris Izworski",
+      "url":"https://chrisizworski.com/"
+    },
+    {
+      "@type":"BreadcrumbList",
+      "@id":"https://chrisizworski.com/national-tools/#breadcrumb",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://chrisizworski.com/"},
+        {"@type":"ListItem","position":2,"name":"U.S. Outdoor Tools","item":"https://chrisizworski.com/national-tools/"}
+      ]
+    },
+    {
+      "@type":"ItemList",
+      "@id":"https://chrisizworski.com/national-tools/#toollist",
+      "name":"U.S. Outdoor Tools by Chris Izworski",
+      "numberOfItems":8,
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"url":"https://chrisizworski.com/national-tools/aurora/","name":"Aurora Tonight"},
+        {"@type":"ListItem","position":2,"url":"https://chrisizworski.com/national-tools/rivers/","name":"River Conditions"},
+        {"@type":"ListItem","position":3,"url":"https://chrisizworski.com/national-tools/coastal/","name":"Beach and Coastal Conditions"},
+        {"@type":"ListItem","position":4,"url":"https://chrisizworski.com/national-tools/snow/","name":"Snowpack and Snowmelt Conditions"},
+        {"@type":"ListItem","position":5,"url":"https://chrisizworski.com/national-tools/white-christmas/","name":"White Christmas Odds"},
+        {"@type":"ListItem","position":6,"url":"https://chrisizworski.com/national-tools/frost/","name":"Frost Dates and Freeze Risk"},
+        {"@type":"ListItem","position":7,"url":"https://chrisizworski.com/national-tools/planting/","name":"Planting Calendar"},
+        {"@type":"ListItem","position":8,"url":"https://chrisizworski.com/national-tools/fall-color/","name":"Fall Color Timing"}
+      ]
     }
-    compareSection.hidden=false;
-    return places;
-  }
-  function compareCell(card,place){
-    if(!card)return '<div class="compare-cell"><span class="compare-mobile-label">'+N.esc(N.label(place))+'</span><strong>Signal unavailable</strong><p>No comparable result returned.</p></div>';
-    return '<div class="compare-cell"><span class="compare-mobile-label">'+N.esc(N.label(place))+'</span><strong>'+N.esc(card.title)+'</strong><p>'+N.esc(card.detail||"")+'</p>'+
-      (card.facts&&card.facts.length?'<ul>'+card.facts.slice(0,2).map(function(f){return '<li>'+N.esc(f)+'</li>'}).join("")+'</ul>':"")+
-      (card.source?'<small>'+N.esc(card.source)+'</small>':"")+
-      '<a href="'+N.esc(card.href)+'">Open full tool →</a></div>';
-  }
-  function renderComparison(result){
-    const leftMap=Object.fromEntries(result.left.cards.map(function(card){return [card.id,card]}));
-    const rightMap=Object.fromEntries(result.right.cards.map(function(card){return [card.id,card]}));
-    const order=[["aurora","Aurora"],["rivers","River"],["frost","Frost"],["planting","Planting"],["fall","Fall timing"]];
-    if(leftMap.coastal||rightMap.coastal)order.splice(2,0,["coastal","Coastal"]);
-    if(leftMap.snow||rightMap.snow)order.splice(leftMap.coastal||rightMap.coastal?3:2,0,["snow","Snowpack"]);
-    compareGrid.innerHTML='<div class="compare-head"><span>Signal</span><strong>'+N.esc(N.label(result.left.location))+'</strong><strong>'+N.esc(N.label(result.right.location))+'</strong></div>'+
-      order.map(function(row){return '<div class="compare-row"><div class="compare-signal"><span class="tool-kicker">'+N.esc(row[1])+'</span></div>'+compareCell(leftMap[row[0]],result.left.location)+compareCell(rightMap[row[0]],result.right.location)+'</div>'}).join("");
-  }
-  compareForm.addEventListener("submit",async function(event){
-    event.preventDefault();
-    const places=comparePlaces();
-    const left=places.find(function(p){return N.locationKey(p)===compareA.value});
-    const right=places.find(function(p){return N.locationKey(p)===compareB.value});
-    if(!left||!right||N.locationKey(left)===N.locationKey(right)){
-      compareStatus.innerHTML='<span class="error">Choose two different saved places.</span>';return;
-    }
-    const button=compareForm.querySelector(".btn");button.disabled=true;compareStatus.textContent="Comparing the core signals…";
-    try{
-      const result=await D.compare(left,right);
-      renderComparison(result);
-      compareStatus.textContent="Comparison loaded · signals remain independent";
-    }catch(err){
-      compareStatus.innerHTML='<span class="error">'+N.esc(err.message||"Comparison unavailable")+'</span>';
-    }finally{button.disabled=false}
-  });
-  const savedObserver=new MutationObserver(comparePlaces);
-  savedObserver.observe(savedRoot,{childList:true,subtree:true});
-  comparePlaces();
-
-  const q=new URLSearchParams(location.search).get("q");
-  if(q){input.value=q;form.requestSubmit()}
-  else{
-    const previous=N.saved();
-    if(previous){
-      const use=document.createElement("button");use.type="button";use.className="place-chip current-place";use.textContent="Use "+N.label(previous);
-      use.addEventListener("click",function(){showLocation(previous)});
-      savedRoot.prepend(use);
-    }
-  }
-});
+  ]
+}
 </script>
+<style>
+*{box-sizing:border-box}
+:root{
+  --paper:#f8f6f1;
+  --card:#fff;
+  --ink:#2b2b28;
+  --muted:#6d6a63;
+  --line:#ddd7cb;
+  --green:#2c5f2d;
+  --green-dark:#214a22;
+  --green-soft:#f1f6ef;
+  --brown:#7a684c;
+  --night:#183f38;
+}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+.site-head{border-bottom:1px solid #e8e4dc;background:#fbfaf7}
+.head-in{max-width:960px;margin:0 auto;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-size:18px;color:var(--ink)}
+.nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:14px;font-family:Arial,sans-serif;font-size:12px;letter-spacing:.04em}
+.nav a{color:#5a5a55}
+.nav a[aria-current="page"]{color:var(--green);font-weight:700}
+.body{max-width:920px;margin:0 auto;padding:38px 20px 64px}
+.breadcrumb{font-size:13px;color:#969188;margin-bottom:22px}
+.breadcrumb a{color:#77736c}
+h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
+.sub{font-size:17px;color:var(--muted);font-style:italic;margin:0 0 22px;padding-bottom:20px;border-bottom:1px solid #e8e4dc}
+.intro{font-size:16px;color:#3f3d38;margin:0 0 28px}
+.eyebrow,.tk,.feature-kicker,.intent-kicker{font:700 10.5px/1.2 Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--brown)}
+.section-title{font-size:23px;line-height:1.3;font-weight:400;color:var(--green);margin:0}
+.section-note{font-size:13px;color:#77736d;margin:3px 0 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:0 0 14px}
+.decision-network{margin:30px 0 36px}
+.decision-network__head{margin-bottom:14px}
+.decision-network__head h2{font-size:24px;font-weight:400;color:var(--night);margin:0 0 4px}
+.decision-network__head p{font-size:13px;color:var(--muted);margin:0}
+.decision-network__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.intent-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--night);border-radius:6px;padding:16px}
+.intent-card h3{font-size:18px;font-weight:400;margin:5px 0 9px}
+.intent-card ul{list-style:none;margin:0;padding:0}
+.intent-card li+li{margin-top:6px}
+.intent-card a{display:block;padding:8px 9px;border:1px solid #e6e1d8;border-radius:4px;background:#fbfaf7;color:var(--ink);font-size:14px}
+.intent-card a:hover{border-color:#b9cfb7;background:var(--green-soft);text-decoration:none}
+.intent-card a span{display:block;margin-top:2px;color:#77736d;font:12px/1.45 Arial,sans-serif}
+.featured-tools{margin:34px 0}
+.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.feature-card{display:flex;flex-direction:column;min-height:224px;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--green);border-radius:6px;padding:18px}
+.feature-card h3{font-size:19px;line-height:1.3;font-weight:400;margin:6px 0 8px}
+.feature-card h3 a{color:var(--ink)}
+.feature-card p{font-size:13.5px;line-height:1.6;color:#56534d;margin:0 0 13px}
+.signal-line{font:12px/1.45 Arial,sans-serif;color:#6c6962;margin:0 0 14px}
+.tool-cta{display:inline-flex;align-items:center;justify-content:center;min-height:40px;margin-top:auto;padding:7px 12px;border-radius:3px;background:var(--green);color:#fff;font:700 12px/1.2 Arial,sans-serif}
+.tool-cta:hover{background:var(--green-dark);color:#fff;text-decoration:none}
+.finder{margin:40px 0 34px;padding:16px 18px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.finder h2{font-size:22px;font-weight:400;color:var(--green);margin:0 0 4px}
+.finder>p{font-size:13px;color:var(--muted);margin:0 0 13px}
+.tool-search{width:100%;font:16px Georgia,serif;padding:10px 12px;border:1px solid #cfc8ba;border-radius:3px;background:#fdfcf9;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.chip{font:700 10.5px/1.2 Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid #cfc8ba;background:#faf9f6;color:#5c5953;border-radius:3px;padding:7px 10px}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip.is-on{background:var(--green);border-color:var(--green);color:#fff}
+.finder-count{font:12px/1.4 Arial,sans-serif;color:#77736d;margin:10px 0 0;min-height:17px}
+.library-group{margin:0 0 30px}
+.library-group h2{font-size:21px;font-weight:400;color:var(--green);margin:0 0 4px;padding-bottom:7px;border-bottom:1px solid #e8e4dc}
+.group-blurb{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.tool-card{padding:17px 0 19px;border-bottom:1px solid #ece7dd}
+.tool-title{font-size:16px;line-height:1.4;margin:4px 0 5px}
+.tool-title a{color:var(--ink)}
+.tool-desc{font-size:13px;line-height:1.6;color:#5a5751}
+.tk-season{color:var(--green)}
+.tool-card[hidden],.library-group[hidden]{display:none}
+.no-results{display:none;font-size:14px;color:#555;padding:14px 0}
+.topic-hubs{margin:38px 0 12px}
+.hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hub-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:17px}
+.hub-card h3{font-size:18px;font-weight:400;margin:5px 0 7px}
+.hub-card p{font-size:13px;line-height:1.55;color:#5f5b55;margin:0 0 10px}
+.hub-card a{font:700 12px/1.2 Arial,sans-serif}
+.network-note{margin:36px 0 0;padding:18px;border:1px solid var(--line);border-left:4px solid var(--green);background:#fff}
+.network-note h2{font-size:19px;font-weight:400;margin:0 0 6px}
+.network-note p{font-size:13.5px;color:#5f5b55;margin:0}
+.footer{border-top:1px solid #e8e4dc;background:#fbfaf7}
+.footer-in{max-width:920px;margin:0 auto;padding:22px 20px 28px;font-size:12.5px;color:#88837b}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+@media(max-width:720px){
+  .head-in{display:block}
+  .nav{justify-content:flex-start;margin-top:8px}
+  h1{font-size:31px}
+  .decision-network__grid,.feature-grid,.tool-grid,.hub-grid{grid-template-columns:1fr}
+  .section-head{display:block}
+  .section-note{margin-top:5px}
+  .feature-card{min-height:0}
+  .tool-cta{width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body data-analytics-page="national-tools">
+<header class="site-head">
+  <div class="head-in">
+    <a class="brand" href="/">Chris Izworski</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/tools/">Michigan Tools</a>
+      <a href="/national-tools/" aria-current="page">U.S. Outdoor Tools</a>
+    </nav>
+  </div>
+</header>
+
+<main class="body">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; U.S. Outdoor Tools</div>
+  <h1>U.S. Outdoor Tools</h1>
+  <p class="sub">Free live tools for outdoor decisions across the United States.</p>
+  <p class="intro">This is the front door, not a giant all-purpose dashboard. Pick the question you are trying to answer, then open the specialist tool built for it. Each tool keeps its own data, interface, methodology, and search pages so river conditions do not get flattened into the same experience as frost dates, coastal water, snowpack, aurora, or fall color.</p>
+
+  <section class="decision-network" aria-labelledby="decision-title">
+    <div class="decision-network__head">
+      <h2 id="decision-title">What are you trying to do?</h2>
+      <p>Start with the decision. The live answer belongs inside the tool built for that job.</p>
+    </div>
+    <div class="decision-network__grid">
+      <article class="intent-card">
+        <div class="intent-kicker">Water</div>
+        <h3>Check conditions before getting on the water</h3>
+        <ul>
+          <li><a href="/national-tools/rivers/">Check a river<span>Nearby USGS gauges, trends, history and flood context</span></a></li>
+          <li><a href="/national-tools/coastal/">Check a beach or coast<span>Rip risk, waves, wind, water temperature and tides where available</span></a></li>
+        </ul>
+      </article>
+      <article class="intent-card">
+        <div class="intent-kicker">Sky</div>
+        <h3>Decide whether tonight is worth going out</h3>
+        <ul>
+          <li><a href="/national-tools/aurora/">Check aurora tonight<span>Geomagnetic signal, darkness, clouds and moon context</span></a></li>
+          <li><a href="/national-tools/night-sky/">Plan an aurora viewing night<span>A short guide to reading the signals together</span></a></li>
+        </ul>
+      </article>
+      <article class="intent-card">
+        <div class="intent-kicker">Winter</div>
+        <h3>Understand snow on the ground and what comes next</h3>
+        <ul>
+          <li><a href="/national-tools/snow/">Check snowpack and melt<span>Measured snow depth and SWE plus melt/refreeze weather</span></a></li>
+          <li><a href="/national-tools/white-christmas/">Check White Christmas odds<span>Historical snow cover blended with the signals that matter as December 25 gets closer</span></a></li>
+        </ul>
+      </article>
+      <article class="intent-card">
+        <div class="intent-kicker">Garden</div>
+        <h3>Time planting around actual freeze risk</h3>
+        <ul>
+          <li><a href="/national-tools/frost/">Check frost dates and freeze risk<span>Spring and fall probabilities plus current cold-weather context</span></a></li>
+          <li><a href="/national-tools/planting/">Build a planting calendar<span>Crop timing tied to local freeze climatology</span></a></li>
+        </ul>
+      </article>
+      <article class="intent-card">
+        <div class="intent-kicker">Autumn</div>
+        <h3>Plan around the seasonal change</h3>
+        <ul>
+          <li><a href="/national-tools/fall-color/">Check fall color timing<span>Historical seasonal timing plus current weather context</span></a></li>
+          <li><a href="/national-tools/fall/">Plan a fall trip<span>Use foliage timing and freeze context without fake peak precision</span></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="featured-tools" aria-labelledby="live-tools-title">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Specialist tools</div>
+        <h2 class="section-title" id="live-tools-title">Start with the live tools</h2>
+      </div>
+      <p class="section-note">Free &middot; No account required</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card" data-tags="sky nature" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
+        <div class="feature-kicker">Night sky</div>
+        <h3><a href="/national-tools/aurora/">Aurora Tonight</a></h3>
+        <p>Decide whether the northern lights are worth chasing from your location using the geomagnetic signal, local darkness, cloud cover and moon context.</p>
+        <div class="signal-line">NOAA space weather + local sky conditions</div>
+        <a class="tool-cta" href="/national-tools/aurora/">Check tonight &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="water river fishing paddling" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
+        <div class="feature-kicker">Rivers</div>
+        <h3><a href="/national-tools/rivers/">River Conditions</a></h3>
+        <p>Find nearby USGS gauges, compare current flow and recent trend, add same-date historical context, and surface official NOAA flood forecasts when available.</p>
+        <div class="signal-line">USGS observations + NOAA flood context</div>
+        <a class="tool-cta" href="/national-tools/rivers/">Check a river &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="water coast beach swimming paddling boating" data-months="4,5,6,7,8,9,10">
+        <div class="feature-kicker">Coasts &amp; beaches</div>
+        <h3><a href="/national-tools/coastal/">Beach &amp; Coastal Conditions</a></h3>
+        <p>Start with official rip and swim risk, then add nearby waves, wind, water temperature and tide predictions where those sources apply.</p>
+        <div class="signal-line">NWS hazards + NDBC observations + NOAA tides</div>
+        <a class="tool-cta" href="/national-tools/coastal/">Check the coast &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="winter snow skiing mountains water" data-months="1,2,3,4,5,11,12">
+        <div class="feature-kicker">Snowpack &amp; melt</div>
+        <h3><a href="/national-tools/snow/">Snowpack &amp; Snowmelt Conditions</a></h3>
+        <p>See measured snow depth and snow-water equivalent near a location, recent pack change, and the short-term weather pattern that can drive melt, refreeze or new snow.</p>
+        <div class="signal-line">Measured snowpack + NWS weather pattern</div>
+        <a class="tool-cta" href="/national-tools/snow/">Check snowpack &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="winter snow christmas seasonal travel" data-months="10,11,12">
+        <div class="feature-kicker">Christmas</div>
+        <h3><a href="/national-tools/white-christmas/">Will I Have a White Christmas?</a></h3>
+        <p>Estimate the chance of snow on the ground Christmas morning using historical December 25 snow cover, seasonal outlooks, current snowpack and forecasts as the date approaches.</p>
+        <div class="signal-line">History first, forecast weight increases near December 25</div>
+        <a class="tool-cta" href="/national-tools/white-christmas/">Check Christmas odds &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="garden frost freeze plants" data-months="2,3,4,5,6,7,8,9,10,11">
+        <div class="feature-kicker">Freeze risk</div>
+        <h3><a href="/national-tools/frost/">Frost Dates &amp; Freeze Risk</a></h3>
+        <p>Look up spring and fall freeze probabilities, current National Weather Service freeze risk, hard-freeze signals and station-distance confidence.</p>
+        <div class="signal-line">NOAA climatology + current NWS cold risk</div>
+        <a class="tool-cta" href="/national-tools/frost/">Check frost risk &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="garden planting vegetables flowers" data-months="1,2,3,4,5,6,7,8,9,10">
+        <div class="feature-kicker">Garden</div>
+        <h3><a href="/national-tools/planting/">Planting Calendar</a></h3>
+        <p>Translate local freeze climatology into crop-specific seed-starting, direct-sowing and transplant windows instead of relying on a national calendar.</p>
+        <div class="signal-line">Crop timing tied to local freeze climatology</div>
+        <a class="tool-cta" href="/national-tools/planting/">Build a planting calendar &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="fall autumn leaves travel nature seasonal" data-months="8,9,10,11">
+        <div class="feature-kicker">Autumn</div>
+        <h3><a href="/national-tools/fall-color/">Fall Color Timing</a></h3>
+        <p>Understand the historical autumn timing window for a location and read current weather as separate context rather than inventing a precise live peak percentage.</p>
+        <div class="signal-line">Phenology timing + current weather context</div>
+        <a class="tool-cta" href="/national-tools/fall-color/">Check fall timing &rarr;</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="finder" id="finder" aria-labelledby="finder-title">
+    <h2 id="finder-title">Find a national tool</h2>
+    <p>Search by activity or narrow the library. The filter helps you choose a tool; it does not generate a combined location report.</p>
+    <label class="sr-only" for="tool-search">Search national tools</label>
+    <input class="tool-search" id="tool-search" type="search" placeholder="Search tools, for example river, snow, frost, beach, aurora">
+    <div class="chips" role="group" aria-label="Tool filters">
+      <button class="chip is-on" type="button" data-filter="all">All tools</button>
+      <button class="chip" type="button" data-filter="season">In season now</button>
+      <button class="chip" type="button" data-filter="water">Water</button>
+      <button class="chip" type="button" data-filter="winter">Winter</button>
+      <button class="chip" type="button" data-filter="garden">Garden</button>
+      <button class="chip" type="button" data-filter="sky">Night sky</button>
+      <button class="chip" type="button" data-filter="fall">Autumn</button>
+    </div>
+    <p class="finder-count" id="finder-count" aria-live="polite"></p>
+  </section>
+
+  <section class="library-group" data-library-group="water">
+    <h2>Water and river tools</h2>
+    <p class="group-blurb">Live water conditions stay in the water tool that owns the underlying source and interpretation.</p>
+    <div class="tool-grid">
+      <article class="tool-card" data-search-card data-tags="water river fishing paddling" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
+        <div class="tk">Live data<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/rivers/">River Conditions, Nearby USGS Gauges and Flow Context</a></div>
+        <div class="tool-desc">Current flow, recent trend, historical context and official flood information when a matched source exists.</div>
+      </article>
+      <article class="tool-card" data-search-card data-tags="water coast beach swimming paddling boating" data-months="4,5,6,7,8,9,10">
+        <div class="tk">Live official data<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/coastal/">Beach and Coastal Conditions, Rip Risk, Waves and Tides</a></div>
+        <div class="tool-desc">Official NWS risk first, then nearby marine observations and tide predictions where supported.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="library-group" data-library-group="winter">
+    <h2>Snow and winter tools</h2>
+    <p class="group-blurb">Measured snowpack and seasonal Christmas snow probability are different decisions, so they remain separate tools.</p>
+    <div class="tool-grid">
+      <article class="tool-card" data-search-card data-tags="winter snow skiing mountains water" data-months="1,2,3,4,5,11,12">
+        <div class="tk">Live data<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/snow/">Snowpack and Snowmelt Conditions</a></div>
+        <div class="tool-desc">Measured snow depth, SWE, recent pack change and the next melt/refreeze weather pattern.</div>
+      </article>
+      <article class="tool-card" data-search-card data-tags="winter snow christmas seasonal travel" data-months="10,11,12">
+        <div class="tk">Seasonal tool<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/white-christmas/">White Christmas Odds</a></div>
+        <div class="tool-desc">Christmas snow-cover history blended with seasonal and short-range signals at the appropriate lead time.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="library-group" data-library-group="garden">
+    <h2>Garden timing tools</h2>
+    <p class="group-blurb">Use freeze probability to understand the climate window, then use the planting tool for crop-specific decisions.</p>
+    <div class="tool-grid">
+      <article class="tool-card" data-search-card data-tags="garden frost freeze plants" data-months="2,3,4,5,6,7,8,9,10,11">
+        <div class="tk">Climate + live risk<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/frost/">Frost Dates and Freeze Risk</a></div>
+        <div class="tool-desc">Spring and fall freeze probabilities with current NWS cold-weather context.</div>
+      </article>
+      <article class="tool-card" data-search-card data-tags="garden planting vegetables flowers" data-months="1,2,3,4,5,6,7,8,9,10">
+        <div class="tk">Planner<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/planting/">Planting Calendar</a></div>
+        <div class="tool-desc">Crop-specific timing built from local freeze climatology instead of a generic national schedule.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="library-group" data-library-group="nature">
+    <h2>Sky and seasonal nature tools</h2>
+    <p class="group-blurb">Aurora and foliage each have different signals, lead times and long-tail search questions.</p>
+    <div class="tool-grid">
+      <article class="tool-card" data-search-card data-tags="sky nature aurora northern lights night" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
+        <div class="tk">Live data<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/aurora/">Aurora Tonight</a></div>
+        <div class="tool-desc">Aurora signal, darkness, clouds and moon context for a local go/no-go viewing decision.</div>
+      </article>
+      <article class="tool-card" data-search-card data-tags="fall autumn leaves travel nature seasonal" data-months="8,9,10,11">
+        <div class="tk">Seasonal tool<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/fall-color/">Fall Color Timing</a></div>
+        <div class="tool-desc">Historical autumn timing and current weather context kept separate and transparent.</div>
+      </article>
+    </div>
+  </section>
+
+  <p class="no-results" id="no-results">No tools match that search. Try a broader activity or choose All tools.</p>
+
+  <section class="topic-hubs" aria-labelledby="topic-hubs-title">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Long-tail planning hubs</div>
+        <h2 class="section-title" id="topic-hubs-title">Go deeper by topic</h2>
+      </div>
+      <p class="section-note">Guides connect related tools without replacing them.</p>
+    </div>
+    <div class="hub-grid">
+      <article class="hub-card">
+        <div class="eyebrow">Garden</div>
+        <h3><a href="/national-tools/garden/">Garden Planning</a></h3>
+        <p>Understand how hardiness zone, local freeze climatology and crop timing answer different questions.</p>
+        <a href="/national-tools/garden/">Open garden planning &rarr;</a>
+      </article>
+      <article class="hub-card">
+        <div class="eyebrow">Autumn</div>
+        <h3><a href="/national-tools/fall/">Fall Trip Planning</a></h3>
+        <p>Use foliage timing and first-freeze context together without turning the country into one fake peak-color score.</p>
+        <a href="/national-tools/fall/">Open fall planning &rarr;</a>
+      </article>
+      <article class="hub-card">
+        <div class="eyebrow">Water</div>
+        <h3><a href="/national-tools/water/">River Trip Planning</a></h3>
+        <p>Learn how to read flow, stage, trend, historical context and flood forecasts before using a gauge for a trip decision.</p>
+        <a href="/national-tools/water/">Open river planning &rarr;</a>
+      </article>
+      <article class="hub-card">
+        <div class="eyebrow">Night sky</div>
+        <h3><a href="/national-tools/night-sky/">Aurora Viewing Planning</a></h3>
+        <p>Separate geomagnetic potential from local darkness, cloud cover and moonlight before making the drive.</p>
+        <a href="/national-tools/night-sky/">Open night-sky planning &rarr;</a>
+      </article>
+    </div>
+  </section>
+
+  <aside class="network-note">
+    <h2>Michigan remains its own deeper network</h2>
+    <p>The <a href="/tools/">Michigan &amp; Great Lakes tools</a> stay intact. National tools are separate products with national search reach, national data coverage, and their own long-tail pages. Where a Michigan product is already richer, the national network should link into it rather than clone it.</p>
+  </aside>
 </main>
-<footer class="footer"><div class="wrap">© 2026 <a href="/">Chris Izworski</a> · Built around public scientific and government data, with sources shown where the answer is derived.</div></footer>
-</body></html>
+
+<footer class="footer">
+  <div class="footer-in">&copy; 2026 <a href="/">Chris Izworski</a> &middot; U.S. outdoor tools built around public scientific and government data, with source boundaries preserved inside each specialist tool.</div>
+</footer>
+
+<script>
+(function(){
+  const search=document.getElementById("tool-search");
+  const chips=[...document.querySelectorAll(".chip")];
+  const cards=[...document.querySelectorAll("[data-search-card]")];
+  const groups=[...document.querySelectorAll("[data-library-group]")];
+  const count=document.getElementById("finder-count");
+  const noResults=document.getElementById("no-results");
+  const month=String(new Date().getMonth()+1);
+  let filter="all";
+
+  function inSeason(card){
+    return (card.dataset.months||"").split(",").includes(month);
+  }
+
+  cards.forEach(card=>{
+    const marker=card.querySelector(".tk-season");
+    if(marker && inSeason(card)) marker.hidden=false;
+  });
+
+  function apply(){
+    const query=(search.value||"").trim().toLowerCase();
+    let visible=0;
+    cards.forEach(card=>{
+      const tags=(card.dataset.tags||"").toLowerCase();
+      const text=(card.textContent||"").toLowerCase();
+      const queryMatch=!query || tags.includes(query) || text.includes(query);
+      const filterMatch=
+        filter==="all" ||
+        (filter==="season" && inSeason(card)) ||
+        tags.split(/\s+/).includes(filter) ||
+        (filter==="fall" && (tags.includes("fall") || tags.includes("autumn")));
+      card.hidden=!(queryMatch && filterMatch);
+      if(!card.hidden) visible++;
+    });
+
+    groups.forEach(group=>{
+      group.hidden=!group.querySelector("[data-search-card]:not([hidden])");
+    });
+
+    noResults.style.display=visible ? "none" : "block";
+    count.textContent=visible + (visible===1 ? " tool shown" : " tools shown");
+  }
+
+  chips.forEach(chip=>{
+    chip.addEventListener("click",()=>{
+      filter=chip.dataset.filter;
+      chips.forEach(c=>c.classList.toggle("is-on",c===chip));
+      apply();
+    });
+  });
+
+  search.addEventListener("input",apply);
+  apply();
+})();
+</script>
+</body>
+</html>
