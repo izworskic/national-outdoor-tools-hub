@@ -63,6 +63,14 @@ for(const p of places){
     const x=await get("/api/national-fall-color?lat="+p.lat+"&lon="+p.lon,{timeout:20000});
     if(!x.sources||!x.timing_context)throw new Error("missing fall timing contract");
   });
+  await check(p.name+" garden water",async()=>{
+    const x=await get("/api/national-garden-water?lat="+p.lat+"&lon="+p.lon,{timeout:20000});
+    if(!x.location||!x.referenceEt)throw new Error("missing garden water contract");
+  });
+  await check(p.name+" white christmas",async()=>{
+    const x=await get("/api/national-white-christmas?lat="+p.lat+"&lon="+p.lon,{timeout:20000});
+    if(!x.estimate||!x.retrieved_at)throw new Error("missing white christmas contract");
+  });
   await check(p.name+" current leaf observations",async()=>{
     const x=await get("/api/national-fall-observations?lat="+p.lat+"&lon="+p.lon+"&tz="+encodeURIComponent(p.tz),{timeout:20000});
     if(!x.sources||!x.colored_leaves)throw new Error("missing observation contract");
@@ -117,7 +125,7 @@ await check("snow production has live source coverage",async()=>{
   if(snowControlsWithLiveSource<1)throw new Error("all Snow controls lost every source family");
 });
 
-for(const route of ["/national-tools/","/national-tools/aurora/","/national-tools/rivers/","/national-tools/coastal/","/national-tools/snow/","/national-tools/frost/","/national-tools/planting/","/national-tools/fall-color/","/national-tools/garden/","/national-tools/fall/","/national-tools/water/","/national-tools/night-sky/"]){
+for(const route of ["/national-tools/","/national-tools/aurora/","/national-tools/rivers/","/national-tools/coastal/","/national-tools/snow/","/national-tools/white-christmas/","/national-tools/frost/","/national-tools/planting/","/national-tools/garden-water/","/national-tools/fall-color/","/national-tools/garden/","/national-tools/fall/","/national-tools/water/","/national-tools/night-sky/"]){
   await check(route+" page",async()=>{
     const body=await get(route,{json:false});
     if(!/<title>[^<]+<\/title>/i.test(body)||!body.includes("Chris Izworski"))throw new Error("page shell incomplete");
