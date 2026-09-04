@@ -16,7 +16,7 @@ Preserve existing public canonical URLs unless a migration issue explicitly auth
 
 Read `docs/ANALYTICS_CONTRACT.md` before creating, extracting, publishing, or routing any public tool or page.
 
-Every new ChrisIzworski.com network tool or page, including a new standalone repository, must ship with Google Analytics 4 measurement ID `G-Y5D2V2W7HN` unless the property has an explicitly documented separate measurement ID. Freighter View Farms is intentionally excluded from this shared ID because it uses its own analytics property.
+Every new ChrisIzworski.com network tool or page, including a new standalone repository, must ship with Google Analytics 4 measurement ID `G-Y5D2V2W7HN` unless the property has an explicitly documented separate measurement ID. Freighter View Farms is part of this shared measurement network and uses `G-Y5D2V2W7HN`.
 
 Implementation must be inherited, not remembered page by page:
 - static/generated sites: use an idempotent build/deploy injector that covers every emitted HTML document;
