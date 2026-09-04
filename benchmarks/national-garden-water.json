@@ -1,0 +1,56 @@
+{
+  "name": "National Garden Water Decision Tool",
+  "benchmarkVersion": "1.0.0",
+  "canonical": "https://chrisizworski.com/national-tools/garden-water/",
+  "targetRepo": "izworskic/national-garden-water",
+  "passScore": 92,
+  "criticalFloor": 85,
+  "mission": "Turn public weather, evapotranspiration, soil and crop data plus the gardener's own irrigation input into a defensible daily watering decision, amount and next-check time.",
+  "valueFunctions": [
+    {"id":"decision-correctness","weight":18,"critical":true,"description":"Water / wait / check soil / hold for rain decisions follow the modeled root-zone state and do not contradict known user inputs."},
+    {"id":"root-zone-balance","weight":14,"critical":true,"description":"Balances effective water inputs against crop evapotranspiration within a realistic root-zone reservoir."},
+    {"id":"precipitation-reasoning","weight":11,"critical":true,"description":"Uses rainfall amount and timing; probability is never treated as rainfall depth."},
+    {"id":"reference-et","weight":10,"critical":true,"description":"Uses an authoritative reference-ET signal such as NWS FRET when available, with explicit fallback behavior."},
+    {"id":"soil-root-realism","weight":10,"critical":true,"description":"Accounts for soil water-holding capacity and crop/rooting depth without pretending point soil data are exact."},
+    {"id":"crop-stage-specificity","weight":9,"critical":true,"description":"Crop and growth stage materially change coefficients, rooting assumptions and stress sensitivity."},
+    {"id":"irrigation-log-honesty","weight":8,"critical":true,"description":"The model never assumes it knows whether the gardener irrigated; user-entered irrigation and rain-gauge totals override modeled assumptions."},
+    {"id":"rain-hold-logic","weight":6,"critical":true,"description":"Avoids unnecessary irrigation when sufficiently large, sufficiently imminent rain is expected."},
+    {"id":"bed-container-handling","weight":5,"critical":false,"description":"Raised beds and containers are modeled separately from in-ground soil; NRCS yard soil is never applied blindly to container media."},
+    {"id":"actionability","weight":4,"critical":true,"description":"Returns a clear action, inches to apply, gallons when area is known, reason and next-check time."},
+    {"id":"uncertainty-provenance","weight":3,"critical":true,"description":"Shows freshness, assumptions, confidence and authoritative sources without claiming measured soil moisture."},
+    {"id":"search-usefulness","weight":2,"critical":false,"description":"Supports genuine watering-intent long tails without thin city/ZIP doorway pages."}
+  ],
+  "lossFunctions": [
+    {"id":"ignores-user-irrigation","penalty":40,"veto":true,"description":"Issues a watering decision that ignores a supplied recent irrigation or rain-gauge value."},
+    {"id":"probability-is-amount","penalty":35,"veto":true,"description":"Treats precipitation probability as expected/actual rainfall depth."},
+    {"id":"fake-soil-moisture","penalty":35,"veto":true,"description":"Claims actual/measured soil moisture when no sensor or gardener observation supplied it."},
+    {"id":"container-yard-soil","penalty":25,"veto":true,"description":"Uses NRCS mapped yard soil as if it described container or potting media."},
+    {"id":"water-before-rain","penalty":20,"veto":false,"description":"Recommends meaningful irrigation immediately before a high-confidence rain event sufficient to cover most of the modeled deficit without explaining why."},
+    {"id":"fixed-inch-fiction","penalty":18,"veto":false,"description":"Presents a generic one-inch-per-week rule as a precise local answer."},
+    {"id":"stale-signal-hidden","penalty":15,"veto":false,"description":"Uses stale or fallback weather/soil inputs without surfacing freshness or confidence."},
+    {"id":"runoff-overfill","penalty":15,"veto":false,"description":"Recommended application materially exceeds modeled root-zone refill or ignores obvious shallow-root/container constraints."},
+    {"id":"weather-dashboard-only","penalty":12,"veto":false,"description":"Shows many weather numbers but fails to produce a clear watering decision and amount."},
+    {"id":"thin-location-pages","penalty":20,"veto":true,"description":"Creates templated city/ZIP doorway pages with little unique value."}
+  ],
+  "releaseScenarios": [
+    {"id":"recent-user-irrigation","expected":"WAIT or CHECK SOIL when the user logged enough irrigation to cover the current modeled deficit."},
+    {"id":"hot-windy-loam-tomato","expected":"Higher crop-water demand than cool/cloudy conditions; mature tomato demand exceeds seedling demand but application is capped by root-zone refill."},
+    {"id":"sandy-vs-clay","expected":"Sandy soil has a smaller usable reservoir and typically reaches a watering trigger sooner than clay/loam under the same water-out history."},
+    {"id":"meaningful-rain-soon","expected":"HOLD FOR RAIN when imminent forecast precipitation is large enough to cover most of a near-threshold deficit."},
+    {"id":"rain-probability-only","expected":"Never converts 70% PoP into 0.70 inches or any rainfall amount."},
+    {"id":"raised-bed","expected":"Raised-bed modifier increases drying/monitoring pressure without inventing measured soil moisture."},
+    {"id":"container","expected":"Container logic uses potting-media/profile assumptions or explicit user input, never mapped NRCS yard soil."},
+    {"id":"low-confidence-soil","expected":"CHECK SOIL FIRST or reduced confidence when auto soil lookup is unavailable/ambiguous and no manual texture is supplied."},
+    {"id":"area-conversion","expected":"One inch over one square foot converts to approximately 0.623 gallons; amount conversions are regression tested."},
+    {"id":"no-irrigation-history","expected":"Decision explicitly states the assumption that no recent irrigation was logged rather than treating that assumption as observed fact."}
+  ],
+  "releaseGates": [
+    "All veto loss functions are zero.",
+    "Weighted score is at least 92/100 and every critical value function scores at least 85.",
+    "Unit tests cover water balance, rainfall timing, crop stage, soil reservoir, user irrigation override, container separation and gallon conversion.",
+    "API contract tests verify NWS/NRCS fallbacks and freshness labels.",
+    "Production browser smoke enters a ZIP, selects a crop/stage, records recent irrigation, submits, and verifies decision + amount render on desktop and mobile.",
+    "Canonical, assets and API are verified through https://chrisizworski.com rather than only through the child Vercel project.",
+    "Garden hub links to the tool only after production smoke is green."
+  ]
+}
