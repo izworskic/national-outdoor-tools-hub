@@ -64,6 +64,30 @@
       "route": "/national-tools/fall-color/",
       "api": "/api/national-fall-color",
       "status": "calibration-beta"
+    },
+    {
+      "id": "national-coastal-water",
+      "route": "/national-tools/coastal/",
+      "api": "/api/national-coastal",
+      "status": "live"
+    },
+    {
+      "id": "national-snowpack-melt",
+      "route": "/national-tools/snow/",
+      "api": "/api/national-snow",
+      "status": "live"
+    },
+    {
+      "id": "national-white-christmas",
+      "route": "/national-tools/white-christmas/",
+      "api": "/api/national-white-christmas",
+      "status": "live"
+    },
+    {
+      "id": "national-garden-water",
+      "route": "/national-tools/garden-water/",
+      "api": "/api/national-garden-water",
+      "status": "live"
     }
   ],
   "indexPolicy": {

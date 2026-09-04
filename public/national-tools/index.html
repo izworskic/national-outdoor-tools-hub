@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>U.S. Outdoor Tools | Chris Izworski</title>
-<meta name="description" content="Free U.S. outdoor tools for aurora, rivers, coastal water, snowpack, White Christmas odds, frost, planting and fall color. Open the specialist tool for the decision you are making.">
+<meta name="description" content="Free U.S. outdoor tools for aurora, rivers, coastal water, snowpack, White Christmas odds, frost, planting, garden watering and fall color. Open the specialist tool for the decision you are making.">
 <link rel="canonical" href="https://chrisizworski.com/national-tools/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:title" content="U.S. Outdoor Tools | Chris Izworski">
@@ -24,7 +24,7 @@
       "description":"Free specialist outdoor decision tools for locations across the United States.",
       "author":{"@id":"https://chrisizworski.com/#person"},
       "about":{"@id":"https://chrisizworski.com/#person"},
-      "dateModified":"2026-09-03",
+      "dateModified":"2026-09-04",
       "mainEntity":{"@id":"https://chrisizworski.com/national-tools/#toollist"}
     },
     {
@@ -45,7 +45,7 @@
       "@type":"ItemList",
       "@id":"https://chrisizworski.com/national-tools/#toollist",
       "name":"U.S. Outdoor Tools by Chris Izworski",
-      "numberOfItems":8,
+      "numberOfItems":9,
       "itemListElement":[
         {"@type":"ListItem","position":1,"url":"https://chrisizworski.com/national-tools/aurora/","name":"Aurora Tonight"},
         {"@type":"ListItem","position":2,"url":"https://chrisizworski.com/national-tools/rivers/","name":"River Conditions"},
@@ -54,7 +54,8 @@
         {"@type":"ListItem","position":5,"url":"https://chrisizworski.com/national-tools/white-christmas/","name":"White Christmas Odds"},
         {"@type":"ListItem","position":6,"url":"https://chrisizworski.com/national-tools/frost/","name":"Frost Dates and Freeze Risk"},
         {"@type":"ListItem","position":7,"url":"https://chrisizworski.com/national-tools/planting/","name":"Planting Calendar"},
-        {"@type":"ListItem","position":8,"url":"https://chrisizworski.com/national-tools/fall-color/","name":"Fall Color Timing"}
+        {"@type":"ListItem","position":8,"url":"https://chrisizworski.com/national-tools/garden-water/","name":"Garden Water"},
+        {"@type":"ListItem","position":9,"url":"https://chrisizworski.com/national-tools/fall-color/","name":"Fall Color Timing"}
       ]
     }
   ]
@@ -177,7 +178,7 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
   <div class="breadcrumb"><a href="/">Home</a> &rsaquo; U.S. Outdoor Tools</div>
   <h1>U.S. Outdoor Tools</h1>
   <p class="sub">Free live tools for outdoor decisions across the United States.</p>
-  <p class="intro">This is the front door, not a giant all-purpose dashboard. Pick the question you are trying to answer, then open the specialist tool built for it. Each tool keeps its own data, interface, methodology, and search pages so river conditions do not get flattened into the same experience as frost dates, coastal water, snowpack, aurora, or fall color.</p>
+  <p class="intro">This is the front door, not a giant all-purpose dashboard. Pick the question you are trying to answer, then open the specialist tool built for it. Each tool keeps its own data, interface, methodology, and search pages so river conditions do not get flattened into the same experience as frost dates, garden watering, coastal water, snowpack, aurora, or fall color.</p>
 
   <section class="decision-network" aria-labelledby="decision-title">
     <div class="decision-network__head">
@@ -211,10 +212,11 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
       </article>
       <article class="intent-card">
         <div class="intent-kicker">Garden</div>
-        <h3>Time planting around actual freeze risk</h3>
+        <h3>Decide what your garden needs right now</h3>
         <ul>
           <li><a href="/national-tools/frost/">Check frost dates and freeze risk<span>Spring and fall probabilities plus current cold-weather context</span></a></li>
           <li><a href="/national-tools/planting/">Build a planting calendar<span>Crop timing tied to local freeze climatology</span></a></li>
+          <li><a href="/national-tools/garden-water/">Decide whether to water today<span>NWS rain and evapotranspiration, soil context and crop stage</span></a></li>
         </ul>
       </article>
       <article class="intent-card">
@@ -286,6 +288,13 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
         <div class="signal-line">Crop timing tied to local freeze climatology</div>
         <a class="tool-cta" href="/national-tools/planting/">Build a planting calendar &rarr;</a>
       </article>
+      <article class="feature-card" data-tags="garden watering irrigation plants" data-months="4,5,6,7,8,9,10">
+        <div class="feature-kicker">Garden</div>
+        <h3><a href="/national-tools/garden-water/">Garden Water</a></h3>
+        <p>Decide whether to water today using NWS rain and evapotranspiration, recent rainfall, USDA soil context and crop stage instead of a fixed schedule.</p>
+        <div class="signal-line">NWS rain/ET + USDA soil context</div>
+        <a class="tool-cta" href="/national-tools/garden-water/">Check today &rarr;</a>
+      </article>
       <article class="feature-card" data-tags="fall autumn leaves travel nature seasonal" data-months="8,9,10,11">
         <div class="feature-kicker">Autumn</div>
         <h3><a href="/national-tools/fall-color/">Fall Color Timing</a></h3>
@@ -296,7 +305,7 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
     </div>
   </section>
 
-  <section class="finder" id="finder" aria-labelledby="finder-title">
+  <section class="finder" id="finder" aria-labelledby="finder-title" hidden>
     <h2 id="finder-title">Find a national tool</h2>
     <p>Search by activity or narrow the library. The filter helps you choose a tool; it does not generate a combined location report.</p>
     <label class="sr-only" for="tool-search">Search national tools</label>
@@ -349,7 +358,7 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
 
   <section class="library-group" data-library-group="garden">
     <h2>Garden timing tools</h2>
-    <p class="group-blurb">Use freeze probability to understand the climate window, then use the planting tool for crop-specific decisions.</p>
+    <p class="group-blurb">Use freeze probability to understand the climate window, the planting tool for crop-specific timing, and the water tool for today's irrigation decision.</p>
     <div class="tool-grid">
       <article class="tool-card" data-search-card data-tags="garden frost freeze plants" data-months="2,3,4,5,6,7,8,9,10,11">
         <div class="tk">Climate + live risk<span class="tk-season" hidden> / in season now</span></div>
@@ -360,6 +369,11 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
         <div class="tk">Planner<span class="tk-season" hidden> / in season now</span></div>
         <div class="tool-title"><a href="/national-tools/planting/">Planting Calendar</a></div>
         <div class="tool-desc">Crop-specific timing built from local freeze climatology instead of a generic national schedule.</div>
+      </article>
+      <article class="tool-card" data-search-card data-tags="garden watering irrigation plants" data-months="4,5,6,7,8,9,10">
+        <div class="tk">Live data<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/garden-water/">Should I Water My Garden Today?</a></div>
+        <div class="tool-desc">NWS rain and evapotranspiration, recent rainfall, USDA soil context and crop stage combined into a water-today decision.</div>
       </article>
     </div>
   </section>
@@ -437,8 +451,11 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
   const groups=[...document.querySelectorAll("[data-library-group]")];
   const count=document.getElementById("finder-count");
   const noResults=document.getElementById("no-results");
+  const finderSection=document.getElementById("finder");
   const month=String(new Date().getMonth()+1);
   let filter="all";
+
+  if(finderSection) finderSection.hidden=false;
 
   function inSeason(card){
     return (card.dataset.months||"").split(",").includes(month);

@@ -24,6 +24,7 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
     "/national-tools/white-christmas/",
     "/national-tools/frost/",
     "/national-tools/planting/",
+    "/national-tools/garden-water/",
     "/national-tools/fall-color/"
   ];
   for(const route of routes){

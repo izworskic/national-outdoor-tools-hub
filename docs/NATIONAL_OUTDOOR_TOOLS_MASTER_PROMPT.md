@@ -52,6 +52,10 @@ Inventory national canonicals before creating anything. Current major product fa
 - `/national-tools/frost/`
 - `/national-tools/planting/`
 - `/national-tools/fall-color/`
+- `/national-tools/coastal/` (shipped after this doc's Sep 2 date; owning repo `izworskic/national-coastal-water`)
+- `/national-tools/snow/` (shipped after this doc's Sep 2 date; owning repo `izworskic/national-snowpack-melt`)
+- `/national-tools/white-christmas/` (shipped after this doc's Sep 2 date; owning repo `izworskic/national-white-christmas`; also owns `/national-tools/white-christmas/forecast/`, `/regions/`, `/regions/{slug}/`, `/cities/{slug}/` as its own long-tail layer)
+- `/national-tools/garden-water/` (shipped after this doc's Sep 2 date; owning repo `izworskic/national-garden-water`; treat as an extension of the Garden intent network alongside frost/planting, not a duplicate)
 
 Existing intent networks include Garden, Fall-trip planning, River-trip planning and Night-sky planning. Existing platform capabilities include national location handling, source freshness contracts, saved places, cross-tool place continuity, sharing, multi-place comparison, analytics, the national benchmark and the location-page admission benchmark.
 
