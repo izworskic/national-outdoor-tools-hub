@@ -22,6 +22,8 @@ test('national hub keeps GA4 deploy coverage and new-tool contract', async () =>
   assert.match(agents, new RegExp(ID.replace(/-/g, '\\-')));
   assert.match(agents, /new standalone repositor/i);
   assert.match(contract, new RegExp(ID.replace(/-/g, '\\-')));
-  assert.match(contract, /Freighter View Farms uses a separate Google Analytics property/i);
+  assert.match(contract, /Freighter View Farms/i);
+  assert.match(contract, /WordPress-hosted properties/i);
+  assert.doesNotMatch(contract, /Freighter View Farms uses a separate Google Analytics property/i);
   assert.match(contract, /production deployment/i);
 });
