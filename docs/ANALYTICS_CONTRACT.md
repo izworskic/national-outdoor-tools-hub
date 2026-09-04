@@ -8,11 +8,7 @@ All public Chris Izworski network tools and pages use Google Analytics 4 measure
 
 `G-Y5D2V2W7HN`
 
-This includes chrisizworski.com, its subdomains, Michigan Birding Report, Michigan Trout Report, Great Lakes Levels, and standalone/public tool applications that belong to the same measurement network.
-
-## Explicit exception
-
-Freighter View Farms uses a separate Google Analytics property and must not be assigned `G-Y5D2V2W7HN` unless Chris explicitly changes that decision. Its separate measurement ID is maintained with that property.
+This includes chrisizworski.com, its subdomains, Michigan Birding Report, Michigan Trout Report, Great Lakes Levels, Freighter View Farms, and standalone/public tool applications that belong to the same measurement network.
 
 ## Required implementation for every new public surface
 
@@ -23,6 +19,7 @@ Analytics must be inherited from a shared rendering/deployment layer, not copied
 - Next.js/Pages Router: load GA4 from the global document/app shell.
 - Server-rendered HTML: use a shared HTML analytics wrapper.
 - Generated SEO/location pages: the generator or post-generation build stage must guarantee coverage.
+- WordPress-hosted properties: install the same measurement ID through the platform's supported analytics/tag integration so all rendered pages inherit it.
 - CSP-protected apps: permit the Google tag script and GA collection/connect endpoints needed by the implementation.
 
 ## New repository gate
