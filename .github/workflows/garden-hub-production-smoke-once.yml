@@ -1,0 +1,30 @@
+name: Garden hub production smoke
+on:
+  push:
+    paths:
+      - '.github/workflows/garden-hub-production-smoke-once.yml'
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify canonical Garden hub promotion
+        shell: bash
+        run: |
+          set -euo pipefail
+          ORIGIN='https://chrisizworski.com'
+          ready=0
+          for i in $(seq 1 30); do
+            page="$(curl -fsSL --max-time 20 "$ORIGIN/national-tools/garden/?release=$(date +%s)" || true)"
+            if printf '%s' "$page" | grep -q 'Use these three tools together' && printf '%s' "$page" | grep -q '/national-tools/garden-water/'; then
+              ready=1
+              break
+            fi
+            sleep 10
+          done
+          test "$ready" = '1'
+          printf '%s' "$page" | grep -q 'Garden Water'
+          printf '%s' "$page" | grep -q 'full-season crop plan'
+          printf '%s' "$page" | grep -q 'Watering is not a fixed inch-per-week rule'
+          echo 'Canonical Garden hub promotion is live.'
