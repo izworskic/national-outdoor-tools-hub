@@ -12,11 +12,11 @@
   "rewrites": [
     {
       "source": "/national-tools/smoke",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/"
+      "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/index.html"
     },
     {
       "source": "/national-tools/smoke/",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/"
+      "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/index.html"
     },
     {
       "source": "/national-tools/smoke/:path*",
