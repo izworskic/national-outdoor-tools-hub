@@ -35,11 +35,11 @@
     },
     {
       "source": "/national-tools/waterfalls",
-      "destination": "/national-tools/waterfalls/index-v2.html"
+      "destination": "/national-tools/waterfalls/index.html"
     },
     {
       "source": "/national-tools/waterfalls/",
-      "destination": "/national-tools/waterfalls/index-v2.html"
+      "destination": "/national-tools/waterfalls/index.html"
     },
     {
       "source": "/national-tools/waterfalls/_search",
