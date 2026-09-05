@@ -21,6 +21,18 @@
     {
       "source": "/national-tools/smoke/:path*",
       "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/:path*"
+    },
+    {
+      "source": "/national-tools/waterfalls",
+      "destination": "https://national-outdoor-core.vercel.app/national-tools/waterfalls/index.html"
+    },
+    {
+      "source": "/national-tools/waterfalls/",
+      "destination": "https://national-outdoor-core.vercel.app/national-tools/waterfalls/index.html"
+    },
+    {
+      "source": "/national-tools/waterfalls/:path*",
+      "destination": "https://national-outdoor-core.vercel.app/national-tools/waterfalls/:path*"
     }
   ]
 }
