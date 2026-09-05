@@ -1,6 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
+  "functions": {
+    "api/national-waterfall-window-v3.js": {
+      "maxDuration": 25
+    }
+  },
   "headers": [
     {
       "source": "/api/(.*)",
@@ -36,7 +41,7 @@
     },
     {
       "source": "/national-tools/waterfalls/_api",
-      "destination": "/api/national-waterfall-window-v2"
+      "destination": "/api/national-waterfall-window-v3"
     }
   ]
 }
