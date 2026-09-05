@@ -36,7 +36,7 @@
     },
     {
       "source": "/national-tools/waterfalls/_api",
-      "destination": "/api/national-waterfall-window"
+      "destination": "/api/national-waterfall-window-v2"
     }
   ]
 }
