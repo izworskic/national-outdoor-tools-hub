@@ -7,6 +7,9 @@
     },
     "api/national-waterfall-window-v4.js": {
       "maxDuration": 25
+    },
+    "api/national-waterfall-window-v5.js": {
+      "maxDuration": 25
     }
   },
   "headers": [
@@ -44,7 +47,7 @@
     },
     {
       "source": "/national-tools/waterfalls/_api",
-      "destination": "/api/national-waterfall-window-v4"
+      "destination": "/api/national-waterfall-window-v5"
     },
     {
       "source": "/national-tools/waterfalls/_assets/:path*",
