@@ -30,13 +30,29 @@ function arrayValue(value) {
   return trimmed.replace(/^\[|\]$/g, "").split(",").map((item) => item.trim().replace(/^["']|["']$/g, ""));
 }
 
-function statisticsRows(payload, depth = 0) {
-  if (depth > 4 || payload == null) return [];
-  if (Array.isArray(payload)) return payload.flatMap((item) => statisticsRows(item, depth + 1));
+function statisticsRows(payload, depth = 0, inherited = {}) {
+  if (depth > 8 || payload == null) return [];
+  if (Array.isArray(payload)) return payload.flatMap((item) => statisticsRows(item, depth + 1, inherited));
   if (typeof payload !== "object") return [];
+
   const row = payload.properties && typeof payload.properties === "object" ? payload.properties : payload;
-  if (row.monitoring_location_id || row.monitoringLocationId) return [row];
-  return Object.values(payload).flatMap((value) => statisticsRows(value, depth + 1));
+  const context = {
+    monitoring_location_id: row.monitoring_location_id || row.monitoringLocationId || inherited.monitoring_location_id || inherited.monitoringLocationId || null,
+    parameter_code: row.parameter_code || inherited.parameter_code || null,
+  };
+
+  const isPercentileRow = Boolean(row.time_of_year || row.timeOfYear) && Array.isArray(row.percentiles) && Array.isArray(row.values);
+  if (isPercentileRow) return [{ ...row, ...context }];
+
+  if (Array.isArray(row.data)) {
+    return row.data.flatMap((block) => statisticsRows(block, depth + 1, context));
+  }
+
+  if (Array.isArray(row.values) && row.values.some((value) => value && typeof value === "object")) {
+    return row.values.flatMap((value) => statisticsRows(value, depth + 1, context));
+  }
+
+  return Object.values(row).flatMap((value) => statisticsRows(value, depth + 1, context));
 }
 
 function parseStatistics(payload, now = new Date()) {
@@ -44,6 +60,7 @@ function parseStatistics(payload, now = new Date()) {
   const day = now.getUTCDate();
   const dayKey = `${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   for (const row of statisticsRows(payload)) {
+    if (row.parameter_code && String(row.parameter_code) !== "00060") continue;
     const type = String(row.time_of_year_type || row.normal_type || "").toLowerCase();
     if (type && type !== "day_of_year" && type !== "doy") continue;
     if (row.time_of_year && String(row.time_of_year) !== dayKey) continue;
