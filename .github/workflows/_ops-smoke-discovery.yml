@@ -1,0 +1,32 @@
+name: Temporary Smoke discovery patch
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.head_ref == 'release/smoke-discovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/_ops-add-smoke-discovery.js
+      - name: Commit generated discovery update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/national-tools/index.html
+          if git diff --cached --quiet; then
+            echo "No generated changes needed."
+          else
+            git commit -m "Add Smoke to national tool discovery"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
