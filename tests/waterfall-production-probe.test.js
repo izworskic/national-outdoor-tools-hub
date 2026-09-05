@@ -1,0 +1,4 @@
+"use strict";
+const test=require("node:test");
+async function probe(url){try{const r=await fetch(url,{redirect:"manual",headers:{accept:"text/html,application/json"}});const body=await r.text();console.log("PROBE",JSON.stringify({url,status:r.status,type:r.headers.get("content-type"),location:r.headers.get("location"),body:body.slice(0,180).replace(/\s+/g," ")}));}catch(error){console.log("PROBE",JSON.stringify({url,error:String(error)}));}}
+test("production Waterfall route probe",async()=>{await probe("https://national-outdoor-tools-hub.vercel.app/national-tools/waterfalls/");await probe("https://national-outdoor-tools-hub.vercel.app/national-tools/waterfalls/index.html");await probe("https://national-outdoor-tools-hub.vercel.app/national-tools/waterfalls/_search?q=Tahquamenon%20Falls");await probe("https://chrisizworski.com/national-tools/waterfalls/");});
