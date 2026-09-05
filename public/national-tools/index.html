@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>U.S. Outdoor Tools | Chris Izworski</title>
-<meta name="description" content="Free U.S. outdoor tools for aurora, rivers, coastal water, snowpack, White Christmas odds, frost, planting, garden watering and fall color. Open the specialist tool for the decision you are making.">
+<meta name="description" content="Free U.S. outdoor tools for smoke and air quality, aurora, rivers, coastal water, snowpack, White Christmas odds, frost, planting, garden watering and fall color. Open the specialist tool for the decision you are making.">
 <link rel="canonical" href="https://chrisizworski.com/national-tools/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:title" content="U.S. Outdoor Tools | Chris Izworski">
@@ -24,7 +24,7 @@
       "description":"Free specialist outdoor decision tools for locations across the United States.",
       "author":{"@id":"https://chrisizworski.com/#person"},
       "about":{"@id":"https://chrisizworski.com/#person"},
-      "dateModified":"2026-09-04",
+      "dateModified":"2026-09-05",
       "mainEntity":{"@id":"https://chrisizworski.com/national-tools/#toollist"}
     },
     {
@@ -45,7 +45,7 @@
       "@type":"ItemList",
       "@id":"https://chrisizworski.com/national-tools/#toollist",
       "name":"U.S. Outdoor Tools by Chris Izworski",
-      "numberOfItems":9,
+      "numberOfItems":10,
       "itemListElement":[
         {"@type":"ListItem","position":1,"url":"https://chrisizworski.com/national-tools/aurora/","name":"Aurora Tonight"},
         {"@type":"ListItem","position":2,"url":"https://chrisizworski.com/national-tools/rivers/","name":"River Conditions"},
@@ -55,7 +55,8 @@
         {"@type":"ListItem","position":6,"url":"https://chrisizworski.com/national-tools/frost/","name":"Frost Dates and Freeze Risk"},
         {"@type":"ListItem","position":7,"url":"https://chrisizworski.com/national-tools/planting/","name":"Planting Calendar"},
         {"@type":"ListItem","position":8,"url":"https://chrisizworski.com/national-tools/garden-water/","name":"Garden Water"},
-        {"@type":"ListItem","position":9,"url":"https://chrisizworski.com/national-tools/fall-color/","name":"Fall Color Timing"}
+        {"@type":"ListItem","position":9,"url":"https://chrisizworski.com/national-tools/fall-color/","name":"Fall Color Timing"},
+        {"@type":"ListItem","position":10,"url":"https://chrisizworski.com/national-tools/smoke/","name":"Wildfire Smoke & Outdoor Air Window"}
       ]
     }
   ]
@@ -178,7 +179,7 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
   <div class="breadcrumb"><a href="/">Home</a> &rsaquo; U.S. Outdoor Tools</div>
   <h1>U.S. Outdoor Tools</h1>
   <p class="sub">Free live tools for outdoor decisions across the United States.</p>
-  <p class="intro">This is the front door, not a giant all-purpose dashboard. Pick the question you are trying to answer, then open the specialist tool built for it. Each tool keeps its own data, interface, methodology, and search pages so river conditions do not get flattened into the same experience as frost dates, garden watering, coastal water, snowpack, aurora, or fall color.</p>
+  <p class="intro">This is the front door, not a giant all-purpose dashboard. Pick the question you are trying to answer, then open the specialist tool built for it. Each tool keeps its own data, interface, methodology, and search pages so river conditions do not get flattened into the same experience as smoke and air quality, frost dates, garden watering, coastal water, snowpack, aurora, or fall color.</p>
 
   <section class="decision-network" aria-labelledby="decision-title">
     <div class="decision-network__head">
@@ -192,6 +193,13 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
         <ul>
           <li><a href="/national-tools/rivers/">Check a river<span>Nearby USGS gauges, trends, history and flood context</span></a></li>
           <li><a href="/national-tools/coastal/">Check a beach or coast<span>Rip risk, waves, wind, water temperature and tides where available</span></a></li>
+        </ul>
+      </article>
+      <article class="intent-card">
+        <div class="intent-kicker">Air</div>
+        <h3>Find the cleaner time to be outside</h3>
+        <ul>
+          <li><a href="/national-tools/smoke/">Check smoke and PM2.5<span>Current AirNow AQI, hourly NOAA guidance and the cleaner 3-hour outdoor window</span></a></li>
         </ul>
       </article>
       <article class="intent-card">
@@ -245,6 +253,13 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
         <p>Decide whether the northern lights are worth chasing from your location using the geomagnetic signal, local darkness, cloud cover and moon context.</p>
         <div class="signal-line">NOAA space weather + local sky conditions</div>
         <a class="tool-cta" href="/national-tools/aurora/">Check tonight &rarr;</a>
+      </article>
+      <article class="feature-card" data-tags="air smoke wildfire pm2.5 outdoors running hiking" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
+        <div class="feature-kicker">Air quality</div>
+        <h3><a href="/national-tools/smoke/">Smoke &amp; Outdoor Air Window</a></h3>
+        <p>Check current AirNow PM2.5 AQI, then compare NOAA hourly PM2.5 guidance to find the cleaner contiguous 3-hour outdoor window over the next 48 hours.</p>
+        <div class="signal-line">AirNow observation + NOAA PM2.5 guidance + NWS wind</div>
+        <a class="tool-cta" href="/national-tools/smoke/">Check outdoor air &rarr;</a>
       </article>
       <article class="feature-card" data-tags="water river fishing paddling" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
         <div class="feature-kicker">Rivers</div>
@@ -313,6 +328,7 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
     <div class="chips" role="group" aria-label="Tool filters">
       <button class="chip is-on" type="button" data-filter="all">All tools</button>
       <button class="chip" type="button" data-filter="season">In season now</button>
+      <button class="chip" type="button" data-filter="air">Air</button>
       <button class="chip" type="button" data-filter="water">Water</button>
       <button class="chip" type="button" data-filter="winter">Winter</button>
       <button class="chip" type="button" data-filter="garden">Garden</button>
@@ -320,6 +336,18 @@ h1{font-size:38px;line-height:1.18;font-weight:400;margin:0 0 10px}
       <button class="chip" type="button" data-filter="fall">Autumn</button>
     </div>
     <p class="finder-count" id="finder-count" aria-live="polite"></p>
+  </section>
+
+  <section class="library-group" data-library-group="air">
+    <h2>Smoke and outdoor air</h2>
+    <p class="group-blurb">Current PM2.5 and modeled hourly concentration answer different questions, so the tool keeps official observations and planning guidance separate.</p>
+    <div class="tool-grid">
+      <article class="tool-card" data-search-card data-tags="air smoke wildfire pm2.5 outdoors running hiking" data-months="1,2,3,4,5,6,7,8,9,10,11,12">
+        <div class="tk">Live data<span class="tk-season" hidden> / in season now</span></div>
+        <div class="tool-title"><a href="/national-tools/smoke/">Wildfire Smoke &amp; Outdoor Air Window</a></div>
+        <div class="tool-desc">Current AirNow PM2.5 AQI, NOAA hourly PM2.5 guidance, trend, wind and a cleaner 3-hour planning window with confidence.</div>
+      </article>
+    </div>
   </section>
 
   <section class="library-group" data-library-group="water">
