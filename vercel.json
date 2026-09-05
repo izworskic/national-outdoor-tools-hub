@@ -4,6 +4,12 @@
   "functions": {
     "api/national-waterfall-window-v3.js": {
       "maxDuration": 25
+    },
+    "api/national-waterfall-window-v4.js": {
+      "maxDuration": 25
+    },
+    "api/national-waterfall-window-v5.js": {
+      "maxDuration": 25
     }
   },
   "headers": [
@@ -29,11 +35,11 @@
     },
     {
       "source": "/national-tools/waterfalls",
-      "destination": "/national-tools/waterfalls/index.html"
+      "destination": "/national-tools/waterfalls/index-v2.html"
     },
     {
       "source": "/national-tools/waterfalls/",
-      "destination": "/national-tools/waterfalls/index.html"
+      "destination": "/national-tools/waterfalls/index-v2.html"
     },
     {
       "source": "/national-tools/waterfalls/_search",
@@ -41,7 +47,11 @@
     },
     {
       "source": "/national-tools/waterfalls/_api",
-      "destination": "/api/national-waterfall-window-v3"
+      "destination": "/api/national-waterfall-window-v5"
+    },
+    {
+      "source": "/national-tools/waterfalls/_assets/:path*",
+      "destination": "/assets/:path*"
     }
   ]
 }
