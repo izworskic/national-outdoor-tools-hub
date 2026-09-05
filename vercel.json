@@ -24,15 +24,19 @@
     },
     {
       "source": "/national-tools/waterfalls",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/waterfalls/index.html"
+      "destination": "/national-tools/waterfalls/index.html"
     },
     {
       "source": "/national-tools/waterfalls/",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/waterfalls/index.html"
+      "destination": "/national-tools/waterfalls/index.html"
     },
     {
-      "source": "/national-tools/waterfalls/:path*",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/waterfalls/:path*"
+      "source": "/national-tools/waterfalls/_search",
+      "destination": "/api/national-waterfall-search"
+    },
+    {
+      "source": "/national-tools/waterfalls/_api",
+      "destination": "/api/national-waterfall-window"
     }
   ]
 }
