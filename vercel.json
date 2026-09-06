@@ -34,6 +34,18 @@
       "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/:path*"
     },
     {
+      "source": "/national-tools/waterfalls/niagara-falls-live",
+      "destination": "https://huge-exalted-printablecharacter.replit.app/"
+    },
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live/",
+      "destination": "https://huge-exalted-printablecharacter.replit.app/"
+    },
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live/:path*",
+      "destination": "https://huge-exalted-printablecharacter.replit.app/:path*"
+    },
+    {
       "source": "/national-tools/waterfalls",
       "destination": "/national-tools/waterfalls/index.html"
     },
