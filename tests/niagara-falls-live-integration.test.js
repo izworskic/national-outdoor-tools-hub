@@ -6,7 +6,7 @@ const path=require("node:path");
 const config=JSON.parse(fs.readFileSync(path.join(__dirname,"..","vercel.json"),"utf8"));
 const routes=new Map((config.rewrites||[]).map(rule=>[rule.source,rule.destination]));
 const prefix="/national-tools/waterfalls/niagara-falls-live";
-const origin="https://huge-exalted-printablecharacter.replit.app";
+const origin="https://jubilant-lost-bloatware.replit.app";
 const waterfallHtml=fs.readFileSync(path.join(__dirname,"..","public","national-tools","waterfalls","index.html"),"utf8");
 
 test("Niagara Falls Live canonical path proxies to its Replit deployment",()=>{
