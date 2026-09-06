@@ -2,19 +2,19 @@
 <html lang="en-US">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Waterfall Window | Live Waterfall Flow & Runoff Outlook</title>
-<meta name="description" content="Is a waterfall worth visiting today? Waterfall Window combines USGS observations, regional runoff signals, NOAA National Water Model guidance, seasonal context and NWS precipitation for both gauged and ungauged waterfalls.">
+<title>Waterfall Window | Is the Waterfall Worth Visiting?</title>
+<meta name="description" content="Should you visit a waterfall now or wait? Waterfall Window turns live river, runoff, model and precipitation data into a plain-English waterfall trip recommendation for U.S. waterfalls.">
 <link rel="canonical" href="https://chrisizworski.com/national-tools/waterfalls/">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<meta property="og:title" content="Waterfall Window | Is the waterfall running well today?">
-<meta property="og:description" content="A live waterfall-volume outlook that works even when the falls does not have its own streamgage.">
+<meta property="og:title" content="Waterfall Window | Is the waterfall worth the trip right now?">
+<meta property="og:description" content="See how the waterfall is likely running now, whether it is worth going, and whether the next few days look better or worse.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://chrisizworski.com/national-tools/waterfalls/">
-<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Waterfall Window"><meta name="twitter:description" content="Live gauged and ungauged waterfall intelligence from multiple hydrologic signals.">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Waterfall Window"><meta name="twitter:description" content="A plain-English waterfall trip recommendation from live water conditions and forecasts.">
 <link rel="stylesheet" href="/national-tools/waterfalls/_assets/waterfall-page-v2.css">
 <link rel="stylesheet" href="/national-tools/waterfalls/_assets/waterfall-hero.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5D2V2W7HN"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Y5D2V2W7HN');</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Waterfall Window","url":"https://chrisizworski.com/national-tools/waterfalls/","applicationCategory":"TravelApplication","operatingSystem":"Any","isAccessibleForFree":true,"description":"A waterfall-volume outlook derived from direct streamgage evidence when available and regional runoff plus local model evidence for ungauged waterfalls."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Waterfall Window","url":"https://chrisizworski.com/national-tools/waterfalls/","applicationCategory":"TravelApplication","operatingSystem":"Any","isAccessibleForFree":true,"description":"A waterfall trip-planning tool that translates current and forecast water conditions into a plain-English recommendation."}</script>
 </head>
 <body>
 <header class="site-head"><div class="headin"><a class="brand" href="/">Chris Izworski</a><nav class="nav" aria-label="Primary"><a href="/tools/">Michigan Tools</a><a href="/national-tools/">U.S. Outdoor Tools</a></nav></div></header>
@@ -22,42 +22,42 @@
 <div class="crumb"><a href="/">Home</a> › <a href="/national-tools/">U.S. Outdoor Tools</a> › Waterfall Window</div>
 <section class="waterfall-hero-photo" aria-label="A forest waterfall in a rocky canyon">
   <div class="hero-copy">
-    <div class="eyebrow">Live waterfall intelligence</div>
+    <div class="eyebrow">Plan the waterfall, not just the drive</div>
     <h1>Waterfall Window</h1>
-    <p class="dek">Is the waterfall worth the trip today? Read the watershed, not just a gauge — including small and ungauged falls.</p>
-    <div class="hero-chips"><span class="hero-chip">DIRECT GAUGE WHEN AVAILABLE</span><span class="hero-chip">UNGAUGED RUNOFF PROXY</span><span class="hero-chip">NOW · 24H · 3 DAYS</span></div>
+    <p class="dek">How is it running now? Is it worth going? Would tomorrow be better? Get a plain-English answer for waterfalls across the U.S.</p>
+    <div class="hero-chips"><span class="hero-chip">HOW IT LOOKS NOW</span><span class="hero-chip">GO OR WAIT</span><span class="hero-chip">NOW · 24H · 3 DAYS</span></div>
   </div>
 </section>
 <section class="search-panel" aria-labelledby="find-title">
-  <div class="kicker">Find a waterfall</div><h2 id="find-title">Where are you thinking about going?</h2>
-  <p>Search a named U.S. waterfall. If the falls has no useful live gauge, Waterfall Window switches to a regional runoff method instead of borrowing another river's flow rate.</p>
-  <form id="form"><div class="search-row"><label class="sr-only" for="q">Waterfall name</label><input class="input" id="q" placeholder="Miners Falls, Tahquamenon Falls, Multnomah Falls…" autocomplete="off"><button class="btn">Check the waterfall</button></div></form>
+  <div class="kicker">Check a waterfall</div><h2 id="find-title">Where are you thinking about going?</h2>
+  <p>Search a waterfall to see likely water volume now, whether it is worth the trip, and whether a better window is coming.</p>
+  <form id="form"><div class="search-row"><label class="sr-only" for="q">Waterfall name</label><input class="input" id="q" placeholder="Miners Falls, Tahquamenon Falls, Multnomah Falls…" autocomplete="off"><button class="btn">Should I go?</button></div></form>
   <button class="btn secondary" id="nearby" type="button">Find waterfalls near me</button>
   <div class="status" id="status" aria-live="polite"></div><div class="resultswrap" id="resultswrap" hidden><div class="results" id="results"></div></div>
 </section>
 <section class="analysis" id="analysis" hidden aria-live="polite">
-  <div class="analysis-head"><div><div class="kicker">Waterfall outlook</div><h2 id="name">Waterfall</h2><div class="micro" id="reach"></div></div><div class="badges"><span class="badge" id="modeBadge">Evidence mode</span><span class="badge" id="confidence">Confidence</span></div></div>
-  <article class="narrative"><div class="kicker">What this means</div><h3 id="narrativeHeadline">Reading the watershed…</h3><p id="narrativeSummary"></p><p id="narrativeOutlook"></p><p class="narrative-note" id="narrativeNote"></p></article>
+  <div class="analysis-head"><div><div class="kicker">Your waterfall plan</div><h2 id="name">Waterfall</h2><div class="micro" id="reach"></div></div><div class="badges"><span class="badge" id="modeBadge">Water estimate</span><span class="badge" id="confidence">Confidence</span></div></div>
+  <article class="narrative"><div class="kicker">Should you go?</div><div class="visit-verdict" id="visitVerdict">Building your recommendation…</div><h3 id="narrativeHeadline">Reading current water conditions…</h3><p id="narrativeSummary"></p><p id="narrativeOutlook"></p><p class="narrative-note" id="narrativeNote"></p></article>
   <div class="scores">
     <article class="score-card primary"><div class="when">Right now</div><div class="score"><span id="nowScore">—</span><small>/100</small></div><div class="score-label" id="nowLabel">—</div><div class="score-context" id="nowContext"></div></article>
     <article class="score-card"><div class="when">Next 24 hours</div><div class="score"><span id="dayScore">—</span><small>/100</small></div><div class="score-label" id="dayLabel">—</div><div class="score-context" id="dayContext"></div></article>
     <article class="score-card"><div class="when">Next 3 days</div><div class="score"><span id="threeScore">—</span><small>/100</small></div><div class="score-label" id="threeLabel">—</div><div class="score-context" id="threeContext"></div></article>
   </div>
-  <ul class="reasons" id="reasons"></ul><div class="caution" id="caution"></div>
-  <section><h2 class="section-title">What is driving the outlook?</h2><div class="signals">
-    <article class="signal"><div class="kicker" id="waterKicker">Observed water</div><h3 id="waterTitle">Connected USGS streamgage</h3><div class="metric" id="waterMetric">—</div><div class="detail" id="waterDetail"></div><ul class="proxy-list" id="proxyList"></ul></article>
-    <article class="signal"><div class="kicker">Seasonal context</div><h3>What is normal now?</h3><div class="metric" id="seasonMetric">—</div><div class="detail" id="seasonDetail"></div></article>
-    <article class="signal"><div class="kicker">Local reach</div><h3>National Water Model</h3><div class="metric" id="modelMetric">—</div><div class="detail" id="modelDetail"></div></article>
-    <article class="signal"><div class="kicker">Incoming water</div><h3>NWS precipitation</h3><div class="metric" id="rainMetric">—</div><div class="detail" id="rainDetail"></div></article>
-    <article class="signal"><div class="kicker">Flow controls</div><h3>Upstream regulation</h3><div class="metric" id="regMetric">—</div><div class="detail" id="regDetail"></div></article>
+  <div class="decision-reasons"><div class="kicker">Why this recommendation</div><ul class="reasons" id="reasons"></ul></div><div class="caution" id="caution"></div>
+  <section><h2 class="section-title">How we know</h2><div class="signals">
+    <article class="signal"><div class="kicker" id="waterKicker">Current water</div><h3 id="waterTitle">Water around the falls</h3><div class="metric" id="waterMetric">—</div><div class="detail" id="waterDetail"></div><ul class="proxy-list" id="proxyList"></ul></article>
+    <article class="signal"><div class="kicker">Compared with the season</div><h3>Is this normal right now?</h3><div class="metric" id="seasonMetric">—</div><div class="detail" id="seasonDetail"></div></article>
+    <article class="signal"><div class="kicker">What happens next</div><h3>Water trend</h3><div class="metric" id="modelMetric">—</div><div class="detail" id="modelDetail"></div></article>
+    <article class="signal"><div class="kicker">Rain ahead</div><h3>Forecast precipitation</h3><div class="metric" id="rainMetric">—</div><div class="detail" id="rainDetail"></div></article>
+    <article class="signal"><div class="kicker">Possible wild card</div><h3>Dams and flow controls</h3><div class="metric" id="regMetric">—</div><div class="detail" id="regDetail"></div></article>
   </div></section>
 </section>
-<section class="method"><div class="kicker">How it works</div><h2>Two evidence paths, one useful answer</h2><p>A large waterfall may have a good network-connected streamgage and decades of same-date history. A smaller waterfall may have no gauge at all. Those should not be treated the same way.</p><div class="method-grid">
-  <div class="method-item"><strong>Gauged waterfalls</strong><span>Use hydrologically connected USGS observations, same-date percentile history, the local National Water Model reach and NWS precipitation context.</span></div>
-  <div class="method-item"><strong>Ungauged waterfalls</strong><span>Use the local modeled reach plus nearby active USGS streams normalized against their own seasonal history. The regional gauges describe watershed wetness; their CFS is never assigned to the falls.</span></div>
-  <div class="method-item"><strong>Why the narrative matters</strong><span>The page explains which path was used, what the signals agree on, what may change next and where uncertainty remains.</span></div>
-  <div class="method-item"><strong>Safety stays separate</strong><span>More water can improve spectacle while increasing hazard. This tool does not determine trail status, closures, safe crossings, swimming conditions or safe viewing distance.</span></div>
-</div><p class="fine">National Water Model output is guidance rather than an official NWS river forecast. Regional proxy mode is intentionally capped below High confidence because no instrument is measuring discharge at the waterfall itself.</p></section>
+<section class="method"><div class="kicker">About the estimate</div><h2>Different waterfalls need different evidence</h2><p>Some waterfalls have a useful river gauge. Many smaller falls do not. Waterfall Window uses the strongest available water evidence for each place, then translates it into the same trip question: how good is the waterfall likely to look, and is there a better window coming?</p><div class="method-grid">
+  <div class="method-item"><strong>When a good gauge exists</strong><span>Current measured river flow is compared with seasonal history and local model guidance.</span></div>
+  <div class="method-item"><strong>When the falls is not directly gauged</strong><span>Nearby stream conditions and the local watershed model are combined to estimate whether water volume is low, normal or high for the season.</span></div>
+  <div class="method-item"><strong>What the score means</strong><span>The 0–100 score is about waterfall spectacle and water volume, not whether the trail is open or the river edge is safe.</span></div>
+  <div class="method-item"><strong>Why confidence varies</strong><span>Confidence is higher when measured water and historical context are strong, and lower when the tool must infer conditions from the surrounding watershed.</span></div>
+</div><p class="fine">National Water Model output is guidance rather than an official NWS river forecast. Always check local access, trail, weather and safety information separately.</p></section>
 </main>
 <footer class="footer"><div class="footin">© 2026 Chris Izworski · Waterfall Window</div></footer>
 <script src="/national-tools/waterfalls/_assets/waterfall-page-v2.js" defer></script>
