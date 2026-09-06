@@ -25,11 +25,19 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
     "/national-tools/frost/",
     "/national-tools/planting/",
     "/national-tools/garden-water/",
-    "/national-tools/fall-color/"
+    "/national-tools/fall-color/",
+    "/national-tools/waterfalls/niagara-falls-live/"
   ];
   for(const route of routes){
     assert.ok(html.includes('href="'+route+'"'),"missing "+route);
   }
+});
+
+test("Niagara Falls Live is a distinct place-intelligence tool without replacing the national directory",()=>{
+  assert.match(html,/Niagara Falls Live/);
+  assert.match(html,/CBSA \+ ECCC hydrology \+ weather \+ solar geometry \+ official attraction schedules/);
+  assert.match(html,/"numberOfItems":11/);
+  assert.match(html,/"name":"Niagara Falls Live"/);
 });
 
 test("national landing preserves topic hubs and Michigan handoff",()=>{
