@@ -5,14 +5,19 @@ const path=require("node:path");
 
 const config=JSON.parse(fs.readFileSync(path.join(__dirname,"..","vercel.json"),"utf8"));
 const routes=new Map((config.rewrites||[]).map(rule=>[rule.source,rule.destination]));
+const redirects=new Map((config.redirects||[]).map(rule=>[rule.source,rule.destination]));
 const prefix="/national-tools/waterfalls/niagara-falls-live";
 const origin="https://jubilant-lost-bloatware.replit.app";
 const waterfallHtml=fs.readFileSync(path.join(__dirname,"..","public","national-tools","waterfalls","index.html"),"utf8");
 
 test("Niagara Falls Live canonical path proxies to its Replit deployment",()=>{
   assert.equal(routes.get(prefix),origin+"/");
-  assert.equal(routes.get(prefix+"/"),origin+"/");
   assert.equal(routes.get(prefix+"/:path*"),origin+"/:path*");
+});
+
+test("Niagara trailing slash requests normalize to the no-slash canonical",()=>{
+  assert.equal(redirects.get(prefix+"/"),prefix);
+  assert.equal(redirects.get(prefix+"/:path*/"),prefix+"/:path*");
 });
 
 test("Niagara proxy rules are more specific than the waterfall utility routes",()=>{
