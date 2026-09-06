@@ -12,6 +12,18 @@
       "maxDuration": 25
     }
   },
+  "redirects": [
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live/",
+      "destination": "/national-tools/waterfalls/niagara-falls-live",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live/:path*/",
+      "destination": "/national-tools/waterfalls/niagara-falls-live/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -35,10 +47,6 @@
     },
     {
       "source": "/national-tools/waterfalls/niagara-falls-live",
-      "destination": "https://jubilant-lost-bloatware.replit.app/"
-    },
-    {
-      "source": "/national-tools/waterfalls/niagara-falls-live/",
       "destination": "https://jubilant-lost-bloatware.replit.app/"
     },
     {
