@@ -6,27 +6,33 @@ const path=require("node:path");
 const config=JSON.parse(fs.readFileSync(path.join(__dirname,"..","vercel.json"),"utf8"));
 const routes=new Map((config.rewrites||[]).map(rule=>[rule.source,rule.destination]));
 const redirects=new Map((config.redirects||[]).map(rule=>[rule.source,rule.destination]));
-const prefix="/national-tools/waterfalls/niagara-falls-live";
-const origin="https://jubilant-lost-bloatware.replit.app";
+const legacy="/national-tools/waterfalls/niagara-falls-live";
+const planner="/national-tools/niagara-falls-rainbow-planner/";
+const origin="https://aqua-sharp-digits.replit.app";
 const waterfallHtml=fs.readFileSync(path.join(__dirname,"..","public","national-tools","waterfalls","index.html"),"utf8");
 
-test("Niagara Falls Live canonical path proxies to its Replit deployment",()=>{
-  assert.equal(routes.get(prefix),origin+"/");
-  assert.equal(routes.get(prefix+"/:path*"),origin+"/:path*");
+test("Standalone Niagara rainbow planner proxies to its dedicated Replit app",()=>{
+  assert.equal(routes.get(planner),origin+planner);
+  assert.equal(routes.get(planner+":path*"),origin+planner+":path*");
 });
 
-test("Niagara trailing slash requests normalize to the no-slash canonical",()=>{
-  assert.equal(redirects.get(prefix+"/"),prefix);
-  assert.equal(redirects.get(prefix+"/:path*/"),prefix+"/:path*");
+test("Old Niagara hub URLs permanently collapse into the standalone planner",()=>{
+  assert.equal(redirects.get(legacy),planner);
+  assert.equal(redirects.get(legacy+"/"),planner);
+  assert.equal(redirects.get(legacy+"/:path*"),planner);
 });
 
-test("Niagara proxy rules are more specific than the waterfall utility routes",()=>{
-  const sources=(config.rewrites||[]).map(rule=>rule.source);
-  assert.ok(sources.indexOf(prefix+"/:path*") < sources.indexOf("/national-tools/waterfalls/_assets/:path*"));
+test("Standalone planner normalizes to the trailing-slash canonical",()=>{
+  assert.equal(redirects.get("/national-tools/niagara-falls-rainbow-planner"),planner);
 });
 
-test("Waterfall Window hands Niagara visitors into the specialist live hub",()=>{
-  assert.match(waterfallHtml,/Niagara Falls specialist/);
-  assert.ok(waterfallHtml.includes('href="'+prefix+'/"'));
-  assert.match(waterfallHtml,/border waits, Niagara River observations, visibility and mist, Maid of the Mist timing, rainbow conditions/i);
+test("No Niagara Falls Live proxy remains",()=>{
+  const destinations=(config.rewrites||[]).map(rule=>rule.destination);
+  assert.ok(!destinations.some(value=>value.includes("jubilant-lost-bloatware.replit.app")));
+});
+
+test("Waterfall Window hands Niagara visitors to the standalone rainbow planner",()=>{
+  assert.match(waterfallHtml,/Niagara Falls rainbow planner/i);
+  assert.ok(waterfallHtml.includes('href="'+planner+'"'));
+  assert.doesNotMatch(waterfallHtml,/full live Niagara hub/i);
 });
