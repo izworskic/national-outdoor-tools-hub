@@ -26,18 +26,19 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
     "/national-tools/planting/",
     "/national-tools/garden-water/",
     "/national-tools/fall-color/",
-    "/national-tools/waterfalls/niagara-falls-live/"
+    "/national-tools/niagara-falls-rainbow-planner/"
   ];
   for(const route of routes){
     assert.ok(html.includes('href="'+route+'"'),"missing "+route);
   }
 });
 
-test("Niagara Falls Live is a distinct place-intelligence tool without replacing the national directory",()=>{
-  assert.match(html,/Niagara Falls Live/);
-  assert.match(html,/CBSA \+ ECCC hydrology \+ weather \+ solar geometry \+ official attraction schedules/);
+test("Niagara Falls Rainbow Planner is a distinct single-purpose tool without replacing the national directory",()=>{
+  assert.match(html,/Niagara Falls Rainbow Planner/);
+  assert.match(html,/Daylight \+ solar geometry \+ cloud cover \+ precipitation \+ visibility/);
   assert.match(html,/"numberOfItems":11/);
-  assert.match(html,/"name":"Niagara Falls Live"/);
+  assert.match(html,/"name":"Niagara Falls Rainbow Planner"/);
+  assert.doesNotMatch(html,/Niagara Falls Live/);
 });
 
 test("national landing preserves topic hubs and Michigan handoff",()=>{
