@@ -15,22 +15,32 @@
   "redirects": [
     {
       "source": "/national-tools/niagara-falls-rainbow-planner",
-      "destination": "/national-tools/niagara-falls-rainbow-planner/",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/niagara-falls-rainbow-planner/",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/niagara-falls-rainbow-planner/:path*",
+      "destination": "/national-tools/niagara-rainbow/",
       "permanent": true
     },
     {
       "source": "/national-tools/waterfalls/niagara-falls-live",
-      "destination": "/national-tools/niagara-falls-rainbow-planner/",
+      "destination": "/national-tools/niagara-rainbow/",
       "permanent": true
     },
     {
       "source": "/national-tools/waterfalls/niagara-falls-live/",
-      "destination": "/national-tools/niagara-falls-rainbow-planner/",
+      "destination": "/national-tools/niagara-rainbow/",
       "permanent": true
     },
     {
       "source": "/national-tools/waterfalls/niagara-falls-live/:path*",
-      "destination": "/national-tools/niagara-falls-rainbow-planner/",
+      "destination": "/national-tools/niagara-rainbow/",
       "permanent": true
     }
   ],
@@ -54,14 +64,6 @@
     {
       "source": "/national-tools/smoke/:path*",
       "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/:path*"
-    },
-    {
-      "source": "/national-tools/niagara-falls-rainbow-planner/",
-      "destination": "https://aqua-sharp-digits.replit.app/national-tools/niagara-falls-rainbow-planner/"
-    },
-    {
-      "source": "/national-tools/niagara-falls-rainbow-planner/:path*",
-      "destination": "https://aqua-sharp-digits.replit.app/national-tools/niagara-falls-rainbow-planner/:path*"
     },
     {
       "source": "/national-tools/waterfalls",
