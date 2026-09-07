@@ -26,18 +26,18 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
     "/national-tools/planting/",
     "/national-tools/garden-water/",
     "/national-tools/fall-color/",
-    "/national-tools/niagara-falls-rainbow-planner/"
+    "/national-tools/niagara-rainbow/"
   ];
   for(const route of routes){
     assert.ok(html.includes('href="'+route+'"'),"missing "+route);
   }
 });
 
-test("Niagara Falls Rainbow Planner is a distinct single-purpose tool without replacing the national directory",()=>{
-  assert.match(html,/Niagara Falls Rainbow Planner/);
-  assert.match(html,/Daylight \+ solar geometry \+ cloud cover \+ precipitation \+ visibility/);
+test("Niagara Falls Rainbow Predictor is a distinct single-purpose tool without replacing the national directory",()=>{
+  assert.match(html,/Niagara Falls Rainbow Predictor/);
+  assert.match(html,/NWS weather \+ solar geometry \+ wind-shifted mist \+ visibility/);
   assert.match(html,/"numberOfItems":11/);
-  assert.match(html,/"name":"Niagara Falls Rainbow Planner"/);
+  assert.match(html,/"name":"Niagara Falls Rainbow Predictor"/);
   assert.doesNotMatch(html,/Niagara Falls Live/);
 });
 
