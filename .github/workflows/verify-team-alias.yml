@@ -1,0 +1,26 @@
+name: Verify team-scoped hub deployment
+on:
+  push:
+    branches: [verify-hub-production]
+    paths: [.github/workflows/verify-team-alias.yml]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deployed national tools hub
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://national-outdoor-tools-hub-izworski-gmailcoms-projects.vercel.app/national-tools/'
+          for i in 1 2 3 4 5; do
+            code=$(curl -L -sS -o /tmp/hub.html -w '%{http_code}' "$url" || true)
+            echo "attempt=$i status=$code bytes=$(wc -c </tmp/hub.html 2>/dev/null || echo 0)"
+            if [ "$code" = "200" ]; then break; fi
+            sleep 3
+          done
+          test "$code" = "200"
+          grep -q 'Lake Ice-Out Forecast' /tmp/hub.html
+          grep -q 'https://lspp-ice-out.vercel.app/north-america/' /tmp/hub.html
+          grep -q '"numberOfItems":12' /tmp/hub.html
+          grep -q 'G-Y5D2V2W7HN' /tmp/hub.html
+          echo 'TEAM_ALIAS_VERIFIED'
