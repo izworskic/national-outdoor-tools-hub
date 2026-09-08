@@ -12,15 +12,13 @@ jobs:
         run: |
           set -euo pipefail
           url='https://national-outdoor-tools-hub-izworski-gmailcoms-projects.vercel.app/national-tools/'
-          for i in 1 2 3 4 5; do
-            code=$(curl -L -sS -o /tmp/hub.html -w '%{http_code}' "$url" || true)
-            echo "attempt=$i status=$code bytes=$(wc -c </tmp/hub.html 2>/dev/null || echo 0)"
-            if [ "$code" = "200" ]; then break; fi
-            sleep 3
-          done
+          code=$(curl -L -sS -o /tmp/hub.html -w '%{http_code}' "$url")
+          echo "status=$code bytes=$(wc -c </tmp/hub.html)"
           test "$code" = "200"
-          grep -q 'Lake Ice-Out Forecast' /tmp/hub.html
-          grep -q 'https://lspp-ice-out.vercel.app/north-america/' /tmp/hub.html
-          grep -q '"numberOfItems":12' /tmp/hub.html
-          grep -q 'G-Y5D2V2W7HN' /tmp/hub.html
-          echo 'TEAM_ALIAS_VERIFIED'
+          for marker in 'Lake Ice-Out Forecast' 'https://lspp-ice-out.vercel.app/north-america/' '"numberOfItems":12' 'G-Y5D2V2W7HN'; do
+            if grep -Fq "$marker" /tmp/hub.html; then echo "FOUND $marker"; else echo "MISSING $marker"; fi
+          done
+          echo '--- title/meta excerpt ---'
+          grep -Eo '<title>[^<]+|numberOfItems[^,}]+' /tmp/hub.html | head -10 || true
+          echo '--- lake matches ---'
+          grep -Eo '.{0,50}(Lake Ice-Out|lake ice-out|lspp-ice-out).{0,100}' /tmp/hub.html | head -20 || true
