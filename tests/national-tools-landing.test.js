@@ -37,7 +37,7 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
 test("Niagara Falls Rainbow Predictor is a distinct single-purpose tool without replacing the national directory",()=>{
   assert.match(html,/Niagara Falls Rainbow Predictor/);
   assert.match(html,/NWS weather \+ solar geometry \+ wind-shifted mist \+ visibility/);
-  assert.match(html,/"numberOfItems":12/);
+  assert.match(html,/"numberOfItems":13/);
   assert.match(html,/"name":"Niagara Falls Rainbow Predictor"/);
   assert.doesNotMatch(html,/Niagara Falls Live/);
 });
