@@ -31,14 +31,22 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
   for(const route of routes){
     assert.ok(html.includes('href="'+route+'"'),"missing "+route);
   }
+  assert.ok(html.includes('href="https://lspp-ice-out.vercel.app/north-america/"'),"missing Lake Ice-Out Forecast handoff");
 });
 
 test("Niagara Falls Rainbow Predictor is a distinct single-purpose tool without replacing the national directory",()=>{
   assert.match(html,/Niagara Falls Rainbow Predictor/);
   assert.match(html,/NWS weather \+ solar geometry \+ wind-shifted mist \+ visibility/);
-  assert.match(html,/"numberOfItems":11/);
+  assert.match(html,/"numberOfItems":12/);
   assert.match(html,/"name":"Niagara Falls Rainbow Predictor"/);
   assert.doesNotMatch(html,/Niagara Falls Live/);
+});
+
+test("Lake Ice-Out Forecast is listed as a separate owning-tool handoff",()=>{
+  assert.match(html,/Lake Ice-Out Forecast/);
+  assert.match(html,/https:\/\/lspp-ice-out\.vercel\.app\/north-america\//);
+  assert.match(html,/"position":12[^\n]+"name":"Lake Ice-Out Forecast"/);
+  assert.match(html,/Lake history \+ seasonal thaw physics \+ live weather \+ NASA imagery/);
 });
 
 test("national landing preserves topic hubs and Michigan handoff",()=>{
