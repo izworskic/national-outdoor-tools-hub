@@ -48,11 +48,26 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     }
   ],
   "rewrites": [
+    {
+      "source": "/assets/national-tools.css",
+      "destination": "https://national-outdoor-core.vercel.app/assets/national-tools.css"
+    },
+    {
+      "source": "/assets/national-tools.js",
+      "destination": "https://national-outdoor-core.vercel.app/assets/national-tools.js"
+    },
+    {
+      "source": "/api/national-geocode",
+      "destination": "https://national-outdoor-core.vercel.app/api/national-geocode"
+    },
     {
       "source": "/national-tools/smoke",
       "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/index.html"
@@ -85,5 +100,7 @@
       "source": "/national-tools/waterfalls/_assets/:path*",
       "destination": "/assets/:path*"
     }
-  ]
+  ],
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "public"
 }
