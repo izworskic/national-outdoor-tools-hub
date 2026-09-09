@@ -2,8 +2,14 @@ import fs from 'node:fs';
 
 const file = 'public/national-tools/index.html';
 const url = 'https://chrisizworski.com/national-tools/grand-coulee/';
+const legacyUrl = 'https://grand-coulee-live.vercel.app/';
 let html = fs.readFileSync(file, 'utf8');
 let changed = false;
+
+if (html.includes(legacyUrl)) {
+  html = html.split(legacyUrl).join(url);
+  changed = true;
+}
 
 // Structured data: Grand Coulee Live is a distinct national destination/infrastructure decision tool.
 const schemaRe = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
