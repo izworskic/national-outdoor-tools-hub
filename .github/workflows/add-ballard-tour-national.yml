@@ -6,6 +6,9 @@ on:
       - agent/add-ballard-tour-to-national-tools
     paths:
       - '.github/workflows/add-ballard-tour-national.yml'
+      - 'scripts/add-ballard-locks.mjs'
+      - 'tests/ballard-locks-national-card.test.js'
+      - 'tests/national-tools-landing.test.js'
 
 permissions:
   contents: write
@@ -37,6 +40,7 @@ jobs:
           const schema=[...p.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>{try{return JSON.parse(m[1])}catch{return null}}).filter(Boolean);
           const list=schema.flatMap(x=>x['@graph']||[]).find(x=>x['@id']==='https://chrisizworski.com/national-tools/#toollist');
           if(!list?.itemListElement?.some(x=>x.url===url)) throw new Error('Tour missing from ItemList schema');
+          if(list.numberOfItems!==list.itemListElement.length) throw new Error('ItemList count mismatch');
           console.log(JSON.stringify({tourLinks:(p.match(new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'))||[]).length,items:list.numberOfItems}));
           NODE
       - name: Commit generated National Tools page
