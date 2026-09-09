@@ -1,0 +1,53 @@
+name: Apply Ballard to National Tools
+
+on:
+  push:
+    branches:
+      - agent/add-ballard-national-tools
+    paths:
+      - '.github/workflows/apply-ballard-national-tools.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/add-ballard-national-tools
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply Ballard discovery card
+        run: node scripts/add-ballard-locks.mjs
+      - name: Add regression test
+        shell: bash
+        run: |
+          cat > tests/ballard-locks-national-card.test.js <<'EOF'
+          const test = require('node:test');
+          const assert = require('node:assert/strict');
+          const fs = require('node:fs');
+          const path = require('node:path');
+
+          const page = fs.readFileSync(path.join(__dirname, '..', 'public', 'national-tools', 'index.html'), 'utf8');
+
+          test('National Tools exposes Ballard Locks Live as a first-class tool', () => {
+            assert.ok(page.includes('https://chrisizworski.com/ballard-locks/'), 'missing canonical Ballard URL');
+            assert.ok(page.includes('Ballard Locks Live'), 'missing Ballard title');
+            assert.ok(page.includes('Time a Ballard Locks visit'), 'missing Ballard decision intent');
+            assert.ok(page.includes('AIS + WDFW salmon + NOAA tides + NWS weather + USACE operations'), 'missing Ballard live-signal summary');
+          });
+          EOF
+      - name: Test
+        run: npm test
+      - name: Commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/national-tools/index.html tests/ballard-locks-national-card.test.js
+          git commit -m 'Add Ballard Locks Live to National Tools'
+          git push
