@@ -5,6 +5,17 @@ const path=require("node:path");
 
 const html=fs.readFileSync(path.join(__dirname,"..","public","national-tools","index.html"),"utf8");
 
+function toolListSchema(){
+  for(const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
+    try{
+      const data=JSON.parse(m[1]);
+      const list=(data?.['@graph']||[]).find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
+      if(list)return list;
+    }catch{}
+  }
+  return null;
+}
+
 test("national landing is a specialist tool directory, not a mega location dashboard",()=>{
   assert.doesNotMatch(html,/id="hub-location"/);
   assert.doesNotMatch(html,/id="outdoor-desk"/);
@@ -37,8 +48,12 @@ test("national landing keeps each core decision tool directly crawlable",()=>{
 test("Niagara Falls Rainbow Predictor is a distinct single-purpose tool without replacing the national directory",()=>{
   assert.match(html,/Niagara Falls Rainbow Predictor/);
   assert.match(html,/NWS weather \+ solar geometry \+ wind-shifted mist \+ visibility/);
-  assert.match(html,/"numberOfItems":15/);
-  assert.match(html,/"name":"Niagara Falls Rainbow Predictor"/);
+  const list=toolListSchema();
+  assert.ok(list,"national ItemList schema missing");
+  assert.ok(Array.isArray(list.itemListElement),"national ItemList entries missing");
+  assert.equal(list.numberOfItems,list.itemListElement.length,"structured tool count must match the actual ItemList");
+  assert.ok(list.numberOfItems>=15,"national directory unexpectedly lost tools");
+  assert.ok(list.itemListElement.some(x=>x?.name==='Niagara Falls Rainbow Predictor'),"Niagara predictor missing from ItemList");
   assert.doesNotMatch(html,/Niagara Falls Live/);
 });
 
