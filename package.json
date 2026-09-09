@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": false,
   "scripts": {
-    "vercel-build": "node scripts/add-ballard-locks.mjs && node scripts/add-grand-coulee.mjs && node scripts/inject-ga4.mjs",
+    "vercel-build": "node scripts/add-ballard-locks.mjs && node scripts/add-grand-coulee.mjs && node scripts/add-platte-crane.mjs && node scripts/inject-ga4.mjs",
     "test": "node --test tests/*.test.js",
     "validate:production": "node scripts/validate-national-production.mjs"
   },
