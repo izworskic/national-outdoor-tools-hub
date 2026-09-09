@@ -24,6 +24,14 @@
   ],
   "rewrites": [
     {
+      "source": "/national-tools/monarch-migration-live",
+      "destination": "https://monarch-migration-live-k7om.vercel.app/national-tools/monarch-migration-live"
+    },
+    {
+      "source": "/national-tools/monarch-migration-live/:path*",
+      "destination": "https://monarch-migration-live-k7om.vercel.app/national-tools/monarch-migration-live/:path*"
+    },
+    {
       "source": "/national-tools/blue-spring-live/_api/live",
       "destination": "https://blue-spring-live-6h8f.vercel.app/api/live"
     },
