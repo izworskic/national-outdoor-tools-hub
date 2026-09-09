@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 
 const file = 'public/national-tools/index.html';
-const url = 'https://grand-coulee-live.vercel.app/';
+const url = 'https://chrisizworski.com/national-tools/grand-coulee/';
 let html = fs.readFileSync(file, 'utf8');
 let changed = false;
 
