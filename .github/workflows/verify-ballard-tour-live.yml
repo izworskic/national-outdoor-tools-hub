@@ -1,0 +1,30 @@
+name: Verify Ballard tour live
+
+on:
+  push:
+    branches:
+      - debug/verify-ballard-tour-live
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch canonical National Tools page
+        run: |
+          set -euo pipefail
+          URL="https://chrisizworski.com/national-tools/?probe=$(date +%s)"
+          curl -fsSL -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' "$URL" -o /tmp/page.html
+          node - <<'NODE'
+          const fs=require('fs');
+          const p=fs.readFileSync('/tmp/page.html','utf8');
+          const required=[
+            'https://chrisizworski.com/ballard-locks/tour/',
+            'Walk the Ballard Locks',
+            'Ballard Locks Interactive Tour',
+            'Ballard Locks Interactive Tour &amp; Live AIS Map',
+            'Live AIS map + 12 stops + route presets + WDFW fish + live camera'
+          ];
+          const result=Object.fromEntries(required.map(x=>[x,p.includes(x)]));
+          console.log(JSON.stringify({bytes:p.length,result}));
+          for(const [k,v] of Object.entries(result)) if(!v) throw new Error('Live canonical missing: '+k);
+          NODE
