@@ -1,0 +1,48 @@
+name: Build Ballard tour national discovery
+
+on:
+  push:
+    branches:
+      - agent/add-ballard-tour-to-national-tools
+    paths:
+      - '.github/workflows/add-ballard-tour-national.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/add-ballard-tour-to-national-tools
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build National Tools exactly as Vercel does
+        run: npm run vercel-build
+      - name: Run hub tests
+        run: npm test
+      - name: Verify Ballard tour discovery surfaces
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p=fs.readFileSync('public/national-tools/index.html','utf8');
+          const url='https://chrisizworski.com/ballard-locks/tour/';
+          for(const s of [url,'Walk the Ballard Locks','Ballard Locks Interactive Tour','Ballard Locks Interactive Tour &amp; Live AIS Map','Live AIS map + 12 stops + route presets + WDFW fish + live camera']) {
+            if(!p.includes(s)) throw new Error('Missing '+s);
+          }
+          const schema=[...p.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>{try{return JSON.parse(m[1])}catch{return null}}).filter(Boolean);
+          const list=schema.flatMap(x=>x['@graph']||[]).find(x=>x['@id']==='https://chrisizworski.com/national-tools/#toollist');
+          if(!list?.itemListElement?.some(x=>x.url===url)) throw new Error('Tour missing from ItemList schema');
+          console.log(JSON.stringify({tourLinks:(p.match(new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'))||[]).length,items:list.numberOfItems}));
+          NODE
+      - name: Commit generated National Tools page
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/national-tools/index.html
+          git diff --cached --quiet || git commit -m 'Render Ballard interactive tour on National Tools'
+          git push
