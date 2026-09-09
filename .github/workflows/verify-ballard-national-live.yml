@@ -1,0 +1,28 @@
+name: Verify Ballard National Tools Live
+
+on:
+  push:
+    branches:
+      - agent/verify-ballard-national-live
+    paths:
+      - '.github/workflows/verify-ballard-national-live.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify canonical National Tools serves Ballard
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="https://chrisizworski.com/national-tools/?ballard-smoke=${GITHUB_RUN_ID}"
+          code=$(curl -L --fail --silent --show-error -H 'Cache-Control: no-cache' -o /tmp/national.html -w '%{http_code}' "$url")
+          test "$code" = "200"
+          grep -Fq 'https://chrisizworski.com/ballard-locks/' /tmp/national.html
+          grep -Fq 'Time a Ballard Locks visit' /tmp/national.html
+          grep -Fq 'Ballard Locks Live' /tmp/national.html
+          grep -Fq 'AIS + WDFW salmon + NOAA tides + NWS weather + USACE operations' /tmp/national.html
+          echo "LIVE_OK http=$code ballard_url=yes intent=yes featured=yes signals=yes"
