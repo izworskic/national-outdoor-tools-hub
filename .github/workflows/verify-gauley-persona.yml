@@ -1,0 +1,56 @@
+name: Verify Gauley Persona Tool
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'api/gauley-*.js'
+      - 'scripts/sync-gauley-persona.mjs'
+      - 'package.json'
+      - 'vercel.json'
+      - '.github/workflows/verify-gauley-persona.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify hub Gauley page and persona APIs
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://national-outdoor-tools-hub.vercel.app/national-tools/gauley-release-live/'
+          ok=0
+          for attempt in $(seq 1 24); do
+            code=$(curl -L -sS --max-time 25 -o /tmp/page.html -w '%{http_code}' "$BASE" || true)
+            if [ "$code" = '200' ] \
+              && grep -q 'Private paddle' /tmp/page.html \
+              && grep -q 'Raft guest' /tmp/page.html \
+              && grep -q 'data-persona="watch"' /tmp/page.html \
+              && grep -q 'data-persona="photo"' /tmp/page.html \
+              && grep -q 'Since your last check' /tmp/page.html; then
+              ok=1
+              break
+            fi
+            echo "Attempt $attempt: page HTTP $code"
+            sleep 5
+          done
+          test "$ok" = '1'
+          curl -fsSL --max-time 30 "${BASE}api/live" -o /tmp/live.json
+          curl -fsSL --max-time 30 "${BASE}api/history" -o /tmp/history.json
+          python - <<'PY'
+          import json
+          live=json.load(open('/tmp/live.json'))
+          hist=json.load(open('/tmp/history.json'))
+          p=live.get('personas') or {}
+          for key in ('planning','paddler','raft','watch','photo'):
+              assert key in p, key
+          assert p['watch']['facts'][0]['value']=='Summersville Dam tailwaters'
+          assert 'outfitter' in json.dumps(p['raft']).lower()
+          assert 'safe to paddle' not in json.dumps(p).lower()
+          assert hist.get('sampleCount',0)>0
+          print('Hub Gauley persona tool OK:', live['release']['status'], hist['sampleCount'])
+          PY
