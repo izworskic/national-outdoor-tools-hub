@@ -4,7 +4,9 @@
   "functions": {
     "api/national-waterfall-window-v3.js": { "maxDuration": 25 },
     "api/national-waterfall-window-v4.js": { "maxDuration": 25 },
-    "api/national-waterfall-window-v5.js": { "maxDuration": 25 }
+    "api/national-waterfall-window-v5.js": { "maxDuration": 25 },
+    "api/gauley-live.js": { "maxDuration": 25 },
+    "api/gauley-history.js": { "maxDuration": 25 }
   },
   "redirects": [
     { "source": "/national-tools/niagara-falls-rainbow-planner", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
@@ -23,6 +25,22 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/national-tools/gauley-release-live",
+      "destination": "/national-tools/gauley-release-live/index.html"
+    },
+    {
+      "source": "/national-tools/gauley-release-live/",
+      "destination": "/national-tools/gauley-release-live/index.html"
+    },
+    {
+      "source": "/national-tools/gauley-release-live/api/live",
+      "destination": "/api/gauley-live"
+    },
+    {
+      "source": "/national-tools/gauley-release-live/api/history",
+      "destination": "/api/gauley-history"
+    },
     {
       "source": "/national-tools/fort-madison-live",
       "destination": "https://fort-madison-live.vercel.app/"
