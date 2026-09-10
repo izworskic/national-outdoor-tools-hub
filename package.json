@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": false,
   "scripts": {
-    "vercel-build": "node scripts/sync-blue-spring-live.mjs && node scripts/add-blue-spring-live.mjs && node scripts/add-ballard-locks.mjs && node scripts/add-grand-coulee.mjs && node scripts/add-melvin-price.mjs && node scripts/inject-ga4.mjs && node scripts/add-platte-crane.mjs && node scripts/verify-platte-crane.mjs && node scripts/add-monarch-migration.mjs && node scripts/verify-monarch-discovery.mjs && node scripts/optimize-aurora-card-copy.mjs",
+    "vercel-build": "node scripts/sync-blue-spring-live.mjs && node scripts/add-blue-spring-live.mjs && node scripts/add-ballard-locks.mjs && node scripts/add-grand-coulee.mjs && node scripts/add-melvin-price.mjs && node scripts/add-gauley-release-live.mjs && node scripts/inject-ga4.mjs && node scripts/add-platte-crane.mjs && node scripts/verify-platte-crane.mjs && node scripts/add-monarch-migration.mjs && node scripts/verify-monarch-discovery.mjs && node scripts/optimize-aurora-card-copy.mjs && node scripts/verify-gauley-discovery.mjs",
     "test": "node --test tests/*.test.js",
     "validate:production": "node scripts/validate-national-production.mjs"
   },
