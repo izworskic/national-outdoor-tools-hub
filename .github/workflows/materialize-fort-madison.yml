@@ -1,0 +1,33 @@
+name: Materialize Fort Madison discovery
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Add Fort Madison to checked-in National Tools HTML
+        run: node scripts/add-fort-madison-live.mjs
+      - name: Verify Fort Madison discovery
+        run: node scripts/verify-fort-madison-discovery.mjs
+      - name: Commit generated discovery surfaces
+        run: |
+          if git diff --quiet -- public/national-tools/index.html public/national-tools/water/index.html; then
+            echo "National Tools HTML already contains Fort Madison."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/national-tools/index.html public/national-tools/water/index.html
+          git commit -m "Materialize Fort Madison in National Tools HTML"
+          git push
