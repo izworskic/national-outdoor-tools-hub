@@ -24,6 +24,18 @@
   ],
   "rewrites": [
     {
+      "source": "/national-tools/fort-madison-live",
+      "destination": "https://fort-madison-live.vercel.app/"
+    },
+    {
+      "source": "/national-tools/fort-madison-live/",
+      "destination": "https://fort-madison-live.vercel.app/"
+    },
+    {
+      "source": "/national-tools/fort-madison-live/:path*",
+      "destination": "https://fort-madison-live.vercel.app/:path*"
+    },
+    {
       "source": "/national-tools/monarch-migration-live",
       "destination": "https://monarch-migration-live.vercel.app/national-tools/monarch-migration-live"
     },
