@@ -4,9 +4,8 @@
 <meta name="description" content="Plan northern-lights viewing by separating NOAA aurora signal, local cloud cover, darkness and moon context instead of treating Kp as a local probability.">
 <link rel="canonical" href="https://chrisizworski.com/national-tools/night-sky/"><meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="stylesheet" href="/assets/national-tools.css?v=20260901-hubs1">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://chrisizworski.com/#person","name":"Chris Izworski","url":"https://chrisizworski.com/"},{"@type":"WebSite","@id":"https://chrisizworski.com/#website","url":"https://chrisizworski.com/","name":"Chris Izworski","author":{"@id":"https://chrisizworski.com/#person"}},{"@type":"CollectionPage","@id":"https://chrisizworski.com/national-tools/night-sky/#page","url":"https://chrisizworski.com/national-tools/night-sky/","name":"Aurora Viewing Planner: Clouds, Darkness & Moon","description":"A northern-lights planning guide that separates NOAA aurora signal, local clouds, darkness and moon context.","dateModified":"2026-09-08","author":{"@id":"https://chrisizworski.com/#person"},"isPartOf":{"@id":"https://chrisizworski.com/#website"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://chrisizworski.com/#person","name":"Chris Izworski","url":"https://chrisizworski.com/"},{"@type":"WebSite","@id":"https://chrisizworski.com/#website","url":"https://chrisizworski.com/","name":"Chris Izworski","author":{"@id":"https://chrisizworski.com/#person"}},{"@type":"CollectionPage","@id":"https://chrisizworski.com/national-tools/night-sky/#page","url":"https://chrisizworski.com/national-tools/night-sky/","name":"Aurora Viewing Planner: Clouds, Darkness & Moon","description":"A northern-lights planning guide with dedicated state tools for Alaska, Minnesota, North Dakota, Montana and Maine, keeping NOAA aurora signal separate from local clouds, darkness and moon context.","dateModified":"2026-09-10","author":{"@id":"https://chrisizworski.com/#person"},"isPartOf":{"@id":"https://chrisizworski.com/#website"}}]}</script>
 <style id="national-hub-editorial">
-[data-hub-location-label][hidden]{display:none!important}
 [data-hub-location-label][hidden]{display:none!important}
 :root{--paper:#f8f7f3;--ink:#302f2a;--green:#3e6545;--muted:#6f6b62}
 body{background:var(--paper);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
@@ -26,6 +25,7 @@ h3{font-size:19px;font-weight:400;line-height:1.35}
 .locator .btn,.secondary-btn{font:600 13px Arial,sans-serif;min-height:44px;border-radius:4px}
 .hub-choice-note{margin:0 0 12px;font-size:15px;color:var(--muted)}
 .location-privacy{font-size:12px}.section-head{margin:22px 0 12px}
+.state-tools{margin-top:28px}.state-tools .section-head{margin-top:0}.state-note{font-size:14px;color:var(--muted);margin:-5px 0 13px}
 .footer{margin-top:28px;font-size:13px;background:#fbfaf7;border-top:1px solid #e8e4dc}
 :focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:680px){.hero h1{font-size:29px}.grid{grid-template-columns:1fr}.head-in{flex-wrap:wrap;gap:12px}.nav{flex-wrap:wrap}.locator .btn,.locator .secondary-btn{flex:1 1 auto}.wrap{padding-inline:18px}}
@@ -35,16 +35,25 @@ h3{font-size:19px;font-weight:400;line-height:1.35}
 <main>
 <section class="hero"><div class="wrap"><div class="eyebrow">Night-sky planning · United States</div><h1>Plan your northern lights viewing night</h1><p class="lede">A strong space-weather number is not the same thing as a good local viewing window. Check the aurora signal, cloud obstruction, darkness and moon context together.</p></div></section>
 <section class="section"><div class="wrap">
-<p class="hub-choice-note">Open a tool below, or add a city or ZIP to carry your place into the related checks.</p>
+<p class="hub-choice-note">Open a tool below, or add a city or ZIP to carry your place into the national aurora check.</p>
 <form class="locator" data-national-hub="night-sky"><input aria-label="U.S. city or ZIP" placeholder="City or ZIP" required><button class="btn" type="submit">Plan viewing here</button><button type="button" class="secondary-btn geo-btn" data-use-location>Use my location</button></form>
 <p class="location-privacy">Optional device location is rounded before lookup and is not sent to analytics.</p><div class="status" aria-live="polite"></div>
 <div data-hub-results><div class="section-head"><div><span class="eyebrow" data-hub-location-label hidden>Viewing near <span data-hub-place>your place</span></span><h2>Open the live aurora tool</h2></div></div>
-<div class="grid"><a class="card tool-card" data-hub-tool="/national-tools/aurora/" href="/national-tools/aurora/"><div class="tool-kicker">Tonight</div><h3>Northern Lights Forecast</h3><p>Combine NOAA OVATION aurora signal, NWS local cloud forecast, darkness and moon context to find the best available viewing window.</p></a>
-<a class="card tool-card" href="/national-tools/"><div class="tool-kicker">Next decision</div><h3>U.S. Outdoor Tools</h3><p>Find another tool for river conditions, fall trips, smoke, gardening or coastal weather.</p></a></div></div>
+<div class="grid"><a class="card tool-card" data-hub-tool="/national-tools/aurora/" href="/national-tools/aurora/"><div class="tool-kicker">Any U.S. location</div><h3>Northern Lights Forecast</h3><p>Combine NOAA OVATION aurora signal, NWS local cloud forecast, darkness and moon context to find the best available viewing window.</p></a>
+<a class="card tool-card" href="/national-tools/"><div class="tool-kicker">Next decision</div><h3>U.S. Outdoor Tools</h3><p>Find another tool for river conditions, fall trips, smoke, gardening or coastal weather.</p></a></div>
+<div class="state-tools"><div class="section-head"><div><div class="eyebrow">Dedicated regional engines</div><h2>State northern lights tools</h2></div></div><p class="state-note">These tools use the same core NOAA and NWS signals but apply state-specific regions, planning thresholds and local viewing context. Their 0–100 Viewing Score is a planning index, not a probability.</p>
+<div class="grid">
+<a class="card tool-card" href="/national-tools/aurora/alaska/"><div class="tool-kicker">Alaska</div><h3>Alaska Northern Lights Tonight</h3><p>Fairbanks and the Interior, Coldfoot, Denali, Talkeetna, Anchorage, Nome and Southeast Alaska. Darkness is explicitly gated during bright-season nights.</p></a>
+<a class="card tool-card" href="/national-tools/aurora/minnesota/"><div class="tool-kicker">Minnesota</div><h3>Minnesota Northern Lights Tonight</h3><p>Voyageurs, Ely and the Boundary Waters, Grand Marais and the Gunflint, Bemidji, Duluth and the North Shore, plus southern Minnesota.</p></a>
+<a class="card tool-card" href="/national-tools/aurora/north-dakota/"><div class="tool-kicker">North Dakota</div><h3>North Dakota Northern Lights Tonight</h3><p>Turtle Mountains, Pembina, Minot, Devils Lake, Theodore Roosevelt country, Bismarck and Fargo with regional viewing thresholds.</p></a>
+<a class="card tool-card" href="/national-tools/aurora/montana/"><div class="tool-kicker">Montana</div><h3>Montana Northern Lights Tonight</h3><p>Glacier, Whitefish and the Flathead, the Hi-Line, Fort Peck, Missoula, Bozeman and Billings with local sky and darkness context.</p></a>
+<a class="card tool-card" href="/national-tools/aurora/maine/"><div class="tool-kicker">Maine</div><h3>Maine Northern Lights Tonight</h3><p>Allagash, Aroostook, Katahdin, Rangeley, Acadia and Downeast, Bangor, and southern Maine with state-specific viewing guidance.</p></a>
+<a class="card tool-card" href="/northern-lights-michigan/"><div class="tool-kicker">Michigan · Existing tool</div><h3>Michigan Northern Lights</h3><p>Use the original Michigan regional aurora tool for Michigan. It remains separate from the new state engines and has not been replaced.</p></a>
+</div></div></div>
 </div></section>
 <section class="section"><div class="wrap grid">
 <div class="source-box"><h2>Kp is context, not a local probability</h2><p>Kp describes planetary geomagnetic activity. It does not tell you by itself whether your exact location has aurora overhead, clear skies or darkness at the right time.</p></div>
-<div class="source-box"><h2>Clouds can erase a strong signal</h2><p>The live tool keeps NWS cloud information separate from the NOAA space-weather signal so a cloudy location does not receive a falsely confident viewing claim.</p></div>
+<div class="source-box"><h2>Clouds can erase a strong signal</h2><p>The live tools keep NWS cloud information separate from the NOAA space-weather signal so a cloudy location does not receive a falsely confident viewing claim.</p></div>
 <div class="source-box"><h2>Darkness defines the usable window</h2><p>Aurora may be active while the sky is still too bright. Sunset and darkness timing narrow the period when the signal can actually be observed.</p></div>
 <div class="source-box"><h2>Moonlight changes contrast, not aurora physics</h2><p>Moon context helps set expectations for visual contrast and photography. It does not strengthen or weaken the underlying geomagnetic event.</p></div>
 <div class="source-box"><h2>Watching from Michigan?</h2><p>Use <a href="/northern-lights-michigan/">Northern Lights Michigan</a> for the regional outlook and viewing locations. For an autumn trip, explore the <a href="/fall-color-northern-lights-michigan/">Michigan fall color and northern lights planner</a>.</p></div>
