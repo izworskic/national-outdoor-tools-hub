@@ -32,6 +32,18 @@
       "destination": "https://monarch-migration-live.vercel.app/national-tools/monarch-migration-live/:path*"
     },
     {
+      "source": "/national-tools/garden-water",
+      "destination": "https://national-garden-water.vercel.app/national-tools/garden-water/"
+    },
+    {
+      "source": "/national-tools/garden-water/",
+      "destination": "https://national-garden-water.vercel.app/national-tools/garden-water/"
+    },
+    {
+      "source": "/national-tools/garden-water/:path*",
+      "destination": "https://national-garden-water.vercel.app/national-tools/garden-water/:path*"
+    },
+    {
       "source": "/national-tools/blue-spring-live/_api/live",
       "destination": "https://blue-spring-live-6h8f.vercel.app/api/live"
     },
