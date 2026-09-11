@@ -18,5 +18,7 @@ jobs:
           node-version: 22
       - run: npm install --ignore-scripts --no-audit --no-fund
       - run: npm test
+      - name: Smoke test Yosemite Firefall engine
+        run: node scripts/verify-yosemite-engine.mjs
       - name: Run production Vercel build pipeline
         run: npm run vercel-build
