@@ -11,7 +11,8 @@ if(!html.includes('data-tool-id="elk-rut"')){
   html=html.replace(marker,`${card}\n${marker}`);
 }
 
-html=html.replace(/(<p class="finder-count" id="finder-count" aria-live="polite">)\d+( tools shown<\/p>)/, '$1'+'23'+'$2');
+const visibleCards=(html.match(/data-search-card/g)||[]).length;
+html=html.replace(/(<p class="finder-count" id="finder-count" aria-live="polite">)\d+( tools shown<\/p>)/, `$1${visibleCards}$2`);
 
 const schemaRe=/<script type="application\/ld\+json">([\s\S]*?)<\/script>/;
 const schemaMatch=html.match(schemaRe);
@@ -34,4 +35,4 @@ list.numberOfItems=list.itemListElement.length;
 html=html.replace(schemaRe,`<script type="application/ld+json">${JSON.stringify(schema)}</script>`);
 
 fs.writeFileSync(path,html,'utf8');
-console.log(`Elk rut discovery synchronized | cards=${(html.match(/data-search-card/g)||[]).length} | structured=${list.numberOfItems}`);
+console.log(`Elk rut discovery synchronized | cards=${visibleCards} | structured=${list.numberOfItems}`);
