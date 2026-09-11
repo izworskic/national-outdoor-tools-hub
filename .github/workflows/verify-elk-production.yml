@@ -1,0 +1,56 @@
+name: Verify Elk Rut Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "vercel.json"
+      - "package.json"
+      - "scripts/sync-elk-rut-discovery.mjs"
+      - "scripts/verify-directory.mjs"
+      - ".github/workflows/verify-elk-production.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for production and verify elk routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          HUB_PAGE="https://national-outdoor-tools-hub.vercel.app/national-tools/elk-rut/"
+          HUB_API="https://national-outdoor-tools-hub.vercel.app/national-tools/elk-rut/_api/live"
+          PUBLIC_PAGE="https://chrisizworski.com/national-tools/elk-rut/"
+          PUBLIC_DIR="https://chrisizworski.com/national-tools/"
+
+          for attempt in $(seq 1 18); do
+            echo "Smoke attempt ${attempt}/18"
+            page="$(curl -fsSL --max-time 20 "$HUB_PAGE" || true)"
+            api="$(curl -fsSL --max-time 20 "$HUB_API" || true)"
+            public_page="$(curl -fsSL --max-time 20 "$PUBLIC_PAGE" || true)"
+            directory="$(curl -fsSL --max-time 20 "$PUBLIC_DIR" || true)"
+
+            if [[ "$page" == *"Rocky Mountain Elk Rut Live"* ]] \
+              && [[ "$page" == *"G-Y5D2V2W7HN"* ]] \
+              && [[ "$api" == *'"schemaVersion": 1'* ]] \
+              && [[ "$api" == *'"primary"'* ]] \
+              && [[ "$public_page" == *"Rocky Mountain Elk Rut Live"* ]] \
+              && [[ "$public_page" == *"G-Y5D2V2W7HN"* ]] \
+              && [[ "$directory" == *'data-tool-id="elk-rut"'* ]]; then
+              echo "Elk production smoke test: PASS"
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "Elk production smoke test: FAIL"
+          echo "Hub page bytes: ${#page}"
+          echo "Hub API bytes: ${#api}"
+          echo "Public page bytes: ${#public_page}"
+          echo "Directory bytes: ${#directory}"
+          exit 1
