@@ -7,7 +7,7 @@ const html=fs.readFileSync(file,'utf8');
 const checks=[
   ['canonical link',html.includes(`href="${url}"`)],
   ['tool name',html.includes('Platte Crane Live')],
-  ['wildlife library',html.includes('Wildlife and migration tools')],
+  ['single catalog card',(html.match(/data-tool-id="platte-cranes"/g)||[]).length===1],
   ['data-source line',html.includes('Crane Trust + USGS + NOAA/NWS')]
 ];
 

@@ -11,7 +11,7 @@ const dist=path.join(root,'dist');
 const targetDir='public/national-tools/gauley-release-live';
 const target=path.join(targetDir,'index.html');
 const canonical='https://chrisizworski.com/national-tools/gauley-release-live/';
-const sourceCommit='c124a15a0d1a260fe4dd883a3adf830e3bb26c28';
+const sourceCommit='63cec09963093b5aa903245dda90388fc8edc988';
 
 execFileSync(process.execPath,[buildScript],{cwd:root,stdio:'inherit'});
 let html=fs.readFileSync(path.join(dist,'index.html'),'utf8')
