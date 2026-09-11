@@ -20,6 +20,8 @@ assert.match(html,/national-tools-directory\.css/);
 assert.match(html,/national-tools-directory\.js/);
 assert.match(css,/\.directory-card/);
 assert.match(js,/data-search-card/);
+assert.match(html,/data-tool-id="elk-rut"/,'elk rut discovery card missing');
+assert.match(html,/href="https:\/\/chrisizworski\.com\/national-tools\/elk-rut\/"/,'elk rut canonical link missing');
 
 const schemaText=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
 assert.ok(schemaText,'national ItemList schema missing');
