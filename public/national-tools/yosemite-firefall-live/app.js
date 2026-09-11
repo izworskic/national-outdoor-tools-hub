@@ -1,4 +1,4 @@
-const API='https://national-outdoor-tools-hub.vercel.app/api/yosemite-firefall';
+const API='/national-tools/yosemite-firefall-live/_api/live';
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const prettyDate=value=>{if(!value)return '—';const d=new Date(`${value}T12:00:00-08:00`);return new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',weekday:'short',month:'short',day:'numeric'}).format(d)};
