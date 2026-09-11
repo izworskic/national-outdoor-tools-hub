@@ -1,0 +1,37 @@
+name: Diagnose Elk Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/diagnose-elk-production.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect live endpoints
+        shell: bash
+        run: |
+          set +e
+          for url in \
+            "https://national-outdoor-tools-hub.vercel.app/national-tools/elk-rut/" \
+            "https://national-outdoor-tools-hub.vercel.app/national-tools/elk-rut/_api/live" \
+            "https://national-outdoor-tools-hub.vercel.app/national-tools/" \
+            "https://chrisizworski.com/national-tools/elk-rut/" \
+            "https://chrisizworski.com/national-tools/"; do
+            echo "===== $url ====="
+            curl -sS -L --max-time 20 -D /tmp/headers "$url" -o /tmp/body
+            code=$?
+            echo "curl_exit=$code"
+            cat /tmp/headers | grep -Ei '^(HTTP/|cache-control:|age:|x-vercel-|cf-cache-status:|server:|location:)' || true
+            echo "bytes=$(wc -c </tmp/body)"
+            grep -o -m1 'Rocky Mountain Elk Rut Live' /tmp/body || true
+            grep -o -m1 'data-tool-id="elk-rut"' /tmp/body || true
+            grep -o -m1 '"schemaVersion": 1' /tmp/body || true
+            grep -o -m1 '22 tools shown\|23 tools shown\|24 tools shown' /tmp/body || true
+          done
