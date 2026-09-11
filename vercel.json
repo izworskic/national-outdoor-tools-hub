@@ -6,7 +6,8 @@
     "api/national-waterfall-window-v4.js": { "maxDuration": 25 },
     "api/national-waterfall-window-v5.js": { "maxDuration": 25 },
     "api/gauley-live.js": { "maxDuration": 25 },
-    "api/gauley-history.js": { "maxDuration": 25 }
+    "api/gauley-history.js": { "maxDuration": 25 },
+    "api/elk-rut-live.js": { "maxDuration": 25 }
   },
   "redirects": [
     { "source": "/national-tools/niagara-falls-rainbow-planner", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
