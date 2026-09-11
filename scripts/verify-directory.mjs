@@ -6,9 +6,9 @@ const css=fs.readFileSync('public/national-tools/assets/national-tools-directory
 const js=fs.readFileSync('public/national-tools/assets/national-tools-directory.js','utf8');
 const cardIds=[...html.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1]);
 
-assert.equal(cardIds.length,22,'directory should render 22 tool cards');
+assert.equal(cardIds.length,23,'directory should render 23 tool cards');
 assert.equal(new Set(cardIds).size,cardIds.length,'every tool card needs one unique ID');
-assert.equal((html.match(/data-search-card/g)||[]).length,22,'search index and visible card count drifted');
+assert.equal((html.match(/data-search-card/g)||[]).length,23,'search index and visible card count drifted');
 assert.doesNotMatch(html,/class="(?:[^"]*\s)?(?:intent-card|feature-card|tool-card)(?:\s|\")/,'legacy duplicate-card surface returned');
 assert.doesNotMatch(html,/class="(?:[^"]*\s)?(?:decision-network|featured-tools|library-group)(?:\s|\")/,'legacy duplicate section returned');
 
@@ -26,7 +26,7 @@ assert.ok(schemaText,'national ItemList schema missing');
 const schema=JSON.parse(schemaText);
 const list=schema?.['@graph']?.find(item=>item?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
 assert.ok(list,'national ItemList missing');
-assert.equal(list.numberOfItems,23,'structured tool count drifted');
+assert.equal(list.numberOfItems,24,'structured tool count drifted');
 assert.equal(list.numberOfItems,list.itemListElement.length,'structured tool count must match ItemList entries');
 assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,list.itemListElement.length,'ItemList URLs must be unique');
 list.itemListElement.forEach((item,index)=>{
