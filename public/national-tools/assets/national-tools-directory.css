@@ -75,3 +75,6 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 @media(max-width:900px){.persona-picks{grid-template-columns:repeat(2,minmax(0,1fr))}.persona-pick:first-child{grid-column:1/-1}.guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.header{padding:24px 16px 18px}.nav{gap:8px 0}.page{padding:30px 16px 56px}.hero h1{font-size:30px}.finder{padding:16px}.finder-head,.catalog-head{display:block}.finder-hint{margin-top:6px;text-align:left}.persona-picks,.catalog-grid,.guide-grid{grid-template-columns:1fr}.persona-pick:first-child{grid-column:auto}.search-row{grid-template-columns:1fr}.catalog-head p{margin-top:6px}.directory-card{min-height:0}.guide-strip{padding:20px}.finder-status{align-items:flex-start;flex-direction:column;gap:3px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.persona-pick{transition:none}}
+.season-now{margin:0 0 30px;padding:18px 20px;border:1px solid var(--panel-line);border-top:4px solid var(--accent);border-radius:5px;background:var(--surface)}
+.season-now h2{margin:0 0 8px;color:var(--accent);font:normal 22px/1.25 Georgia,"Times New Roman",serif}
+.season-now p{margin:0;color:#3a3a3a;font-size:15px;line-height:1.7}
