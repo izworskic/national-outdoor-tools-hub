@@ -42,6 +42,18 @@
       "destination": "/api/gauley-history"
     },
     {
+      "source": "/national-tools/elk-rut",
+      "destination": "https://cdn.jsdelivr.net/gh/izworskic/rocky-mountain-elk-rut-live@a0b1247a6c7e844033461c5c27c8a57b92b540c4/public/national-tools/elk-rut/index.html"
+    },
+    {
+      "source": "/national-tools/elk-rut/",
+      "destination": "https://cdn.jsdelivr.net/gh/izworskic/rocky-mountain-elk-rut-live@a0b1247a6c7e844033461c5c27c8a57b92b540c4/public/national-tools/elk-rut/index.html"
+    },
+    {
+      "source": "/national-tools/elk-rut/_api/live",
+      "destination": "https://raw.githubusercontent.com/izworskic/rocky-mountain-elk-rut-live/main/public/v1/live.json"
+    },
+    {
       "source": "/national-tools/fort-madison-live",
       "destination": "https://fort-madison-live.vercel.app/"
     },
