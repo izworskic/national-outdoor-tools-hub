@@ -8,7 +8,9 @@
     "validate:production": "node scripts/validate-national-production.mjs"
   },
   "dependencies": {
-    "gauley-release-live": "github:izworskic/gauley-release-live-#63cec09963093b5aa903245dda90388fc8edc988"
+    "gauley-release-live": "github:izworskic/gauley-release-live-#63cec09963093b5aa903245dda90388fc8edc988",
+    "tsx": "^4.20.5",
+    "yosemite-firefall-live": "github:izworskic/yosemite-firefall-live#cbf5bba718e876325159558f4ab79bef20c6e24f"
   },
   "engines": {
     "node": "22.x"
