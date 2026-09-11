@@ -1,6 +1,7 @@
+import 'tsx';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
-import { tsImport } from 'tsx/esm/api';
+import { pathToFileURL } from 'node:url';
 
 const require = createRequire(import.meta.url);
 let modelPromise;
@@ -9,7 +10,7 @@ async function loadModel() {
   if (!modelPromise) {
     const packageJson = require.resolve('yosemite-firefall-live/package.json');
     const modelPath = join(dirname(packageJson), 'lib', 'model.ts');
-    modelPromise = tsImport(modelPath, import.meta.url);
+    modelPromise = import(pathToFileURL(modelPath).href);
   }
   return modelPromise;
 }
