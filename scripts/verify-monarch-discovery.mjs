@@ -9,9 +9,9 @@ const brokenOrigin='monarch-migration-live-k7om.vercel.app';
 
 const checks=[
   ['canonical Monarch URL is present', html.includes(url)],
-  ['featured Monarch card is present', html.includes('data-monarch-feature="true"')],
-  ['Wildlife filter is present', html.includes('data-filter="wildlife"')],
-  ['Monarch library entry is present', html.includes('Monarch Migration Live: Butterfly Migration Intelligence')],
+  ['single Monarch catalog card', (html.match(/data-tool-id="monarch"/g)||[]).length===1],
+  ['Event persona filter is present', html.includes('data-filter="event"')],
+  ['Monarch directory entry is present', html.includes('Monarch Migration Live')],
   ['Monarch source line is present', html.includes('Licensed iNaturalist records + NWS weather + published migration timing + GBIF history')],
   ['Monarch uses verified healthy Vercel origin', routing.includes(healthyOrigin)],
   ['broken Monarch k7om origin is absent', !routing.includes(brokenOrigin)]

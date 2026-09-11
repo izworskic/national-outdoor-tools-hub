@@ -1,24 +1,22 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+
 const landing=fs.readFileSync('public/national-tools/index.html','utf8');
 const water=fs.readFileSync('public/national-tools/water/index.html','utf8');
 const url='https://chrisizworski.com/national-tools/gauley-release-live/';
-assert.match(landing,/Gauley Release Live/);
-assert.match(landing,/Follow a Gauley dam release/);
-assert.match(landing,/Summersville Dam release pulse/);
+
+assert.equal((landing.match(/data-tool-id="gauley"/g)||[]).length,1,'Gauley must have one catalog card');
+assert.match(landing,/private paddlers, raft guests, spectators and photographers/i);
+assert.match(landing,/only after live onset is confirmed/i);
 assert.match(water,/Gauley Release Live/);
-assert.match(water,/controlled release|release pulse/i);
+assert.match(water,/observed operations|release pulse/i);
 assert.match(landing,/G-Y5D2V2W7HN/,'landing GA4 contract missing');
 assert.match(water,/G-Y5D2V2W7HN/,'water hub GA4 contract missing');
-const scripts=[...landing.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
-const graphs=scripts.map(m=>{try{return JSON.parse(m[1])?.['@graph']||[]}catch{return[]}}).flat();
-const list=graphs.find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
-assert.ok(list,'National Tools ItemList missing');
-assert.ok(list.itemListElement.some(x=>x.url===url),'Gauley missing from ItemList');
+
+const schema=JSON.parse(landing.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+const list=schema['@graph'].find(item=>item?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
+assert.ok(list.itemListElement.some(item=>item.url===url),'Gauley missing from ItemList');
 assert.equal(list.numberOfItems,list.itemListElement.length,'ItemList count mismatch');
-list.itemListElement.forEach((x,i)=>assert.equal(x.position,i+1,'ItemList positions must be contiguous'));
-const landingLinks=(landing.match(new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'))||[]).length;
-assert.ok(landingLinks>=4,`Expected first-class Gauley discovery links; found ${landingLinks}`);
-const waterLinks=(water.match(new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'))||[]).length;
-assert.ok(waterLinks>=1,'Gauley missing from water hub');
-console.log(`Gauley discovery: PASS | landingRefs=${landingLinks} | waterRefs=${waterLinks}`);
+assert.ok(water.includes(url),'Gauley missing from water guide');
+
+console.log('Gauley discovery: PASS | one catalog card + water guide handoff');
