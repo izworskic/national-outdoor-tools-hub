@@ -27,6 +27,18 @@
   ],
   "rewrites": [
     {
+      "source": "/national-tools/yosemite-firefall-live",
+      "destination": "/national-tools/yosemite-firefall-live/index.html"
+    },
+    {
+      "source": "/national-tools/yosemite-firefall-live/",
+      "destination": "/national-tools/yosemite-firefall-live/index.html"
+    },
+    {
+      "source": "/national-tools/yosemite-firefall-live/_api/live",
+      "destination": "/api/yosemite-firefall"
+    },
+    {
       "source": "/national-tools/gauley-release-live",
       "destination": "/national-tools/gauley-release-live/index.html"
     },
