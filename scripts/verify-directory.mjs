@@ -20,8 +20,14 @@ assert.match(html,/national-tools-directory\.css/);
 assert.match(html,/national-tools-directory\.js/);
 assert.match(css,/\.directory-card/);
 assert.match(js,/data-search-card/);
+assert.match(html,/id="national-tools-title"/,'national utilities section missing');
+assert.match(html,/id="regional-tools-title"/,'regional collections section missing');
+for(const region of ['northeast-great-lakes','appalachia-ohio-valley','southeast','mississippi-great-plains','rockies','california-sierra','pacific-northwest']){
+  assert.match(html,new RegExp(`id="region-${region}"`),`missing regional collection ${region}`);
+}
 assert.match(html,/data-tool-id="elk-rut"/,'elk rut discovery card missing');
 assert.match(html,/href="https:\/\/chrisizworski\.com\/national-tools\/elk-rut\/"/,'elk rut canonical link missing');
+assert.match(html,/data-tool-id="yosemite-firefall"/,'Yosemite Firefall discovery card missing');
 
 const schemaText=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
 assert.ok(schemaText,'national ItemList schema missing');
