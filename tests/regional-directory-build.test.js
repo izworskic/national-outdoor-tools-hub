@@ -9,11 +9,20 @@ const root=path.join(__dirname,'..');
 
 test('regional organizer preserves the existing directory while separating national and regional tools',()=>{
   const source=path.join(root,'public','national-tools','index.html');
-  const before=fs.readFileSync(source,'utf8');
-  const beforeIds=[...before.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1]).sort();
   const tempDir=fs.mkdtempSync(path.join(os.tmpdir(),'national-tools-regions-'));
   const tempFile=path.join(tempDir,'index.html');
   fs.copyFileSync(source,tempFile);
+
+  const sync=spawnSync(process.execPath,[path.join(root,'scripts','sync-thunder-hole-discovery.mjs')],{
+    cwd:root,
+    env:{...process.env,NATIONAL_TOOLS_DIRECTORY_FILE:tempFile},
+    encoding:'utf8'
+  });
+  assert.equal(sync.status,0,sync.stderr||sync.stdout);
+
+  const before=fs.readFileSync(tempFile,'utf8');
+  const beforeIds=[...before.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1]).sort();
+  assert.ok(beforeIds.includes('thunder-hole'),'Thunder Hole should be present before regional organization');
 
   const run=spawnSync(process.execPath,[path.join(root,'scripts','organize-regional-directory.mjs')],{
     cwd:root,
@@ -42,6 +51,7 @@ test('regional organizer preserves the existing directory while separating natio
   assert.match(nationalBlock,/data-tool-id="rivers"/);
   assert.match(nationalBlock,/data-tool-id="aurora"/);
   assert.match(nationalBlock,/data-tool-id="monarch"/);
+  assert.match(regionalBlock,/data-tool-id="thunder-hole"/);
   assert.match(regionalBlock,/data-tool-id="gauley"/);
   assert.match(regionalBlock,/data-tool-id="fort-madison"/);
   assert.match(regionalBlock,/data-tool-id="ballard-locks"/);
