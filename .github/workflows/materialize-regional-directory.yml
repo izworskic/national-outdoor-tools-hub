@@ -1,0 +1,37 @@
+name: Materialize regional National Tools directory
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Materialize build-time discovery cards
+        run: |
+          node scripts/sync-yosemite-firefall.mjs
+          node scripts/sync-elk-rut-discovery.mjs
+      - name: Organize national and regional collections
+        run: node scripts/organize-regional-directory.mjs
+      - name: Verify organized directory
+        run: node scripts/verify-directory.mjs
+      - name: Commit organized directory
+        run: |
+          if git diff --quiet -- public/national-tools/index.html; then
+            echo "National Tools directory is already organized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/national-tools/index.html
+          git commit -m "Materialize regional National Tools directory"
+          git push

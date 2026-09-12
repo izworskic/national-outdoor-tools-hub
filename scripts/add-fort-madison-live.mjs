@@ -6,6 +6,14 @@ const url='https://chrisizworski.com/national-tools/fort-madison-live/';
 const name='Fort Madison Live: Trains, Barges & Swing Bridge Openings';
 
 let html=fs.readFileSync(landingFile,'utf8');
+const existingWater=fs.readFileSync(waterFile,'utf8');
+
+// Fort Madison is now checked into the current directory and water guide.
+// Older materialization anchors no longer exist, so a fully integrated page is already done.
+if(html.includes('data-tool-id="fort-madison"')&&html.includes(url)&&existingWater.includes(url)){
+  console.log('Fort Madison discovery already materialized in the current directory and water guide.');
+  process.exit(0);
+}
 
 // Keep the CollectionPage ItemList accurate and give Fort Madison one canonical owner.
 const schemaRe=/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
@@ -29,7 +37,7 @@ while((match=schemaRe.exec(html))){
   }catch{}
 }
 
-// Rebuild Fort Madison discovery surfaces idempotently on every deploy.
+// Legacy fallback for older directory snapshots that do not yet contain Fort Madison.
 html=html.replace(/<li><a href="[^"]*fort-madison-live[^"]*">[\s\S]*?<\/li>/gi,'');
 html=html.replace(/<article class="feature-card"[^>]*data-tags="[^"]*fort madison[^"]*"[\s\S]*?<\/article>\s*/gi,'');
 html=html.replace(/<article class="tool-card"[^>]*data-tags="[^"]*fort madison[^"]*"[\s\S]*?<\/article>/gi,'');
@@ -55,7 +63,7 @@ const card=`<article class="tool-card" data-search-card data-tags="fort madison 
 html=html.slice(0,insertAt)+card+html.slice(insertAt);
 fs.writeFileSync(landingFile,html);
 
-let water=fs.readFileSync(waterFile,'utf8');
+let water=existingWater;
 water=water.replace(/<a class="card tool-card"[^>]*data-tags="[^"]*fort madison[^"]*"[\s\S]*?<\/a>/gi,'');
 water=water.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/,'"dateModified":"2026-09-10"');
 const waterAnchor='<div class="grid">';
