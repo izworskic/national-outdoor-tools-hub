@@ -19,9 +19,9 @@ function toolListSchema(){
 test('national landing is one persona-organized specialist directory',()=>{
   for(const filter of ['all','trip','conditions','event','garden'])assert.match(html,new RegExp(`data-filter="${filter}"`));
   assert.match(html,/What do you want to do\?/);
-  assert.match(html,/These choices filter one catalog/);
-  assert.equal((html.match(/data-tool-id="/g)||[]).length,22);
-  assert.equal(new Set([...html.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1])).size,22);
+  assert.match(html,/Filter every tool by intent/);
+  assert.equal((html.match(/data-tool-id="/g)||[]).length,24);
+  assert.equal(new Set([...html.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1])).size,24);
   assert.doesNotMatch(html,/intent-card|feature-card|library-group|decision-network|featured-tools/);
 });
 
@@ -34,9 +34,9 @@ test('every core and newly launched tool stays directly crawlable',()=>{
 test('structured directory is complete, unique and contiguous',()=>{
   const list=toolListSchema();
   assert.ok(list);
-  assert.equal(list.numberOfItems,23);
+  assert.equal(list.numberOfItems,25);
   assert.equal(list.numberOfItems,list.itemListElement.length);
-  assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,23);
+  assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,25);
   list.itemListElement.forEach((item,index)=>assert.equal(item.position,index+1));
   assert.ok(list.itemListElement.some(item=>item.name==='Niagara Falls Rainbow Predictor'));
   assert.ok(list.itemListElement.some(item=>item.name==='Lake Ice-Out Forecast'));
