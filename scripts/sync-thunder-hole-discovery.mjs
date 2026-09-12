@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-const file='public/national-tools/index.html';
+const file=process.env.NATIONAL_TOOLS_DIRECTORY_FILE || 'public/national-tools/index.html';
 const url='https://chrisizworski.com/national-tools/thunder-hole-live/';
 const name='Thunder Hole Live: Best Time to Hear the Boom';
 let html=fs.readFileSync(file,'utf8');
