@@ -18,7 +18,7 @@ const nationalIds = [
 ];
 
 const regions = [
-  { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes new york niagara', description:'Destination intelligence for major-water trips where local weather, sun, mist and timing can change the experience.', ids:['niagara-rainbow'] },
+  { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes new york niagara maine acadia thunder hole', description:'Destination intelligence for major-water trips where local weather, sun, mist, tide and timing can change the experience.', ids:['niagara-rainbow','thunder-hole'] },
   { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky', description:'Release timing and rare viewing windows across a mountain-and-river corridor built around trips that depend on the right moment.', ids:['gauley','cumberland-moonbow'] },
   { id:'southeast', name:'Southeast', search:'southeast florida gulf atlantic', description:'Warm-water wildlife and seasonal destination timing for trips where conditions can change the best day or hour to arrive.', ids:['blue-spring'] },
   { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'] },
@@ -28,7 +28,7 @@ const regions = [
 ];
 
 const baseIds = [
-  'gauley','niagara-rainbow','cumberland-moonbow','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee',
+  'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee',
   'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
 ];
 const missingBase = baseIds.filter(id => !cards.has(id));
@@ -43,6 +43,7 @@ const renderCards = (ids, extraTags = '') => ids.filter(id => cards.has(id)).map
   if (!extraTags) return card;
   card = card.replace(/data-tags="([^"]*)"/, (_match, tags) => {
     const cleanTags = tags
+      .replace(/\s+northeast great lakes new york niagara maine acadia thunder hole/g,'')
       .replace(/\s+northeast great lakes new york niagara/g,'')
       .replace(/\s+appalachia appalachian ohio valley west virginia kentucky/g,'')
       .replace(/\s+southeast florida gulf atlantic/g,'')

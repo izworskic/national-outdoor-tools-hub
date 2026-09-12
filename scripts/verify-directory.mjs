@@ -5,9 +5,12 @@ const html=fs.readFileSync('public/national-tools/index.html','utf8');
 const cardCount=html.split('data-search-card').length-1;
 const schemaText=html.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
 
-assert.equal(cardCount,24,'directory should render 24 tool cards');
+assert.equal(cardCount,25,'directory should render 25 tool cards');
 assert.ok(html.includes('data-tool-id="elk-rut"'),'elk rut discovery card missing');
 assert.ok(html.includes('data-tool-id="yosemite-firefall"'),'Yosemite Firefall discovery card missing');
+assert.ok(html.includes('data-tool-id="thunder-hole"'),'Thunder Hole discovery card missing');
+assert.ok(html.includes('href="https://chrisizworski.com/national-tools/thunder-hole-live/"'),'Thunder Hole canonical discovery link missing');
+assert.ok(html.includes('id="region-northeast-great-lakes"'),'Northeast & Great Lakes collection missing');
 assert.ok(html.includes('data-season-toggle'),'season filter missing');
 assert.ok(html.includes('national-tools-directory.css'),'directory stylesheet missing');
 assert.ok(html.includes('national-tools-directory.js'),'directory script missing');
@@ -23,9 +26,10 @@ assert.ok(schemaText,'national ItemList schema missing');
 const schema=JSON.parse(schemaText);
 const list=schema?.['@graph']?.find(item=>item?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
 assert.ok(list,'national ItemList missing');
-assert.equal(list.numberOfItems,25,'structured tool count drifted');
-assert.equal(list.itemListElement.length,25,'structured ItemList length drifted');
-assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,25,'ItemList URLs must be unique');
+assert.equal(list.numberOfItems,26,'structured tool count drifted');
+assert.equal(list.itemListElement.length,26,'structured ItemList length drifted');
+assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,26,'ItemList URLs must be unique');
+assert.ok(list.itemListElement.some(item=>item.url==='https://chrisizworski.com/national-tools/thunder-hole-live/'),'Thunder Hole missing from ItemList');
 list.itemListElement.forEach((item,index)=>assert.equal(item.position,index+1,'ItemList positions must be contiguous'));
 
 console.log(`National directory: PASS | cards=${cardCount} | structuredTools=${list.numberOfItems}`);
