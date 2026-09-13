@@ -1,1 +1,288 @@
-PLACEHOLDER
+{
+  "schemaVersion": "1.0.0",
+  "created": "2026-09-13",
+  "objective": "Prioritize National Outdoor Tools toward a long-range target of 1,000,000 Google Search impressions per day without weakening existing source, canonical, or search-quality governance.",
+  "relationshipToExistingGovernance": {
+    "productBenchmark": "benchmarks/national-outdoor-tools.json",
+    "candidateBenchmark": "benchmarks/national-intelligence-candidates-2026-09-02.json",
+    "rule": "Scale Score does not authorize a build or an indexable route. Existing hard vetoes, source/loss gates, canonical rules, location-admission rules, and production benchmark remain controlling."
+  },
+  "scaleScore": {
+    "weights": {
+      "searchSurface": 25,
+      "repeatDemand": 20,
+      "geographicScale": 15,
+      "dataQuality": 15,
+      "uniqueAnswerPotential": 10,
+      "competitionGap": 5,
+      "repeatVisitPotential": 5,
+      "internalLinkSynergy": 5
+    },
+    "interpretation": {
+      "90-100": "network anchor",
+      "85-89.9": "priority engine or lens",
+      "80-84.9": "selective build/research",
+      "below-80": "destination/niche/supporting value unless other evidence changes"
+    },
+    "note": "Scores are strategic prioritization estimates, not keyword-volume or traffic forecasts. Re-score with Search Console and post-launch analytics."
+  },
+  "recommendedSequence": {
+    "foundation": [
+      "River Conditions & Forecast",
+      "Coastal Water Window",
+      "Night Sky Clear/Dark Window",
+      "Snowpack & Melt",
+      "Aurora Visibility",
+      "Planting Calendar"
+    ],
+    "unblock": [
+      "Smoke / Clear-Air Window",
+      "Wildfire Trip Impact"
+    ],
+    "firstNewPrototype": "National Park Conditions Desk",
+    "currentSeasonAcquisition": [
+      "Fall Color Progression",
+      "Frost / Freeze Timing",
+      "Bird Migration Intelligence",
+      "Monarch Migration",
+      "Elk Rut Timing"
+    ],
+    "rule": "Deepen and measure existing anchors while prototyping one new scalable family at a time."
+  },
+  "engines": [
+    {
+      "rank": 1,
+      "name": "River Conditions & Forecast",
+      "category": "Evergreen",
+      "status": "existing",
+      "scaleScore": 95.2,
+      "factors": {"searchSurface":96,"repeatDemand":95,"geographicScale":100,"dataQuality":98,"uniqueAnswerPotential":94,"competitionGap":72,"repeatVisitPotential":95,"internalLinkSynergy":96},
+      "nextMove": "Deepen current Rivers with rain/NWPS context; migrate fully to modern USGS APIs."
+    },
+    {
+      "rank": 2,
+      "name": "Coastal Water Window",
+      "category": "Evergreen",
+      "status": "existing",
+      "scaleScore": 93.3,
+      "factors": {"searchSurface":95,"repeatDemand":94,"geographicScale":95,"dataQuality":96,"uniqueAnswerPotential":92,"competitionGap":72,"repeatVisitPotential":94,"internalLinkSynergy":92},
+      "nextMove": "Production-verified; expand by meaningful coastal regions/places, not keyword permutations."
+    },
+    {
+      "rank": 3,
+      "name": "Smoke / Clear-Air Window",
+      "category": "Evergreen",
+      "status": "blocked",
+      "scaleScore": 93.3,
+      "factors": {"searchSurface":96,"repeatDemand":94,"geographicScale":100,"dataQuality":86,"uniqueAnswerPotential":94,"competitionGap":72,"repeatVisitPotential":96,"internalLinkSynergy":96},
+      "nextMove": "Very large surface; unblock AirNow/FIRMS configuration before indexable launch."
+    },
+    {
+      "rank": 4,
+      "name": "National Park Conditions Desk",
+      "category": "Evergreen",
+      "status": "new",
+      "scaleScore": 92.4,
+      "factors": {"searchSurface":96,"repeatDemand":88,"geographicScale":98,"dataQuality":90,"uniqueAnswerPotential":92,"competitionGap":78,"repeatVisitPotential":90,"internalLinkSynergy":100},
+      "nextMove": "Park-by-park decision pages from NPS alerts + NWS + activity-specific conditions."
+    },
+    {
+      "rank": 5,
+      "name": "Paddling Conditions Window",
+      "category": "Evergreen",
+      "status": "new-lens",
+      "scaleScore": 91.0,
+      "factors": {"searchSurface":90,"repeatDemand":91,"geographicScale":92,"dataQuality":95,"uniqueAnswerPotential":91,"competitionGap":72,"repeatVisitPotential":94,"internalLinkSynergy":96},
+      "nextMove": "Activity lens from wind, precip, flow/waves, temp and warnings; no universal safety score."
+    },
+    {
+      "rank": 6,
+      "name": "Flood / High-Water Trip Impact",
+      "category": "Seasonal+Evergreen",
+      "status": "new",
+      "scaleScore": 91.0,
+      "factors": {"searchSurface":92,"repeatDemand":86,"geographicScale":100,"dataQuality":92,"uniqueAnswerPotential":91,"competitionGap":72,"repeatVisitPotential":91,"internalLinkSynergy":96},
+      "nextMove": "NWPS/USGS/NWS synthesis for recreation/travel impact without replacing warnings."
+    },
+    {
+      "rank": 7,
+      "name": "Night Sky Clear/Dark Window",
+      "category": "Evergreen",
+      "status": "existing",
+      "scaleScore": 90.6,
+      "factors": {"searchSurface":91,"repeatDemand":88,"geographicScale":100,"dataQuality":92,"uniqueAnswerPotential":88,"competitionGap":66,"repeatVisitPotential":92,"internalLinkSynergy":95},
+      "nextMove": "Deepen existing canonical; combine clouds, darkness, moon and smoke when available."
+    },
+    {
+      "rank": 8,
+      "name": "Snowpack & Melt",
+      "category": "Seasonal+Evergreen",
+      "status": "existing",
+      "scaleScore": 90.5,
+      "factors": {"searchSurface":92,"repeatDemand":89,"geographicScale":88,"dataQuality":96,"uniqueAnswerPotential":91,"competitionGap":77,"repeatVisitPotential":90,"internalLinkSynergy":92},
+      "nextMove": "Production-verified; Western mountain + northern snowbelt expansion."
+    },
+    {
+      "rank": 9,
+      "name": "Aurora Visibility",
+      "category": "Seasonal+Evergreen",
+      "status": "existing",
+      "scaleScore": 90.2,
+      "factors": {"searchSurface":94,"repeatDemand":82,"geographicScale":92,"dataQuality":94,"uniqueAnswerPotential":92,"competitionGap":76,"repeatVisitPotential":93,"internalLinkSynergy":94},
+      "nextMove": "Continue state/destination expansion only where sky geometry and local context differ."
+    },
+    {
+      "rank": 10,
+      "name": "Planting Calendar",
+      "category": "Seasonal+Evergreen",
+      "status": "existing",
+      "scaleScore": 89.9,
+      "factors": {"searchSurface":94,"repeatDemand":84,"geographicScale":100,"dataQuality":92,"uniqueAnswerPotential":85,"competitionGap":65,"repeatVisitPotential":86,"internalLinkSynergy":95},
+      "nextMove": "Connect frost, soil/climate, crop timing and garden decision logic."
+    },
+    {
+      "rank": 11,
+      "name": "Bird Migration Intelligence",
+      "category": "Seasonal",
+      "status": "new",
+      "scaleScore": 89.8,
+      "factors": {"searchSurface":93,"repeatDemand":78,"geographicScale":98,"dataQuality":92,"uniqueAnswerPotential":94,"competitionGap":74,"repeatVisitPotential":88,"internalLinkSynergy":98},
+      "nextMove": "BirdCast + eBird/NWS synthesis; county/metro/destination surfaces with migration timing."
+    },
+    {
+      "rank": 12,
+      "name": "Garden Water Stress",
+      "category": "Seasonal+Evergreen",
+      "status": "existing-enhancement",
+      "scaleScore": 89.8,
+      "factors": {"searchSurface":89,"repeatDemand":90,"geographicScale":100,"dataQuality":86,"uniqueAnswerPotential":88,"competitionGap":72,"repeatVisitPotential":93,"internalLinkSynergy":92},
+      "nextMove": "Extend Garden with rain, drought and conservative watering context."
+    },
+    {
+      "rank": 13,
+      "name": "Beach / Swim Decision",
+      "category": "Seasonal",
+      "status": "existing-lens",
+      "scaleScore": 89.7,
+      "factors": {"searchSurface":94,"repeatDemand":82,"geographicScale":95,"dataQuality":93,"uniqueAnswerPotential":90,"competitionGap":70,"repeatVisitPotential":88,"internalLinkSynergy":94},
+      "nextMove": "Use official beach risk plus wave/water-temp context inside Coastal."
+    },
+    {
+      "rank": 14,
+      "name": "Frost / Freeze Timing",
+      "category": "Seasonal",
+      "status": "existing",
+      "scaleScore": 89.6,
+      "factors": {"searchSurface":96,"repeatDemand":74,"geographicScale":100,"dataQuality":96,"uniqueAnswerPotential":89,"competitionGap":72,"repeatVisitPotential":82,"internalLinkSynergy":96},
+      "nextMove": "Huge local search surface; city/region pages require climatology + current forecast distinction."
+    },
+    {
+      "rank": 15,
+      "name": "Wildfire Trip Impact",
+      "category": "Seasonal+Evergreen",
+      "status": "blocked",
+      "scaleScore": 89.0,
+      "factors": {"searchSurface":94,"repeatDemand":88,"geographicScale":96,"dataQuality":72,"uniqueAnswerPotential":93,"competitionGap":77,"repeatVisitPotential":94,"internalLinkSynergy":97},
+      "nextMove": "High-value trip question; blocked by FIRMS + incident/closure normalization."
+    },
+    {
+      "rank": 16,
+      "name": "Heat Exposure Window",
+      "category": "Seasonal",
+      "status": "new-lens",
+      "scaleScore": 89.0,
+      "factors": {"searchSurface":91,"repeatDemand":82,"geographicScale":100,"dataQuality":90,"uniqueAnswerPotential":88,"competitionGap":67,"repeatVisitPotential":88,"internalLinkSynergy":95},
+      "nextMove": "Activity timing using NWS heat products and hourly conditions."
+    },
+    {
+      "rank": 17,
+      "name": "Tide / Current Window",
+      "category": "Evergreen",
+      "status": "existing-lens",
+      "scaleScore": 88.7,
+      "factors": {"searchSurface":90,"repeatDemand":93,"geographicScale":82,"dataQuality":98,"uniqueAnswerPotential":85,"competitionGap":58,"repeatVisitPotential":94,"internalLinkSynergy":89},
+      "nextMove": "CO-OPS predictions + observations; strong repeat utility for shore/coastal decisions."
+    },
+    {
+      "rank": 18,
+      "name": "Fishing Thermal Habitat Window",
+      "category": "Seasonal+Evergreen",
+      "status": "new-lens",
+      "scaleScore": 88.6,
+      "factors": {"searchSurface":91,"repeatDemand":89,"geographicScale":95,"dataQuality":80,"uniqueAnswerPotential":90,"competitionGap":68,"repeatVisitPotential":93,"internalLinkSynergy":95},
+      "nextMove": "Water temp/flow/oxygen where measured; no bite-score claims."
+    },
+    {
+      "rank": 19,
+      "name": "Trail Surface Transition",
+      "category": "Seasonal+Evergreen",
+      "status": "prototype",
+      "scaleScore": 88.2,
+      "factors": {"searchSurface":90,"repeatDemand":87,"geographicScale":100,"dataQuality":70,"uniqueAnswerPotential":93,"competitionGap":80,"repeatVisitPotential":92,"internalLinkSynergy":97},
+      "nextMove": "Mud/snow/freeze-thaw lens; validate before standalone indexed family."
+    },
+    {
+      "rank": 20,
+      "name": "Lake / Reservoir Water Temperature",
+      "category": "Seasonal+Evergreen",
+      "status": "new",
+      "scaleScore": 88.0,
+      "factors": {"searchSurface":91,"repeatDemand":89,"geographicScale":92,"dataQuality":82,"uniqueAnswerPotential":86,"competitionGap":70,"repeatVisitPotential":91,"internalLinkSynergy":95},
+      "nextMove": "Observed temperature + trend + activity context where sensors are defensible."
+    },
+    {
+      "rank": 21,
+      "name": "Fall Color Progression",
+      "category": "Seasonal",
+      "status": "existing",
+      "scaleScore": 87.9,
+      "factors": {"searchSurface":98,"repeatDemand":62,"geographicScale":96,"dataQuality":87,"uniqueAnswerPotential":92,"competitionGap":70,"repeatVisitPotential":82,"internalLinkSynergy":97},
+      "nextMove": "Major seasonal acquisition engine; prioritize regions/destinations with real differentiated signals."
+    },
+    {
+      "rank": 22,
+      "name": "Waterfall Flow & Visit Window",
+      "category": "Seasonal+Evergreen",
+      "status": "existing-family",
+      "scaleScore": 86.0,
+      "factors": {"searchSurface":88,"repeatDemand":75,"geographicScale":92,"dataQuality":78,"uniqueAnswerPotential":93,"competitionGap":82,"repeatVisitPotential":83,"internalLinkSynergy":94},
+      "nextMove": "Scale beyond destinations by linking upstream gauges, rainfall and seasonal normals."
+    },
+    {
+      "rank": 23,
+      "name": "Surf / Wave Recreation Window",
+      "category": "Seasonal+Evergreen",
+      "status": "new-lens",
+      "scaleScore": 85.7,
+      "factors": {"searchSurface":88,"repeatDemand":90,"geographicScale":82,"dataQuality":91,"uniqueAnswerPotential":86,"competitionGap":62,"repeatVisitPotential":92,"internalLinkSynergy":88},
+      "nextMove": "NDBC/OFS/NWS synthesis; likely lens under Coastal rather than new canonical."
+    },
+    {
+      "rank": 24,
+      "name": "Meteor Shower / Fireball Viewing",
+      "category": "Seasonal+Evergreen",
+      "status": "existing",
+      "scaleScore": 85.6,
+      "factors": {"searchSurface":92,"repeatDemand":70,"geographicScale":100,"dataQuality":92,"uniqueAnswerPotential":90,"competitionGap":62,"repeatVisitPotential":85,"internalLinkSynergy":94},
+      "nextMove": "Combine event geometry with local cloud/moon/darkness; avoid duplicate night-sky canonical."
+    },
+    {
+      "rank": 25,
+      "name": "Lake Ice / Freeze-Up / Ice-Out",
+      "category": "Seasonal",
+      "status": "existing-adjacent",
+      "scaleScore": 84.8,
+      "factors": {"searchSurface":90,"repeatDemand":66,"geographicScale":88,"dataQuality":82,"uniqueAnswerPotential":91,"competitionGap":78,"repeatVisitPotential":83,"internalLinkSynergy":93},
+      "nextMove": "Climatology + observed ice/freeze metrics; never imply ice safety."
+    },
+    {
+      "rank": 26,
+      "name": "National Park Conditions Desk",
+      "category": "Evergreen",
+      "status": "new",
+      "scaleScore": 92.4,
+      "factors": {"searchSurface":96,"repeatDemand":88,"geographicScale":98,"dataQuality":90,"uniqueAnswerPotential":92,"competitionGap":78,"repeatVisitPotential":90,"internalLinkSynergy":100},
+      "nextMove": "Park-by-park decision pages from NPS alerts + NWS + activity-specific conditions."
+    }
+  ]
+}
