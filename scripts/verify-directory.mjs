@@ -6,7 +6,7 @@ const cardCount=html.split('data-search-card').length-1;
 const schemaText=html.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
 const thunderUrl='https://chrisizworski.com/national-tools/coastal/thunder-hole-live/';
 
-assert.equal(cardCount,25,'directory should render 25 tool cards');
+assert.equal(cardCount,26,'directory should render 26 tool cards');
 assert.ok(html.includes('data-tool-id="elk-rut"'),'elk rut discovery card missing');
 assert.ok(html.includes('data-tool-id="yosemite-firefall"'),'Yosemite Firefall discovery card missing');
 assert.ok(html.includes('data-tool-id="thunder-hole"'),'Thunder Hole discovery card missing');
@@ -27,10 +27,10 @@ assert.ok(schemaText,'national ItemList schema missing');
 const schema=JSON.parse(schemaText);
 const list=schema?.['@graph']?.find(item=>item?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
 assert.ok(list,'national ItemList missing');
-assert.equal(list.numberOfItems,26,'structured tool count drifted');
-assert.equal(list.itemListElement.length,26,'structured ItemList length drifted');
-assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,26,'ItemList URLs must be unique');
+assert.equal(list.numberOfItems,list.itemListElement.length,'structured tool count drifted from ItemList length');
+assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,list.itemListElement.length,'ItemList URLs must be unique');
 assert.ok(list.itemListElement.some(item=>item.url===thunderUrl),'Thunder Hole missing from ItemList');
+assert.ok(list.itemListElement.some(item=>item.url==='https://chrisizworski.com/national-tools/fall-color/blue-ridge-parkway/'),'Blue Ridge fall-color tool missing from ItemList');
 assert.ok(!list.itemListElement.some(item=>item.url==='https://chrisizworski.com/national-tools/thunder-hole-live/'),'retired Thunder Hole canonical still in ItemList');
 list.itemListElement.forEach((item,index)=>assert.equal(item.position,index+1,'ItemList positions must be contiguous'));
 
