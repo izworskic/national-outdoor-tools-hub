@@ -6,7 +6,7 @@ const cardCount=html.split('data-search-card').length-1;
 const schemaText=html.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
 const thunderUrl='https://chrisizworski.com/national-tools/coastal/thunder-hole-live/';
 
-assert.equal(cardCount,25,'directory should render 25 tool cards');
+assert.equal(cardCount,26,'directory should render 26 tool cards');
 assert.ok(html.includes('data-tool-id="elk-rut"'),'elk rut discovery card missing');
 assert.ok(html.includes('data-tool-id="yosemite-firefall"'),'Yosemite Firefall discovery card missing');
 assert.ok(html.includes('data-tool-id="thunder-hole"'),'Thunder Hole discovery card missing');
