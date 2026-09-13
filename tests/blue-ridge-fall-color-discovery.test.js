@@ -26,7 +26,8 @@ test('Blue Ridge is listed once in the Appalachia regional collection',()=>{
 });
 
 test('Blue Ridge discovery stays a single corridor engine, not a set of doorway cards',()=>{
-  assert.equal((directory.match(new RegExp(route.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'))||[]).length,1);
+  const cardIds=[...directory.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1]);
+  assert.equal(cardIds.filter(id=>id==='blue-ridge-fall-color').length,1);
   assert.doesNotMatch(directory,/data-tool-id="blue-ridge-(?:virginia|north-carolina|asheville|boone|linville|craggy)/i);
 });
 
