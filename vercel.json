@@ -10,6 +10,9 @@
     "api/yosemite-firefall.js": { "maxDuration": 30 }
   },
   "redirects": [
+    { "source": "/national-tools/thunder-hole-live", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/", "permanent": true },
+    { "source": "/national-tools/thunder-hole-live/", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/", "permanent": true },
+    { "source": "/national-tools/thunder-hole-live/:path*", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/:path*", "permanent": true },
     { "source": "/national-tools/niagara-falls-rainbow-planner", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
     { "source": "/national-tools/niagara-falls-rainbow-planner/", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
     { "source": "/national-tools/niagara-falls-rainbow-planner/:path*", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
@@ -26,22 +29,6 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/national-tools/thunder-hole-live/_api/live",
-      "destination": "https://national-coastal-water.vercel.app/api/thunder-hole"
-    },
-    {
-      "source": "/national-tools/thunder-hole-live",
-      "destination": "https://national-coastal-water.vercel.app/national-tools/thunder-hole-live/"
-    },
-    {
-      "source": "/national-tools/thunder-hole-live/",
-      "destination": "https://national-coastal-water.vercel.app/national-tools/thunder-hole-live/"
-    },
-    {
-      "source": "/national-tools/thunder-hole-live/:path*",
-      "destination": "https://national-coastal-water.vercel.app/national-tools/thunder-hole-live/:path*"
-    },
     {
       "source": "/national-tools/yosemite-firefall-live",
       "destination": "/national-tools/yosemite-firefall-live/index.html"

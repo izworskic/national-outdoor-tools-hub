@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 
 const file=process.env.NATIONAL_TOOLS_DIRECTORY_FILE || 'public/national-tools/index.html';
-const url='https://chrisizworski.com/national-tools/thunder-hole-live/';
+const url='https://chrisizworski.com/national-tools/coastal/thunder-hole-live/';
+const oldUrl='https://chrisizworski.com/national-tools/thunder-hole-live/';
 const name='Thunder Hole Live: Best Time to Hear the Boom';
 let html=fs.readFileSync(file,'utf8');
 
@@ -24,12 +25,12 @@ const schema=JSON.parse(match[1]);
 const graph=schema?.['@graph'];
 const list=graph?.find(item=>item?.['@id']==='https://chrisizworski.com/national-tools/#toollist');
 if(!list?.itemListElement)throw new Error('Thunder Hole discovery: ItemList missing');
-list.itemListElement=list.itemListElement.filter(item=>item.url!==url);
+list.itemListElement=list.itemListElement.filter(item=>item.url!==url&&item.url!==oldUrl);
 list.itemListElement.push({'@type':'ListItem',position:list.itemListElement.length+1,url,name});
 list.itemListElement.forEach((item,index)=>item.position=index+1);
 list.numberOfItems=list.itemListElement.length;
 const page=graph.find(item=>item?.['@id']==='https://chrisizworski.com/national-tools/#page');
-if(page)page.dateModified='2026-09-12';
+if(page)page.dateModified='2026-09-13';
 html=html.replace(match[0],`<script type="application/ld+json">${JSON.stringify(schema)}</script>`);
 
 const cardCount=(html.match(/data-search-card/g)||[]).length;
