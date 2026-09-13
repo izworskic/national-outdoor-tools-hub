@@ -53,7 +53,7 @@ function addFallHubHandoff(html) {
     const handoff = `<a class="card tool-card" data-blue-ridge-fall-color-handoff="true" href="${route}"><div class="tool-kicker">Blue Ridge Parkway</div><h3>Which elevation is best now?</h3><p>Compare Parkway mileposts from Virginia to North Carolina for the strongest modeled fall-color corridor now and seven days ahead, with current observations, weather stress, drought and road status kept separate.</p></a>`;
     html = html.replace(foliage, `${foliage}\n${handoff}`);
   }
-  return html.replace(/("dateModified":")\d{4}-\d{2}-\d{2}("[^<]*Fall Trip Planning)/, '$12026-09-13$2');
+  return html.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/, '"dateModified":"2026-09-13"');
 }
 
 let directory = fs.readFileSync(directoryFile, 'utf8');
