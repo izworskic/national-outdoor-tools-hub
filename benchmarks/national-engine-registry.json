@@ -153,6 +153,19 @@
       "notes": "Narrow seasonal semantics; do not generalize casually."
     },
     {
+      "id": "fall-color-visual-verification",
+      "name": "Fall Color Visual Verification",
+      "category": "phenology-visual",
+      "ownerRepo": "izworskic/national-fall-color",
+      "reuseClass": "extractable-component",
+      "status": "first-consumer",
+      "access": { "type": "owner-http-and-internal", "endpoints": ["/api/blue-ridge-visual-verification"], "paths": ["api/blue-ridge-visual-verification.js", "lib/blue-ridge-camera-registry.js"] },
+      "answers": ["current fixed-camera canopy greenness versus the same camera's summer baseline", "7-day greenness direction", "camera freshness", "nearest human-verifiable camera links", "recent Sentinel-2 acquisition availability near a target corridor"],
+      "possibleConsumers": ["future fall-color corridor tools", "regional phenology tools after local camera/source validation"],
+      "avoidWhen": ["there is no geographically representative camera or validated remote-sensing source", "GCC would be presented as percent peak or scenic vividness", "camera evidence is too distant to represent the target corridor", "satellite catalog metadata would be treated as foliage state", "third-party camera imagery would be scraped, stored, machine-analyzed or republished without a supporting use contract"],
+      "notes": "Blue Ridge Parkway is the first consumer. Keep implementation in national-fall-color until a real second consumer justifies a generalized contract. PhenoCam-derived GCC is machine analyzed; commercial/local webcams are link-only by default; Sentinel-2 is catalog/freshness context only in v1."
+    },
+    {
       "id": "moonbow-observation-engine",
       "name": "Cumberland Moonbow Observation Engine",
       "category": "destination-phenomenon",
