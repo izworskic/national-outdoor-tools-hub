@@ -19,7 +19,7 @@ const nationalIds = [
 
 const regions = [
   { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes new york niagara maine acadia thunder hole', description:'Destination intelligence for major-water trips where local weather, sun, mist, tide and timing can change the experience.', ids:['niagara-rainbow','thunder-hole'] },
-  { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky', description:'Release timing and rare viewing windows across a mountain-and-river corridor built around trips that depend on the right moment.', ids:['gauley','cumberland-moonbow'] },
+  { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway', description:'Release timing, rare viewing windows and elevation-driven seasonal trips across a mountain-and-river corridor built around the right place at the right moment.', ids:['gauley','cumberland-moonbow','blue-ridge-fall-color'] },
   { id:'southeast', name:'Southeast', search:'southeast florida gulf atlantic', description:'Warm-water wildlife and seasonal destination timing for trips where conditions can change the best day or hour to arrive.', ids:['blue-spring'] },
   { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'] },
   { id:'rockies', name:'Rockies', search:'rockies rocky mountains colorado mountain west', description:'Wildlife timing and mountain-season decisions where daylight, weather, access and animal behavior all matter.', ids:['elk-rut'] },
@@ -28,7 +28,7 @@ const regions = [
 ];
 
 const baseIds = [
-  'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee',
+  'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee',
   'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
 ];
 const missingBase = baseIds.filter(id => !cards.has(id));
@@ -45,6 +45,7 @@ const renderCards = (ids, extraTags = '') => ids.filter(id => cards.has(id)).map
     const cleanTags = tags
       .replace(/\s+northeast great lakes new york niagara maine acadia thunder hole/g,'')
       .replace(/\s+northeast great lakes new york niagara/g,'')
+      .replace(/\s+appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway/g,'')
       .replace(/\s+appalachia appalachian ohio valley west virginia kentucky/g,'')
       .replace(/\s+southeast florida gulf atlantic/g,'')
       .replace(/\s+mississippi river great plains plains midwest nebraska iowa illinois/g,'')
@@ -87,7 +88,7 @@ const schema = JSON.parse(schemaMatch[1]);
 const collection = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#page');
 if (collection) {
   collection.description = 'A directory of U.S.-wide outdoor utilities and regional destination intelligence tools, organized by decision and geography.';
-  collection.dateModified = '2026-09-12';
+  collection.dateModified = '2026-09-13';
 }
 const list = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#toollist');
 if (list) list.name = 'U.S. Outdoor Tools: National Utilities and Regional Collections';
