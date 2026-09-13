@@ -12,6 +12,22 @@ It must not copy implementation from sibling tool repositories. Shared location/
 
 Preserve existing public canonical URLs unless a migration issue explicitly authorizes a URL change.
 
+## Optional engine discovery contract
+
+Before inventing new cross-tool logic, consult `benchmarks/national-engine-registry.json` and `docs/ENGINE_REGISTRY.md` **when an existing engine may plausibly answer part of the problem**.
+
+The registry is discovery-only. It does not require reuse.
+
+- A tool may reuse one engine, several engines, or none.
+- Never distort a product, source model, scientific/biological assumptions, UX, or search intent merely to fit a registered engine.
+- Prefer a stable package or HTTP contract when reuse is genuinely beneficial.
+- Do not import internal files from sibling repositories as cross-repo dependencies.
+- Do not extract working code merely because it looks reusable. Prefer extraction after a real second consumer exists and the common contract can be tested against both products.
+- Treat `pattern-reference` entries as architectural examples, not formulas to copy. Domain-specific thresholds and weights require independent validation.
+- If a purpose-built implementation is clearer, safer, more accurate, or materially better for the user, build it instead and register the new capability after it proves useful.
+
+Registration means **available to consider**, never **required to use**.
+
 ## Mandatory analytics contract
 
 Read `docs/ANALYTICS_CONTRACT.md` before creating, extracting, publishing, or routing any public tool or page.
