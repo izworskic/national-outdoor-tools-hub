@@ -13,7 +13,7 @@ for (const match of cardMatches) {
 }
 
 const nationalIds = [
-  'rivers', 'coastal', 'smoke', 'snow', 'aurora', 'waterfall-window', 'monarch',
+  'rivers', 'coastal', 'smoke', 'snow', 'aurora', 'waterfall-window', 'monarch', 'bird-migration',
   'fall-color', 'ice-out', 'white-christmas', 'frost', 'planting', 'garden-water'
 ];
 
@@ -29,7 +29,7 @@ const regions = [
 
 const baseIds = [
   'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee','columbia-salmon',
-  'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
+  'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','bird-migration','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
 ];
 const missingBase = baseIds.filter(id => !cards.has(id));
 if (missingBase.length) throw new Error(`Directory is missing expected cards: ${missingBase.join(', ')}`);
@@ -82,7 +82,7 @@ html = html.replace(/<p class="hero-note"><strong>[\s\S]*?<\/p>(?=\s*<\/section>
 html = html.replace(/<p class="finder-hint">[\s\S]*?<\/p>(?=\s*<\/div>\s*<div class="persona-picks")/,
   '<p class="finder-hint">Filter every tool by intent, then browse national tools or the regional collection that fits your trip. Each tool is still listed once.</p>');
 html = html.replace(/placeholder="[^"]*"(?=>)/,
-  'placeholder="Search by place, region, activity or signal — for example Rockies, Gauley, salmon, smoke or frost"');
+  'placeholder="Search by place, region, activity or signal — for example Rockies, Gauley, birds, salmon, smoke or frost"');
 
 const schemaMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 if (!schemaMatch) throw new Error('National directory JSON-LD missing');
