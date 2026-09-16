@@ -13,22 +13,18 @@ test('regional organizer preserves the existing directory while separating natio
   const tempFile=path.join(tempDir,'index.html');
   fs.copyFileSync(source,tempFile);
 
-  const sync=spawnSync(process.execPath,[path.join(root,'scripts','sync-thunder-hole-discovery.mjs')],{
-    cwd:root,
-    env:{...process.env,NATIONAL_TOOLS_DIRECTORY_FILE:tempFile},
-    encoding:'utf8'
-  });
-  assert.equal(sync.status,0,sync.stderr||sync.stdout);
+  for(const script of ['sync-thunder-hole-discovery.mjs','sync-rockies-expansion.mjs']){
+    const sync=spawnSync(process.execPath,[path.join(root,'scripts',script)],{cwd:root,env:{...process.env,NATIONAL_TOOLS_DIRECTORY_FILE:tempFile},encoding:'utf8'});
+    assert.equal(sync.status,0,sync.stderr||sync.stdout);
+  }
 
   const before=fs.readFileSync(tempFile,'utf8');
   const beforeIds=[...before.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1]).sort();
   assert.ok(beforeIds.includes('thunder-hole'),'Thunder Hole should be present before regional organization');
+  assert.ok(beforeIds.includes('trail-ridge-road'),'Trail Ridge should be present before regional organization');
+  assert.ok(beforeIds.includes('yellowstone-geysers'),'Yellowstone Geysers should be present before regional organization');
 
-  const run=spawnSync(process.execPath,[path.join(root,'scripts','organize-regional-directory.mjs')],{
-    cwd:root,
-    env:{...process.env,NATIONAL_TOOLS_DIRECTORY_FILE:tempFile},
-    encoding:'utf8'
-  });
+  const run=spawnSync(process.execPath,[path.join(root,'scripts','organize-regional-directory.mjs')],{cwd:root,env:{...process.env,NATIONAL_TOOLS_DIRECTORY_FILE:tempFile},encoding:'utf8'});
   assert.equal(run.status,0,run.stderr||run.stdout);
 
   const after=fs.readFileSync(tempFile,'utf8');
@@ -39,9 +35,7 @@ test('regional organizer preserves the existing directory while separating natio
   assert.match(after,/Use these anywhere in the U\.S\./);
   assert.match(after,/Start with where you're going\./);
 
-  for(const region of ['Northeast & Great Lakes','Appalachia & Ohio Valley','Southeast','Mississippi & Great Plains','Pacific Northwest']){
-    assert.ok(after.includes(region),`missing ${region}`);
-  }
+  for(const region of ['Northeast & Great Lakes','Appalachia & Ohio Valley','Southeast','Mississippi & Great Plains','Rockies','Pacific Northwest']) assert.ok(after.includes(region),`missing ${region}`);
 
   const nationalStart=after.indexOf('id="national-tools-title"');
   const regionalStart=after.indexOf('id="regional-tools-title"');
@@ -55,6 +49,9 @@ test('regional organizer preserves the existing directory while separating natio
   assert.match(regionalBlock,/data-tool-id="gauley"/);
   assert.match(regionalBlock,/data-tool-id="fort-madison"/);
   assert.match(regionalBlock,/data-tool-id="ballard-locks"/);
+  assert.match(regionalBlock,/data-tool-id="trail-ridge-road"/);
+  assert.match(regionalBlock,/data-tool-id="yellowstone-geysers"/);
+  assert.match(regionalBlock,/href="\/national-tools\/rockies\/"/);
   assert.match(regionalBlock,/data-tags="[^"]*pacific northwest[^"]*"/);
 
   fs.rmSync(tempDir,{recursive:true,force:true});
