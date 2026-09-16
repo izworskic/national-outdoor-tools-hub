@@ -1,102 +1,26 @@
 import fs from 'node:fs';
-
-const file = process.env.NATIONAL_TOOLS_DIRECTORY_FILE || 'public/national-tools/index.html';
-let html = fs.readFileSync(file, 'utf8');
-
-const cardMatches = [...html.matchAll(/<article class="directory-card"[\s\S]*?<\/article>/g)];
-const cards = new Map();
-for (const match of cardMatches) {
-  const id = match[0].match(/data-tool-id="([^"]+)"/)?.[1];
-  if (!id) continue;
-  if (cards.has(id)) throw new Error(`Duplicate directory card: ${id}`);
-  cards.set(id, match[0]);
-}
-
-const nationalIds = [
-  'rivers', 'coastal', 'smoke', 'snow', 'aurora', 'waterfall-window', 'monarch', 'bird-migration',
-  'fall-color', 'ice-out', 'white-christmas', 'frost', 'planting', 'garden-water'
+const file=process.env.NATIONAL_TOOLS_DIRECTORY_FILE||'public/national-tools/index.html';
+let html=fs.readFileSync(file,'utf8');
+const cards=new Map();
+for(const m of html.matchAll(/<article class="directory-card"[\s\S]*?<\/article>/g)){const id=m[0].match(/data-tool-id="([^"]+)"/)?.[1];if(!id)continue;if(cards.has(id))throw new Error(`Duplicate directory card: ${id}`);cards.set(id,m[0]);}
+const nationalIds=['rivers','coastal','smoke','snow','aurora','waterfall-window','monarch','bird-migration','fall-color','ice-out','white-christmas','frost','planting','garden-water'];
+const regions=[
+{id:'northeast-great-lakes',name:'Northeast & Great Lakes',search:'northeast great lakes lake superior michigan huron erie ontario water levels shoreline new york niagara maine acadia thunder hole',description:'Major-water decisions from Great Lakes shoreline conditions to Niagara viewing geometry and Acadia tide-and-wave timing.',ids:['great-lakes-levels','niagara-rainbow','thunder-hole'],hub:'/national-tools/northeast-great-lakes/',hubLabel:'Open the Northeast & Great Lakes decision desk →'},
+{id:'appalachia-ohio-valley',name:'Appalachia & Ohio Valley',search:'appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway',description:'Release timing, rare viewing windows and elevation-driven seasonal trips across a mountain-and-river corridor built around the right place at the right moment.',ids:['gauley','cumberland-moonbow','blue-ridge-fall-color'],hub:'/national-tools/appalachia/',hubLabel:'Open the Appalachia decision desk →'},
+{id:'southeast',name:'Southeast',search:'southeast florida gulf atlantic red tide karenia space coast kennedy cape canaveral manatee',description:'Wildlife, coastal sampling and launch-viewing decisions across Florida where the useful answer can change by day or hour.',ids:['blue-spring','florida-red-tide','space-coast-launch'],hub:'/national-tools/southeast/',hubLabel:'Open the Southeast decision desk →'},
+{id:'mississippi-great-plains',name:'Mississippi & Great Plains',search:'mississippi river great plains plains midwest nebraska iowa illinois',description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.',ids:['melvin-price','fort-madison','platte-cranes'],hub:'/national-tools/great-plains/',hubLabel:'Open the Mississippi & Great Plains decision desk →'},
+{id:'rockies',name:'Rockies',search:'rockies rocky mountains colorado mountain west',description:'Wildlife timing and mountain-season decisions where daylight, weather, access and animal behavior all matter.',ids:['elk-rut']},
+{id:'california-sierra',name:'California & Sierra',search:'california sierra yosemite',description:'Short-lived Sierra viewing events where weather, water and sun geometry determine whether the trip is worth making.',ids:['yosemite-firefall']},
+{id:'pacific-northwest',name:'Pacific Northwest',search:'pacific northwest pnw washington oregon seattle puget sound columbia river salmon',description:'Locks, salmon, ships, dams and visitor timing across Puget Sound and the Columbia Basin.',ids:['ballard-locks','grand-coulee','columbia-salmon'],hub:'/national-tools/pacific-northwest/',hubLabel:'Open the Pacific Northwest decision desk →'}
 ];
-
-const regions = [
-  { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes lake superior michigan huron erie ontario water levels shoreline new york niagara maine acadia thunder hole', description:'Major-water decisions from Great Lakes shoreline conditions to Niagara viewing geometry and Acadia tide-and-wave timing.', ids:['great-lakes-levels','niagara-rainbow','thunder-hole'], hub:'/national-tools/northeast-great-lakes/', hubLabel:'Open the Northeast & Great Lakes decision desk →' },
-  { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway', description:'Release timing, rare viewing windows and elevation-driven seasonal trips across a mountain-and-river corridor built around the right place at the right moment.', ids:['gauley','cumberland-moonbow','blue-ridge-fall-color'], hub:'/national-tools/appalachia/', hubLabel:'Open the Appalachia decision desk →' },
-  { id:'southeast', name:'Southeast', search:'southeast florida gulf atlantic', description:'Warm-water wildlife and seasonal destination timing for trips where conditions can change the best day or hour to arrive.', ids:['blue-spring'] },
-  { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'], hub:'/national-tools/great-plains/', hubLabel:'Open the Mississippi & Great Plains decision desk →' },
-  { id:'rockies', name:'Rockies', search:'rockies rocky mountains colorado mountain west', description:'Wildlife timing and mountain-season decisions where daylight, weather, access and animal behavior all matter.', ids:['elk-rut'] },
-  { id:'california-sierra', name:'California & Sierra', search:'california sierra yosemite', description:'Short-lived Sierra viewing events where weather, water and sun geometry determine whether the trip is worth making.', ids:['yosemite-firefall'] },
-  { id:'pacific-northwest', name:'Pacific Northwest', search:'pacific northwest pnw washington oregon seattle puget sound columbia river salmon', description:'Locks, salmon, ships, dams and visitor timing across Puget Sound and the Columbia Basin.', ids:['ballard-locks','grand-coulee','columbia-salmon'], hub:'/national-tools/pacific-northwest/', hubLabel:'Open the Pacific Northwest decision desk →' }
-];
-
-const baseIds = [
-  'gauley','great-lakes-levels','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee','columbia-salmon',
-  'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','bird-migration','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
-];
-const missingBase = baseIds.filter(id => !cards.has(id));
-if (missingBase.length) throw new Error(`Directory is missing expected cards: ${missingBase.join(', ')}`);
-
-const assignedIds = new Set([...nationalIds, ...regions.flatMap(region => region.ids)]);
-const unassigned = [...cards.keys()].filter(id => !assignedIds.has(id));
-if (unassigned.length) throw new Error(`New tool cards need a national or regional home: ${unassigned.join(', ')}`);
-
-const renderCards = (ids, extraTags = '') => ids.filter(id => cards.has(id)).map(id => {
-  let card = cards.get(id);
-  if (!extraTags) return card;
-  card = card.replace(/data-tags="([^"]*)"/, (_match, tags) => {
-    const cleanTags = tags
-      .replace(/\s+northeast great lakes lake superior michigan huron erie ontario water levels shoreline new york niagara maine acadia thunder hole/g,'')
-      .replace(/\s+northeast great lakes new york niagara maine acadia thunder hole/g,'')
-      .replace(/\s+northeast great lakes new york niagara/g,'')
-      .replace(/\s+appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway/g,'')
-      .replace(/\s+appalachia appalachian ohio valley west virginia kentucky/g,'')
-      .replace(/\s+southeast florida gulf atlantic/g,'')
-      .replace(/\s+mississippi river great plains plains midwest nebraska iowa illinois/g,'')
-      .replace(/\s+rockies rocky mountains colorado mountain west/g,'')
-      .replace(/\s+california sierra yosemite/g,'')
-      .replace(/\s+pacific northwest pnw washington oregon seattle puget sound columbia river salmon/g,'')
-      .replace(/\s+pacific northwest pnw washington seattle puget sound columbia river/g,'');
-    return `data-tags="${cleanTags.trim()} ${extraTags}"`;
-  });
-  return card;
-}).join('\n');
-
-const renderRegion = region => {
-  const present = region.ids.filter(id => cards.has(id));
-  if (!present.length) return '';
-  const handoff = region.hub ? `<br><a href="${region.hub}"><strong>${region.hubLabel}</strong></a>` : '';
-  return `<section class="catalog-group region-cluster" data-catalog-group id="region-${region.id}" aria-labelledby="region-${region.id}-title"><div class="catalog-head"><div><p class="eyebrow">Regional collection</p><h2 id="region-${region.id}-title">${region.name}</h2></div><p>${region.description}${handoff}</p></div><div class="catalog-grid">\n${renderCards(present, region.search)}\n</div></section>`;
-};
-
-const nationalSection = `<section class="catalog-group national-utilities" data-catalog-group aria-labelledby="national-tools-title"><div class="catalog-head"><div><p class="eyebrow">National tools</p><h2 id="national-tools-title">Use these anywhere in the U.S.</h2></div><p>These tools travel with you. Enter a place for local conditions, or follow a phenomenon that spans many states.</p></div><div class="catalog-grid">\n${renderCards(nationalIds)}\n</div></section>`;
-const visibleRegions = regions.filter(region => region.ids.some(id => cards.has(id)));
-const regionalSection = `<section class="regional-collections" data-catalog-group aria-labelledby="regional-tools-title"><div class="catalog-head"><div><p class="eyebrow">Regional collections</p><h2 id="regional-tools-title">Start with where you're going.</h2></div><p>Destination tools stay regional because the useful signals, trip decisions and nearby opportunities are different from one part of the country to another.</p></div>\n${visibleRegions.map(renderRegion).join('\n')}\n</section>`;
-
-let catalogStart = html.indexOf('<section class="catalog-group" data-catalog-group aria-labelledby="destinations-title">');
-if (catalogStart < 0) catalogStart = html.indexOf('<section class="catalog-group national-utilities" data-catalog-group aria-labelledby="national-tools-title">');
-const catalogEnd = html.indexOf('<p class="empty" id="no-results">', catalogStart);
-if (catalogStart < 0 || catalogEnd < 0) throw new Error('Catalog block markers were not found');
-html = html.slice(0, catalogStart) + nationalSection + '\n\n' + regionalSection + '\n\n' + html.slice(catalogEnd);
-
-html = html.replace(/<p class="hero-lede">[\s\S]*?<\/p>(?=\s*<\/div><p class="hero-note">)/,
-  '<p class="hero-lede">Some tools work anywhere in the country. Others are built around a specific place. Start with the decision you need, or browse by region.</p>');
-html = html.replace(/<p class="hero-note"><strong>[\s\S]*?<\/p>(?=\s*<\/section>)/,
-  '<p class="hero-note"><strong>National when it should be. Regional when it matters.</strong>Use nationwide tools for conditions and seasonal timing; use regional collections for destination-specific decisions.</p>');
-html = html.replace(/<p class="finder-hint">[\s\S]*?<\/p>(?=\s*<\/div>\s*<div class="persona-picks")/,
-  '<p class="finder-hint">Filter every tool by intent, then browse national tools or the regional collection that fits your trip. Each tool is still listed once.</p>');
-html = html.replace(/placeholder="[^"]*"(?=>)/,
-  'placeholder="Search by place, region, activity or signal — for example Great Lakes, Rockies, Gauley, birds, salmon, smoke or frost"');
-
-const schemaMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-if (!schemaMatch) throw new Error('National directory JSON-LD missing');
-const schema = JSON.parse(schemaMatch[1]);
-const collection = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#page');
-if (collection) {
-  collection.description = 'A directory of U.S.-wide outdoor utilities and regional destination intelligence tools, organized by decision and geography.';
-  collection.dateModified = '2026-09-16';
-}
-const list = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#toollist');
-if (list) list.name = 'U.S. Outdoor Tools: National Utilities and Regional Collections';
-html = html.replace(schemaMatch[0], `<script type="application/ld+json">${JSON.stringify(schema)}</script>`);
-html = html.replace(/(<p class="finder-count" id="finder-count" aria-live="polite">)\d+ tools shown(<\/p>)/, `$1${cards.size} tools shown$2`);
-
-fs.writeFileSync(file, html, 'utf8');
-console.log(`National directory organized | cards=${cards.size} | regions=${visibleRegions.length}`);
+const baseIds=['gauley','great-lakes-levels','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','florida-red-tide','space-coast-launch','ballard-locks','melvin-price','fort-madison','grand-coulee','columbia-salmon','waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','bird-migration','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'];
+const missing=baseIds.filter(id=>!cards.has(id));if(missing.length)throw new Error(`Directory is missing expected cards: ${missing.join(', ')}`);
+const assigned=new Set([...nationalIds,...regions.flatMap(r=>r.ids)]);const unassigned=[...cards.keys()].filter(id=>!assigned.has(id));if(unassigned.length)throw new Error(`New tool cards need a national or regional home: ${unassigned.join(', ')}`);
+const regionTerms=regions.map(r=>r.search).sort((a,b)=>b.length-a.length);
+function renderCards(ids,extra=''){return ids.filter(id=>cards.has(id)).map(id=>{let card=cards.get(id);if(!extra)return card;card=card.replace(/data-tags="([^"]*)"/,(_,tags)=>{let clean=tags;for(const term of regionTerms)clean=clean.replace(new RegExp(`\\s+${term.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&')}`,'g'),'');return `data-tags="${clean.trim()} ${extra}"`;});return card;}).join('\n');}
+function renderRegion(r){const present=r.ids.filter(id=>cards.has(id));if(!present.length)return'';const handoff=r.hub?`<br><a href="${r.hub}"><strong>${r.hubLabel}</strong></a>`:'';return `<section class="catalog-group region-cluster" data-catalog-group id="region-${r.id}" aria-labelledby="region-${r.id}-title"><div class="catalog-head"><div><p class="eyebrow">Regional collection</p><h2 id="region-${r.id}-title">${r.name}</h2></div><p>${r.description}${handoff}</p></div><div class="catalog-grid">\n${renderCards(present,r.search)}\n</div></section>`;}
+const national=`<section class="catalog-group national-utilities" data-catalog-group aria-labelledby="national-tools-title"><div class="catalog-head"><div><p class="eyebrow">National tools</p><h2 id="national-tools-title">Use these anywhere in the U.S.</h2></div><p>These tools travel with you. Enter a place for local conditions, or follow a phenomenon that spans many states.</p></div><div class="catalog-grid">\n${renderCards(nationalIds)}\n</div></section>`;
+const visible=regions.filter(r=>r.ids.some(id=>cards.has(id)));const regional=`<section class="regional-collections" data-catalog-group aria-labelledby="regional-tools-title"><div class="catalog-head"><div><p class="eyebrow">Regional collections</p><h2 id="regional-tools-title">Start with where you're going.</h2></div><p>Destination tools stay regional because the useful signals, trip decisions and nearby opportunities are different from one part of the country to another.</p></div>\n${visible.map(renderRegion).join('\n')}\n</section>`;
+let start=html.indexOf('<section class="catalog-group" data-catalog-group aria-labelledby="destinations-title">');if(start<0)start=html.indexOf('<section class="catalog-group national-utilities" data-catalog-group aria-labelledby="national-tools-title">');const end=html.indexOf('<p class="empty" id="no-results">',start);if(start<0||end<0)throw new Error('Catalog block markers were not found');html=html.slice(0,start)+national+'\n\n'+regional+'\n\n'+html.slice(end);
+html=html.replace(/<p class="hero-lede">[\s\S]*?<\/p>(?=\s*<\/div><p class="hero-note">)/,'<p class="hero-lede">Some tools work anywhere in the country. Others are built around a specific place. Start with the decision you need, or browse by region.</p>').replace(/<p class="hero-note"><strong>[\s\S]*?<\/p>(?=\s*<\/section>)/,'<p class="hero-note"><strong>National when it should be. Regional when it matters.</strong>Use nationwide tools for conditions and seasonal timing; use regional collections for destination-specific decisions.</p>').replace(/<p class="finder-hint">[\s\S]*?<\/p>(?=\s*<\/div>\s*<div class="persona-picks")/,'<p class="finder-hint">Filter every tool by intent, then browse national tools or the regional collection that fits your trip. Each tool is still listed once.</p>').replace(/placeholder="[^"]*"(?=>)/,'placeholder="Search by place, region, activity or signal — for example Florida, Great Lakes, Rockies, birds, salmon, smoke or frost"');
+const sm=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);if(!sm)throw new Error('National directory JSON-LD missing');const schema=JSON.parse(sm[1]);const collection=schema?.['@graph']?.find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/#page');if(collection){collection.description='A directory of U.S.-wide outdoor utilities and regional destination intelligence tools, organized by decision and geography.';collection.dateModified='2026-09-16';}const list=schema?.['@graph']?.find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/#toollist');if(list)list.name='U.S. Outdoor Tools: National Utilities and Regional Collections';html=html.replace(sm[0],`<script type="application/ld+json">${JSON.stringify(schema)}</script>`).replace(/(<p class="finder-count" id="finder-count" aria-live="polite">)\d+ tools shown(<\/p>)/,`$1${cards.size} tools shown$2`);fs.writeFileSync(file,html,'utf8');console.log(`National directory organized | cards=${cards.size} | regions=${visible.length}`);
