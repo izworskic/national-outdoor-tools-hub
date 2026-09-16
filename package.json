@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": false,
   "scripts": {
-    "vercel-build": "node scripts/add-blue-ridge-fall-color.mjs && node scripts/sync-blue-spring-live.mjs && node scripts/sync-gauley-persona.mjs && node scripts/sync-yosemite-firefall.mjs && node scripts/sync-elk-rut-discovery.mjs && node scripts/sync-thunder-hole-discovery.mjs && node scripts/inject-ga4.mjs && node scripts/verify-directory.mjs && node scripts/verify-fort-madison-discovery.mjs && node scripts/verify-platte-crane.mjs && node scripts/verify-monarch-discovery.mjs && node scripts/verify-gauley-discovery.mjs",
-    "test": "node scripts/add-blue-ridge-fall-color.mjs && node --test tests/*.test.js",
+    "vercel-build": "node scripts/add-blue-ridge-fall-color.mjs && node scripts/sync-blue-spring-live.mjs && node scripts/sync-gauley-persona.mjs && node scripts/sync-yosemite-firefall.mjs && node scripts/sync-elk-rut-discovery.mjs && node scripts/sync-thunder-hole-discovery.mjs && node scripts/sync-columbia-salmon-discovery.mjs && node scripts/inject-ga4.mjs && node scripts/verify-directory.mjs && node scripts/verify-fort-madison-discovery.mjs && node scripts/verify-platte-crane.mjs && node scripts/verify-monarch-discovery.mjs && node scripts/verify-gauley-discovery.mjs",
+    "test": "node scripts/add-blue-ridge-fall-color.mjs && node scripts/sync-columbia-salmon-discovery.mjs && node --test tests/*.test.js",
     "validate:production": "node scripts/validate-national-production.mjs"
   },
   "dependencies": {
