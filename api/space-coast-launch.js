@@ -7,6 +7,10 @@ function isSpaceCoast(launch){
   const lat=Number(launch?.pad?.latitude),lon=Number(launch?.pad?.longitude);
   return name.includes('cape canaveral')||name.includes('kennedy space center')||(Number.isFinite(lat)&&Number.isFinite(lon)&&lat>27.9&&lat<29&&lon>-81&&lon<-80.3);
 }
+function isFutureLaunch(launch,now=Date.now()){
+  const net=new Date(launch?.net).getTime();
+  return Number.isFinite(net)&&net>now;
+}
 function scheduleConfidence(l){
   const status=String(l?.status?.name||'').toLowerCase();
   if(status==='go'&&!l.tbddate&&!l.tbdtime)return {level:'high',label:'Go / scheduled',detail:'Launch Library currently marks the mission Go with a specific date and time.'};
@@ -47,7 +51,8 @@ module.exports=async function handler(req,res){
     const response=await fetch(LAUNCHES,{headers:{'User-Agent':'ChrisIzworskiOutdoorTools/1.0','Accept':'application/json'},signal:AbortSignal.timeout(12000)});
     if(!response.ok)throw new Error(`Launch Library ${response.status}`);
     const data=await response.json();
-    const launches=(data.results||[]).filter(isSpaceCoast).sort((a,b)=>new Date(a.net)-new Date(b.net)).slice(0,8);
+    const now=Date.now();
+    const launches=(data.results||[]).filter(isSpaceCoast).filter(l=>isFutureLaunch(l,now)).sort((a,b)=>new Date(a.net)-new Date(b.net)).slice(0,8);
     const next=launches[0]||null;
     let weather=null;
     if(next){
@@ -55,7 +60,7 @@ module.exports=async function handler(req,res){
       try{const period=await nwsFor(lat,lon,next.net);weather={period,assessment:weatherGrade(period)};}catch(error){weather={period:null,assessment:weatherGrade(null),error:String(error?.message||error)};}
     }
     const normalized=launches.map(l=>({id:l.id,name:l.name,net:l.net,windowStart:l.window_start,windowEnd:l.window_end,status:l.status?.name||null,tbdTime:Boolean(l.tbdtime),tbdDate:Boolean(l.tbddate),probability:l.probability??null,provider:l.launch_service_provider?.name||null,rocket:l.rocket?.configuration?.full_name||l.rocket?.configuration?.name||null,mission:l.mission?.name||null,pad:l.pad?.name||null,location:l.pad?.location?.name||null,lat:Number(l.pad?.latitude)||null,lon:Number(l.pad?.longitude)||null,scheduleConfidence:scheduleConfidence(l)}));
-    res.status(200).json({ok:true,generatedAt:new Date().toISOString(),next:normalized[0]||null,upcoming:normalized,weather,nextDecision:normalized[0]?{schedule:normalized[0].scheduleConfidence,viewingWeather:weather?.assessment||weatherGrade(null)}:{schedule:{level:'none',label:'No Space Coast launch found in current feed',detail:'Check the official Kennedy Space Center calendar for newly announced missions.'},viewingWeather:null},sources:[{name:'Launch Library 2',url:'https://ll.thespacedevs.com/'},{name:'Kennedy Space Center Visitor Complex',url:KSC,note:'Officially announced launch viewing opportunities'},{name:'National Weather Service',url:'https://www.weather.gov/mlb/',note:'Local viewing-weather guidance'}],limits:['Launch schedule confidence and viewing weather are separate signals.','A favorable visibility forecast does not mean the launch will occur.','Kennedy Space Center only publishes official publicly announced launch information; always confirm viewing access there before travel.']});
+    res.status(200).json({ok:true,generatedAt:new Date().toISOString(),next:normalized[0]||null,upcoming:normalized,weather,nextDecision:normalized[0]?{schedule:normalized[0].scheduleConfidence,viewingWeather:weather?.assessment||weatherGrade(null)}:{schedule:{level:'none',label:'No future Space Coast launch found in current feed',detail:'Check the official Kennedy Space Center calendar for newly announced missions.'},viewingWeather:null},sources:[{name:'Launch Library 2',url:'https://ll.thespacedevs.com/'},{name:'Kennedy Space Center Visitor Complex',url:KSC,note:'Officially announced launch viewing opportunities'},{name:'National Weather Service',url:'https://www.weather.gov/mlb/',note:'Local viewing-weather guidance'}],limits:['Launch schedule confidence and viewing weather are separate signals.','A favorable visibility forecast does not mean the launch will occur.','Kennedy Space Center only publishes official publicly announced launch information; always confirm viewing access there before travel.']});
   }catch(error){
     res.status(502).json({ok:false,error:'Space Coast launch feed is temporarily unavailable.',detail:String(error?.message||error),official:KSC});
   }
