@@ -25,16 +25,17 @@ test('national landing is one persona-organized specialist directory',()=>{
   assert.match(html,/What do you want to do\?/);
   assert.match(html,/Filter every tool by intent/);
   const ids=directoryToolIds();
-  assert.ok(ids.length>=26,`expected at least 26 specialist cards, found ${ids.length}`);
+  assert.ok(ids.length>=27,`expected at least 27 specialist cards, found ${ids.length}`);
   assert.equal(new Set(ids).size,ids.length,'directory tool ids must stay unique');
   assert.ok(ids.includes('columbia-salmon'),'Columbia Salmon Run Live must remain discoverable');
+  assert.ok(ids.includes('great-lakes-levels'),'Great Lakes Levels must remain discoverable');
   assert.doesNotMatch(html,/intent-card|feature-card|library-group|decision-network|featured-tools/);
 });
 
 test('every core and newly launched tool stays directly crawlable',()=>{
-  const routes=['/national-tools/aurora/','/national-tools/rivers/','/national-tools/coastal/','/national-tools/snow/','/national-tools/white-christmas/','/national-tools/frost/','/national-tools/planting/','/national-tools/garden-water/','/national-tools/fall-color/','/national-tools/fall-color/blue-ridge-parkway/','/national-tools/niagara-rainbow/','/national-tools/waterfalls/','/national-tools/columbia-salmon-run/'];
+  const routes=['/national-tools/aurora/','/national-tools/rivers/','/national-tools/coastal/','/national-tools/snow/','/national-tools/white-christmas/','/national-tools/frost/','/national-tools/planting/','/national-tools/garden-water/','/national-tools/fall-color/','/national-tools/fall-color/blue-ridge-parkway/','/national-tools/niagara-rainbow/','/national-tools/waterfalls/','/national-tools/columbia-salmon-run/','/national-tools/northeast-great-lakes/'];
   for(const route of routes)assert.ok(html.includes(`href="${route}"`),`missing ${route}`);
-  for(const url of ['https://chrisizworski.com/national-tools/gauley-release-live/','https://chrisizworski.com/national-tools/ice-out/','https://chrisizworski.com/national-tools/monarch-migration-live','https://chrisizworski.com/national-tools/platte-crane-live'])assert.ok(html.includes(`href="${url}"`),`missing ${url}`);
+  for(const url of ['https://chrisizworski.com/national-tools/gauley-release-live/','https://chrisizworski.com/national-tools/ice-out/','https://chrisizworski.com/national-tools/monarch-migration-live','https://chrisizworski.com/national-tools/platte-crane-live','https://greatlakeslevels.org/'])assert.ok(html.includes(`href="${url}"`),`missing ${url}`);
 });
 
 test('structured directory is complete, unique and contiguous',()=>{
@@ -47,6 +48,15 @@ test('structured directory is complete, unique and contiguous',()=>{
   assert.ok(list.itemListElement.some(item=>item.name==='Lake Ice-Out Forecast'));
   assert.ok(list.itemListElement.some(item=>item.name==='Blue Ridge Parkway Fall Color Live'));
   assert.ok(list.itemListElement.some(item=>item.name==='Columbia Salmon Run Live'));
+  assert.ok(list.itemListElement.some(item=>item.name==='Great Lakes Levels'&&item.url==='https://greatlakeslevels.org/'));
+});
+
+test('Northeast and Great Lakes is a three-tool regional decision network',()=>{
+  assert.match(html,/id="region-northeast-great-lakes"/);
+  assert.match(html,/data-tool-id="great-lakes-levels"/);
+  assert.match(html,/data-tool-id="niagara-rainbow"/);
+  assert.match(html,/data-tool-id="thunder-hole"/);
+  assert.match(html,/href="\/national-tools\/northeast-great-lakes\/"/);
 });
 
 test('single finder filters existing cards and never synthesizes a location dashboard',()=>{
