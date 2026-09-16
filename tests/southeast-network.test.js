@@ -23,6 +23,8 @@ test('Space Coast keeps schedule confidence separate from visibility weather',()
   const page=read('public/national-tools/space-coast-launch/index.html');
   assert.match(api,/scheduleConfidence/);
   assert.match(api,/weatherGrade/);
+  assert.match(api,/isFutureLaunch/);
+  assert.match(api,/filter\(l=>isFutureLaunch\(l,now\)\)/);
   assert.match(api,/Launch schedule confidence and viewing weather are separate signals/);
   assert.match(api,/Kennedy Space Center/);
   assert.match(api,/api\.weather\.gov/);
