@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  const API='/national-tools/columbia-salmon-run/_api/live';
+  const API='/api/columbia-salmon';
   const state={data:null,species:'chinookAdult'};
   const $=s=>document.querySelector(s);
   const fmt=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US').format(n):'—';
@@ -17,7 +17,6 @@
   }
 
   function summary(data){
-    const latest=data.bonneville.latest;
     const t=data.bonneville.trends.chinook;
     const parts=[];
     if(data.season.chinookRun==='fall Chinook')parts.push('Fall Chinook are the main Chinook run at Bonneville now');
