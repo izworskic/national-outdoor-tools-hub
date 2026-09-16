@@ -18,7 +18,7 @@ const nationalIds = [
 ];
 
 const regions = [
-  { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes new york niagara maine acadia thunder hole', description:'Destination intelligence for major-water trips where local weather, sun, mist, tide and timing can change the experience.', ids:['niagara-rainbow','thunder-hole'] },
+  { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes lake superior michigan huron erie ontario water levels shoreline new york niagara maine acadia thunder hole', description:'Major-water decisions from Great Lakes shoreline conditions to Niagara viewing geometry and Acadia tide-and-wave timing.', ids:['great-lakes-levels','niagara-rainbow','thunder-hole'], hub:'/national-tools/northeast-great-lakes/', hubLabel:'Open the Northeast & Great Lakes decision desk →' },
   { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway', description:'Release timing, rare viewing windows and elevation-driven seasonal trips across a mountain-and-river corridor built around the right place at the right moment.', ids:['gauley','cumberland-moonbow','blue-ridge-fall-color'], hub:'/national-tools/appalachia/', hubLabel:'Open the Appalachia decision desk →' },
   { id:'southeast', name:'Southeast', search:'southeast florida gulf atlantic', description:'Warm-water wildlife and seasonal destination timing for trips where conditions can change the best day or hour to arrive.', ids:['blue-spring'] },
   { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'], hub:'/national-tools/great-plains/', hubLabel:'Open the Mississippi & Great Plains decision desk →' },
@@ -28,7 +28,7 @@ const regions = [
 ];
 
 const baseIds = [
-  'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee','columbia-salmon',
+  'gauley','great-lakes-levels','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee','columbia-salmon',
   'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','bird-migration','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
 ];
 const missingBase = baseIds.filter(id => !cards.has(id));
@@ -43,6 +43,7 @@ const renderCards = (ids, extraTags = '') => ids.filter(id => cards.has(id)).map
   if (!extraTags) return card;
   card = card.replace(/data-tags="([^"]*)"/, (_match, tags) => {
     const cleanTags = tags
+      .replace(/\s+northeast great lakes lake superior michigan huron erie ontario water levels shoreline new york niagara maine acadia thunder hole/g,'')
       .replace(/\s+northeast great lakes new york niagara maine acadia thunder hole/g,'')
       .replace(/\s+northeast great lakes new york niagara/g,'')
       .replace(/\s+appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway/g,'')
@@ -82,7 +83,7 @@ html = html.replace(/<p class="hero-note"><strong>[\s\S]*?<\/p>(?=\s*<\/section>
 html = html.replace(/<p class="finder-hint">[\s\S]*?<\/p>(?=\s*<\/div>\s*<div class="persona-picks")/,
   '<p class="finder-hint">Filter every tool by intent, then browse national tools or the regional collection that fits your trip. Each tool is still listed once.</p>');
 html = html.replace(/placeholder="[^"]*"(?=>)/,
-  'placeholder="Search by place, region, activity or signal — for example Rockies, Gauley, birds, salmon, smoke or frost"');
+  'placeholder="Search by place, region, activity or signal — for example Great Lakes, Rockies, Gauley, birds, salmon, smoke or frost"');
 
 const schemaMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 if (!schemaMatch) throw new Error('National directory JSON-LD missing');
