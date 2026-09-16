@@ -26,6 +26,8 @@ test('Space Coast keeps schedule confidence separate from visibility weather',()
   assert.match(api,/Launch schedule confidence and viewing weather are separate signals/);
   assert.match(api,/Kennedy Space Center/);
   assert.match(api,/api\.weather\.gov/);
+  assert.match(api,/NWS hourly guidance does not yet cover the launch time/);
+  assert.doesNotMatch(api,/periods\.sort\(/,'launch weather must not substitute the nearest forecast period when the launch is outside the NWS hourly horizon');
   assert.match(page,/schedule confidence/);
   assert.match(page,/viewing weather/);
   assert.match(page,/Clear skies do not mean the rocket will launch/);
