@@ -17,7 +17,7 @@ function scheduleConfidence(l){
   return {level:'medium',label:l?.status?.name||'Scheduled',detail:'Launch dates and times can change with little notice.'};
 }
 function weatherGrade(period){
-  if(!period)return {level:'unknown',label:'Weather window unavailable',detail:'NWS hourly guidance was not available for the launch time.'};
+  if(!period)return {level:'unknown',label:'Weather window unavailable',detail:'NWS hourly guidance does not yet cover the launch time.'};
   const pop=Number(period?.probabilityOfPrecipitation?.value??0);
   const text=String(period.shortForecast||'').toLowerCase();
   const wind=Number(String(period.windSpeed||'').match(/\d+/)?.[0]||0);
@@ -38,7 +38,7 @@ async function nwsFor(lat,lon,when){
   const data=await f.json();
   const target=new Date(when).getTime();
   const periods=data?.properties?.periods||[];
-  return periods.find(x=>target>=new Date(x.startTime).getTime()&&target<new Date(x.endTime).getTime())||periods.sort((a,b)=>Math.abs(new Date(a.startTime)-target)-Math.abs(new Date(b.startTime)-target))[0]||null;
+  return periods.find(x=>target>=new Date(x.startTime).getTime()&&target<new Date(x.endTime).getTime())||null;
 }
 
 module.exports=async function handler(req,res){
