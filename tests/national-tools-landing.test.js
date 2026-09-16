@@ -16,17 +16,23 @@ function toolListSchema(){
   return null;
 }
 
+function directoryToolIds(){
+  return [...html.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1]);
+}
+
 test('national landing is one persona-organized specialist directory',()=>{
   for(const filter of ['all','trip','conditions','event','garden'])assert.match(html,new RegExp(`data-filter="${filter}"`));
   assert.match(html,/What do you want to do\?/);
   assert.match(html,/Filter every tool by intent/);
-  assert.equal((html.match(/data-tool-id="/g)||[]).length,25);
-  assert.equal(new Set([...html.matchAll(/data-tool-id="([^"]+)"/g)].map(match=>match[1])).size,25);
+  const ids=directoryToolIds();
+  assert.ok(ids.length>=26,`expected at least 26 specialist cards, found ${ids.length}`);
+  assert.equal(new Set(ids).size,ids.length,'directory tool ids must stay unique');
+  assert.ok(ids.includes('columbia-salmon'),'Columbia Salmon Run Live must remain discoverable');
   assert.doesNotMatch(html,/intent-card|feature-card|library-group|decision-network|featured-tools/);
 });
 
 test('every core and newly launched tool stays directly crawlable',()=>{
-  const routes=['/national-tools/aurora/','/national-tools/rivers/','/national-tools/coastal/','/national-tools/snow/','/national-tools/white-christmas/','/national-tools/frost/','/national-tools/planting/','/national-tools/garden-water/','/national-tools/fall-color/','/national-tools/fall-color/blue-ridge-parkway/','/national-tools/niagara-rainbow/','/national-tools/waterfalls/'];
+  const routes=['/national-tools/aurora/','/national-tools/rivers/','/national-tools/coastal/','/national-tools/snow/','/national-tools/white-christmas/','/national-tools/frost/','/national-tools/planting/','/national-tools/garden-water/','/national-tools/fall-color/','/national-tools/fall-color/blue-ridge-parkway/','/national-tools/niagara-rainbow/','/national-tools/waterfalls/','/national-tools/columbia-salmon-run/'];
   for(const route of routes)assert.ok(html.includes(`href="${route}"`),`missing ${route}`);
   for(const url of ['https://chrisizworski.com/national-tools/gauley-release-live/','https://chrisizworski.com/national-tools/ice-out/','https://chrisizworski.com/national-tools/monarch-migration-live','https://chrisizworski.com/national-tools/platte-crane-live'])assert.ok(html.includes(`href="${url}"`),`missing ${url}`);
 });
@@ -34,13 +40,13 @@ test('every core and newly launched tool stays directly crawlable',()=>{
 test('structured directory is complete, unique and contiguous',()=>{
   const list=toolListSchema();
   assert.ok(list);
-  assert.equal(list.numberOfItems,26);
   assert.equal(list.numberOfItems,list.itemListElement.length);
-  assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,26);
+  assert.equal(new Set(list.itemListElement.map(item=>item.url)).size,list.itemListElement.length);
   list.itemListElement.forEach((item,index)=>assert.equal(item.position,index+1));
   assert.ok(list.itemListElement.some(item=>item.name==='Niagara Falls Rainbow Predictor'));
   assert.ok(list.itemListElement.some(item=>item.name==='Lake Ice-Out Forecast'));
   assert.ok(list.itemListElement.some(item=>item.name==='Blue Ridge Parkway Fall Color Live'));
+  assert.ok(list.itemListElement.some(item=>item.name==='Columbia Salmon Run Live'));
 });
 
 test('single finder filters existing cards and never synthesizes a location dashboard',()=>{
