@@ -9,9 +9,15 @@ test('Trail Ridge Road keeps NPS road status authoritative',()=>{
   const api=require(path.join(root,'api','trail-ridge-road.js'));
   const source=read('api/trail-ridge-road.js');
   const page=read('public/national-tools/trail-ridge-road/index.html');
-  const parsed=api._test.roadStatus('Trail Ridge Road is Open to Through Travel. Timed Entry Reservations are required from 9 a.m. to 2 p.m.');
+  const currentNps='Trail Ridge Road (U.S. Highway 34 inside Rocky Mountain National Park) is Open to Through Travel Trail Ridge Road (U.S. Hwy 34 inside Rocky Mountain National Park) is open to through travel. Timed Entry Reservations are required for Trail Ridge Road from 9 am to 2 pm.';
+  const parsed=api._test.roadStatus(currentNps);
   assert.equal(parsed.level,'open');
   assert.equal(parsed.label,'Open to through travel');
+  assert.equal(parsed.sourceTextMatched,true);
+  assert.match(parsed.timedEntry,/9 am to 2 pm/i);
+  const closed=api._test.roadStatus('Trail Ridge Road (U.S. Highway 34 inside Rocky Mountain National Park) is Closed to Through Travel.');
+  assert.equal(closed.level,'closed');
+  assert.equal(closed.sourceTextMatched,true);
   assert.match(source,/NPS road status is authoritative/);
   assert.match(source,/weather assessment never overrides it/);
   assert.match(source,/11796/);
