@@ -23,6 +23,7 @@ jobs:
           node scripts/sync-elk-rut-discovery.mjs
           node scripts/sync-thunder-hole-discovery.mjs
           node scripts/sync-columbia-salmon-discovery.mjs
+          node scripts/sync-bird-migration-discovery.mjs
       - name: Organize national and regional collections
         run: node scripts/organize-regional-directory.mjs
       - name: Verify organized directory
