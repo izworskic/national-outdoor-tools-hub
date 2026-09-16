@@ -20,6 +20,7 @@ jobs:
         run: |
           node scripts/sync-yosemite-firefall.mjs
           node scripts/sync-elk-rut-discovery.mjs
+          node scripts/sync-columbia-salmon-discovery.mjs
       - name: Organize national and regional collections
         run: node scripts/organize-regional-directory.mjs
       - name: Verify organized directory
