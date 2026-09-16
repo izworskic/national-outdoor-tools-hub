@@ -22,7 +22,8 @@ test('Trail Ridge Road keeps NPS road status authoritative',()=>{
   assert.match(source,/weather assessment never overrides it/);
   assert.match(source,/11796/);
   assert.match(page,/Road first\. Weather second\./);
-  assert.match(page,/official NPS road status comes first/i);
+  assert.match(page,/official (?:NPS|Rocky Mountain National Park) road status/i);
+  assert.match(page,/weather[^.]{0,180}(?:never overrides|does not determine)/i);
   assert.doesNotMatch(page,/weather says.*road.*open/i);
 });
 
@@ -44,7 +45,8 @@ test('Yellowstone geyser engine preserves prediction windows and source priority
   assert.match(source,/does not calculate its own eruption model/);
   assert.match(source,/Open Database License/);
   assert.match(page,/A window, not an appointment/);
-  assert.match(page,/does not invent an eruption schedule/i);
+  assert.match(page,/does not (?:invent an eruption schedule|calculate (?:a proprietary|its own) eruption model)/i);
+  assert.match(page,/preserves? the (?:published )?prediction window/i);
 });
 
 test('Rockies regional desk contains three distinct decision tools',()=>{
