@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bird Migration Morning Index | Did Birds Migrate Near Me Last Night?</title>
+<meta name="description" content="Check overnight BirdCast migration evidence and local NWS morning weather for a U.S. city or ZIP. See whether migration was strong and whether morning field conditions look workable.">
+<link rel="canonical" href="https://chrisizworski.com/national-tools/bird-migration/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:title" content="Bird Migration Morning Index">
+<meta property="og:description" content="Combine BirdCast overnight migration evidence with local morning weather before deciding whether to go birding.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrisizworski.com/national-tools/bird-migration/">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/national-tools/bird-migration/styles.css?v=20260916-1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta name="google-adsense-account" content="ca-pub-8222782620788075">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5D2V2W7HN"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Y5D2V2W7HN');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Bird Migration Morning Index","url":"https://chrisizworski.com/national-tools/bird-migration/","applicationCategory":"TravelApplication","operatingSystem":"Any","description":"A U.S. bird-migration decision tool combining regional BirdCast radar migration evidence with local National Weather Service morning weather.","author":{"@type":"Person","name":"Chris Izworski","url":"https://chrisizworski.com/"},"isAccessibleForFree":true}</script>
+</head>
+<body>
+<div class="header"><p class="site-title"><a href="/">Chris Izworski</a></p></div>
+<div class="nav"><a href="/">Home</a><a href="/tools/">Michigan Tools</a><a href="/national-tools/" class="active">U.S. Outdoor Tools</a></div>
+<main class="page">
+<div class="breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/national-tools/">U.S. Outdoor Tools</a> &rsaquo; Bird Migration Morning Index</div>
+<section class="hero">
+<div><p class="eyebrow">National migration decision tool</p><h1>Did birds move over you last night?</h1><p class="hero-lede">Start with radar-scale migration evidence, then check whether this morning's rain and wind make it worth getting outside. The tool keeps those two questions separate.</p></div>
+<aside class="hero-note"><strong>Radar is not a hotspot guarantee.</strong><p>BirdCast estimates nocturnal migration over a region. It cannot tell you that a particular park, yard or trail will have a fallout of birds.</p></aside>
+</section>
+<section class="search-card" aria-labelledby="location-title">
+<p class="eyebrow">Choose a location</p><h2 id="location-title" style="margin:0 0 12px;color:#202521;font:normal 24px/1.2 Georgia,'Times New Roman',serif">Check this morning</h2>
+<form id="location-form"><label for="location-input">U.S. city or ZIP code</label><div class="search-row"><input id="location-input" autocomplete="postal-code" placeholder="Bay City, MI or 48706"><button class="button" type="submit">Check migration</button><button class="button secondary" type="button" id="locate-button">Use my location</button></div></form>
+<p class="search-help">Location is used to choose the regional BirdCast dashboard and local National Weather Service forecast. Device location is only requested when you tap “Use my location.”</p>
+<p class="loading-note" id="loading-note">Checking migration and morning weather…</p><div class="error" id="error" role="alert"></div>
+</section>
+<section class="result" id="result" aria-live="polite">
+<div class="result-hero">
+<div class="result-meta"><span class="pill" id="location-label">Selected location</span><span class="pill" id="live-pill">BirdCast status</span><span class="pill" id="high-pill">Migration level</span><span class="pill" id="region-pill">Regional estimate</span></div>
+<p class="eyebrow">Morning decision</p><h2 id="decision-headline">Reading migration…</h2><p id="decision-detail">Migration and weather are evaluated separately.</p>
+<div class="metrics">
+<div class="metric" id="crossed-metric"><span>Birds crossed region</span><strong>—</strong><small>overnight regional estimate</small></div>
+<div class="metric" id="flight-metric"><span>Birds in flight</span><strong>—</strong><small>live or peak regional estimate</small></div>
+<div class="metric" id="direction-metric"><span>Movement direction</span><strong>—</strong><small>regional radar direction</small></div>
+<div class="metric" id="motion-metric"><span>Speed · altitude</span><strong>—</strong><small>regional radar movement</small></div>
+</div>
+</div>
+<div class="split">
+<section class="panel"><p class="eyebrow">Migration evidence</p><h3>What BirdCast reported</h3><p id="source-region">Loading regional source…</p><p><a id="birdcast-source" href="https://dashboard.birdcast.org/" rel="noopener">Open the underlying BirdCast regional dashboard</a></p><p id="generated-at" style="font-size:11px;color:#838983"></p></section>
+<section class="panel"><p class="eyebrow">Morning field conditions</p><h3 id="weather-summary">Checking NWS weather…</h3><p id="weather-detail">Rain and wind remain separate from the migration signal.</p><div class="weather-list" id="weather-hours"></div></section>
+</div>
+</section>
+<section class="section" aria-labelledby="read-title"><p class="eyebrow">How to use it</p><h2 id="read-title">What would make this morning interesting?</h2><p>The strongest use case is not a single score. It is the combination of an independently strong migration signal and workable local field conditions.</p><div class="rules"><article class="rule"><strong>Strong migration + good weather</strong><p>Worth checking productive local habitat. Radar tells you birds moved through the region; habitat still decides where they concentrate after dawn.</p></article><article class="rule"><strong>Strong migration + poor weather</strong><p>The overnight movement may still be noteworthy, but rain or strong wind can make field birding difficult. In some situations weather can also concentrate migrants locally, which this tool does not attempt to predict.</p></article><article class="rule"><strong>Lower migration signal</strong><p>Do not treat that as “no birds.” Resident birds and smaller movements remain possible, and BirdCast's radar product is not a complete inventory of species on the ground.</p></article></div></section>
+<section class="method" aria-labelledby="method-title"><p class="eyebrow">Source boundaries</p><h2 id="method-title">No invented birding percentage.</h2><ul><li><strong>BirdCast:</strong> Cornell Lab of Ornithology radar-based nocturnal migration estimates supply regional movement evidence such as migration amount, direction, speed and altitude when available.</li><li><strong>Season:</strong> BirdCast's live feed operates during spring migration from March 1–June 15 and fall migration from August 1–November 15. Outside those windows the tool reports the feed as off-season rather than fabricating a live result.</li><li><strong>Weather:</strong> National Weather Service hourly forecasts provide local morning rain and wind context. Our “good / mixed / poor” field-weather label is a simple transparent rule, not a BirdCast rating.</li><li><strong>Geography:</strong> The tool attempts county-level BirdCast geography using U.S. Census boundaries, with state-level fallback when needed.</li><li><strong>Species:</strong> Radar cannot identify the exact species in flight. Use BirdCast's species-migration resources and local observations for species expectations.</li></ul><p style="margin-top:12px;font-size:12px">Bird migration data source: <a href="https://dashboard.birdcast.org/" rel="noopener">BirdCast Migration Dashboard, Cornell Lab of Ornithology</a>. Weather source: <a href="https://www.weather.gov/" rel="noopener">National Weather Service</a>.</p></section>
+<aside class="hero-note" style="margin-top:28px"><strong>Related migration tools</strong><p>For species-specific seasonal events, see <a href="/national-tools/monarch-migration-live">Monarch Migration Live</a> and <a href="/national-tools/platte-crane-live">Platte Crane Live</a>. Return to <a href="/national-tools/">U.S. Outdoor Tools</a> for the full network.</p></aside>
+</main>
+<div class="footer">&copy; 2026 <a href="/">Chris Izworski</a> &middot; Outdoor decision tools built around public scientific and government data.</div>
+<script src="/national-tools/bird-migration/app.js?v=20260916-1" defer></script>
+</body>
+</html>
