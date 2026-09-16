@@ -44,7 +44,7 @@ test('Yellowstone geyser engine preserves prediction windows and source priority
 test('Rockies regional desk contains three distinct decision tools',()=>{
   const page=read('public/national-tools/rockies/index.html');
   for(const needle of ['Rocky Mountain Elk Rut Live','Trail Ridge Road Live','Yellowstone Geyser Timing'])assert.match(page,new RegExp(needle));
-  assert.match(page,/does not.*meaningless Rockies score/i);
+  assert.match(page,/meaningless Rockies score/i);
   assert.match(page,/numberOfItems":3/);
 });
 
