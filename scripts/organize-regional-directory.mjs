@@ -24,7 +24,7 @@ const regions = [
   { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'], hub:'/national-tools/great-plains/', hubLabel:'Open the Mississippi & Great Plains decision desk →' },
   { id:'rockies', name:'Rockies', search:'rockies rocky mountains colorado mountain west', description:'Wildlife timing and mountain-season decisions where daylight, weather, access and animal behavior all matter.', ids:['elk-rut'] },
   { id:'california-sierra', name:'California & Sierra', search:'california sierra yosemite', description:'Short-lived Sierra viewing events where weather, water and sun geometry determine whether the trip is worth making.', ids:['yosemite-firefall'] },
-  { id:'pacific-northwest', name:'Pacific Northwest', search:'pacific northwest pnw washington oregon seattle puget sound columbia river salmon', description:'Locks, salmon, ships, dams and visitor timing across Puget Sound and the Columbia Basin.', ids:['ballard-locks','grand-coulee','columbia-salmon'] }
+  { id:'pacific-northwest', name:'Pacific Northwest', search:'pacific northwest pnw washington oregon seattle puget sound columbia river salmon', description:'Locks, salmon, ships, dams and visitor timing across Puget Sound and the Columbia Basin.', ids:['ballard-locks','grand-coulee','columbia-salmon'], hub:'/national-tools/pacific-northwest/', hubLabel:'Open the Pacific Northwest decision desk →' }
 ];
 
 const baseIds = [
