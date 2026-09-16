@@ -24,6 +24,7 @@ jobs:
           node scripts/sync-thunder-hole-discovery.mjs
           node scripts/sync-great-lakes-levels-discovery.mjs
           node scripts/sync-southeast-expansion.mjs
+          node scripts/sync-rockies-expansion.mjs
           node scripts/sync-columbia-salmon-discovery.mjs
           node scripts/sync-bird-migration-discovery.mjs
       - name: Organize national and regional collections
