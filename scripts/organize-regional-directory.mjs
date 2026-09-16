@@ -19,16 +19,16 @@ const nationalIds = [
 
 const regions = [
   { id:'northeast-great-lakes', name:'Northeast & Great Lakes', search:'northeast great lakes new york niagara maine acadia thunder hole', description:'Destination intelligence for major-water trips where local weather, sun, mist, tide and timing can change the experience.', ids:['niagara-rainbow','thunder-hole'] },
-  { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway', description:'Release timing, rare viewing windows and elevation-driven seasonal trips across a mountain-and-river corridor built around the right place at the right moment.', ids:['gauley','cumberland-moonbow','blue-ridge-fall-color'] },
+  { id:'appalachia-ohio-valley', name:'Appalachia & Ohio Valley', search:'appalachia appalachian ohio valley west virginia kentucky virginia north carolina blue ridge parkway', description:'Release timing, rare viewing windows and elevation-driven seasonal trips across a mountain-and-river corridor built around the right place at the right moment.', ids:['gauley','cumberland-moonbow','blue-ridge-fall-color'], hub:'/national-tools/appalachia/', hubLabel:'Open the Appalachia decision desk →' },
   { id:'southeast', name:'Southeast', search:'southeast florida gulf atlantic', description:'Warm-water wildlife and seasonal destination timing for trips where conditions can change the best day or hour to arrive.', ids:['blue-spring'] },
-  { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'] },
+  { id:'mississippi-great-plains', name:'Mississippi & Great Plains', search:'mississippi river great plains plains midwest nebraska iowa illinois', description:'River infrastructure, rail-and-river crossings and migration events across the central corridor.', ids:['melvin-price','fort-madison','platte-cranes'], hub:'/national-tools/great-plains/', hubLabel:'Open the Mississippi & Great Plains decision desk →' },
   { id:'rockies', name:'Rockies', search:'rockies rocky mountains colorado mountain west', description:'Wildlife timing and mountain-season decisions where daylight, weather, access and animal behavior all matter.', ids:['elk-rut'] },
   { id:'california-sierra', name:'California & Sierra', search:'california sierra yosemite', description:'Short-lived Sierra viewing events where weather, water and sun geometry determine whether the trip is worth making.', ids:['yosemite-firefall'] },
-  { id:'pacific-northwest', name:'Pacific Northwest', search:'pacific northwest pnw washington seattle puget sound columbia river', description:'Locks, salmon, ships, dams and visitor timing across Puget Sound and the Columbia Basin.', ids:['ballard-locks','grand-coulee'] }
+  { id:'pacific-northwest', name:'Pacific Northwest', search:'pacific northwest pnw washington oregon seattle puget sound columbia river salmon', description:'Locks, salmon, ships, dams and visitor timing across Puget Sound and the Columbia Basin.', ids:['ballard-locks','grand-coulee','columbia-salmon'] }
 ];
 
 const baseIds = [
-  'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee',
+  'gauley','niagara-rainbow','thunder-hole','cumberland-moonbow','blue-ridge-fall-color','blue-spring','ballard-locks','melvin-price','fort-madison','grand-coulee','columbia-salmon',
   'waterfall-window','rivers','coastal','smoke','snow','aurora','monarch','platte-cranes','fall-color','ice-out','white-christmas','frost','planting','garden-water'
 ];
 const missingBase = baseIds.filter(id => !cards.has(id));
@@ -51,6 +51,7 @@ const renderCards = (ids, extraTags = '') => ids.filter(id => cards.has(id)).map
       .replace(/\s+mississippi river great plains plains midwest nebraska iowa illinois/g,'')
       .replace(/\s+rockies rocky mountains colorado mountain west/g,'')
       .replace(/\s+california sierra yosemite/g,'')
+      .replace(/\s+pacific northwest pnw washington oregon seattle puget sound columbia river salmon/g,'')
       .replace(/\s+pacific northwest pnw washington seattle puget sound columbia river/g,'');
     return `data-tags="${cleanTags.trim()} ${extraTags}"`;
   });
@@ -60,7 +61,8 @@ const renderCards = (ids, extraTags = '') => ids.filter(id => cards.has(id)).map
 const renderRegion = region => {
   const present = region.ids.filter(id => cards.has(id));
   if (!present.length) return '';
-  return `<section class="catalog-group region-cluster" data-catalog-group id="region-${region.id}" aria-labelledby="region-${region.id}-title"><div class="catalog-head"><div><p class="eyebrow">Regional collection</p><h2 id="region-${region.id}-title">${region.name}</h2></div><p>${region.description}</p></div><div class="catalog-grid">\n${renderCards(present, region.search)}\n</div></section>`;
+  const handoff = region.hub ? `<br><a href="${region.hub}"><strong>${region.hubLabel}</strong></a>` : '';
+  return `<section class="catalog-group region-cluster" data-catalog-group id="region-${region.id}" aria-labelledby="region-${region.id}-title"><div class="catalog-head"><div><p class="eyebrow">Regional collection</p><h2 id="region-${region.id}-title">${region.name}</h2></div><p>${region.description}${handoff}</p></div><div class="catalog-grid">\n${renderCards(present, region.search)}\n</div></section>`;
 };
 
 const nationalSection = `<section class="catalog-group national-utilities" data-catalog-group aria-labelledby="national-tools-title"><div class="catalog-head"><div><p class="eyebrow">National tools</p><h2 id="national-tools-title">Use these anywhere in the U.S.</h2></div><p>These tools travel with you. Enter a place for local conditions, or follow a phenomenon that spans many states.</p></div><div class="catalog-grid">\n${renderCards(nationalIds)}\n</div></section>`;
@@ -80,7 +82,7 @@ html = html.replace(/<p class="hero-note"><strong>[\s\S]*?<\/p>(?=\s*<\/section>
 html = html.replace(/<p class="finder-hint">[\s\S]*?<\/p>(?=\s*<\/div>\s*<div class="persona-picks")/,
   '<p class="finder-hint">Filter every tool by intent, then browse national tools or the regional collection that fits your trip. Each tool is still listed once.</p>');
 html = html.replace(/placeholder="[^"]*"(?=>)/,
-  'placeholder="Search by place, region, activity or signal — for example Rockies, Gauley, smoke or frost"');
+  'placeholder="Search by place, region, activity or signal — for example Rockies, Gauley, salmon, smoke or frost"');
 
 const schemaMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 if (!schemaMatch) throw new Error('National directory JSON-LD missing');
@@ -88,7 +90,7 @@ const schema = JSON.parse(schemaMatch[1]);
 const collection = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#page');
 if (collection) {
   collection.description = 'A directory of U.S.-wide outdoor utilities and regional destination intelligence tools, organized by decision and geography.';
-  collection.dateModified = '2026-09-13';
+  collection.dateModified = '2026-09-16';
 }
 const list = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#toollist');
 if (list) list.name = 'U.S. Outdoor Tools: National Utilities and Regional Collections';
