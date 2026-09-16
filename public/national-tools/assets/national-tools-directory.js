@@ -11,31 +11,6 @@
   let filter='all';
   let seasonOnly=false;
 
-  const regionalHubs={
-    'region-appalachia-ohio-valley':{
-      href:'/national-tools/appalachia/',
-      label:'Open the Appalachia decision desk →'
-    },
-    'region-mississippi-great-plains':{
-      href:'/national-tools/great-plains/',
-      label:'Open the Mississippi & Great Plains decision desk →'
-    }
-  };
-
-  Object.entries(regionalHubs).forEach(([id,hub])=>{
-    const region=document.getElementById(id);
-    const copy=region&&region.querySelector('.catalog-head > p');
-    if(!copy||copy.querySelector('[data-region-hub-link]'))return;
-    const link=document.createElement('a');
-    link.href=hub.href;
-    link.textContent=hub.label;
-    link.setAttribute('data-region-hub-link','true');
-    link.style.display='block';
-    link.style.marginTop='7px';
-    link.style.fontWeight='700';
-    copy.appendChild(link);
-  });
-
   function inSeason(card){
     return(card.dataset.months||'').split(',').includes(month);
   }
