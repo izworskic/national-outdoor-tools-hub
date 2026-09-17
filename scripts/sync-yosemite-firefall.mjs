@@ -3,12 +3,13 @@ import fs from 'node:fs';
 const file = 'public/national-tools/index.html';
 let html = fs.readFileSync(file, 'utf8');
 
-const toolPath = '/national-tools/yosemite-firefall-live/';
-const toolUrl = 'https://chrisizworski.com/national-tools/yosemite-firefall-live/';
+const toolPath = '/yosemite-firefall-live/';
+const toolUrl = 'https://chrisizworski.com/yosemite-firefall-live/';
 const oldUrl = 'https://yosemite-firefall-live.vercel.app/';
 const toolName = 'Yosemite Firefall Live';
 const toolId = 'yosemite-firefall';
 
+html = html.replaceAll('/national-tools/yosemite-firefall-live/', toolPath);
 html = html.replace(`href="${oldUrl}"`, `href="${toolPath}"`);
 
 if (!html.includes(`data-tool-id="${toolId}"`)) {
@@ -35,7 +36,7 @@ if (!yosemite) {
 list.itemListElement.forEach((item, index) => { item.position = index + 1; });
 list.numberOfItems = list.itemListElement.length;
 const collection = schema?.['@graph']?.find(item => item?.['@id'] === 'https://chrisizworski.com/national-tools/#page');
-if (collection) collection.dateModified = '2026-09-11';
+if (collection) collection.dateModified = '2026-09-17';
 html = html.replace(schemaMatch[0], `<script type="application/ld+json">${JSON.stringify(schema)}</script>`);
 
 const visibleCards = [...html.matchAll(/data-tool-id="([^"]+)"/g)].length;
