@@ -19,6 +19,7 @@ jobs:
       - name: Materialize build-time discovery cards
         run: |
           node scripts/add-blue-ridge-fall-color.mjs
+          node scripts/add-blue-ridge-parkway-live.mjs
           node scripts/sync-yosemite-firefall.mjs
           node scripts/sync-elk-rut-discovery.mjs
           node scripts/sync-thunder-hole-discovery.mjs
@@ -33,12 +34,12 @@ jobs:
         run: node scripts/verify-directory.mjs
       - name: Commit organized directory
         run: |
-          if git diff --quiet -- public/national-tools/index.html; then
+          if git diff --quiet -- public/national-tools/index.html public/national-tools/appalachia/index.html; then
             echo "National Tools directory is already organized."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/national-tools/index.html
+          git add public/national-tools/index.html public/national-tools/appalachia/index.html
           git commit -m "Materialize regional National Tools directory"
           git push
