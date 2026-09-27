@@ -49,18 +49,20 @@ test('Yellowstone geyser engine preserves prediction windows and source priority
   assert.match(page,/preserves? the (?:published )?prediction window/i);
 });
 
-test('Rockies regional desk contains three distinct decision tools',()=>{
+// Shoshone Falls joined the desk in a6d304f, so the desk now carries four tools.
+test('Rockies regional desk contains four distinct decision tools',()=>{
   const page=read('public/national-tools/rockies/index.html');
-  for(const needle of ['Rocky Mountain Elk Rut Live','Trail Ridge Road Live','Yellowstone Geyser Timing'])assert.match(page,new RegExp(needle));
+  for(const needle of ['Shoshone Falls Live','Rocky Mountain Elk Rut Live','Trail Ridge Road Live','Yellowstone Geyser Timing'])assert.match(page,new RegExp(needle));
   assert.match(page,/meaningless Rockies score/i);
-  assert.match(page,/numberOfItems":3/);
+  assert.match(page,/numberOfItems":4/);
 });
 
 test('Rockies discovery is materialized and linked from the national directory',()=>{
   const html=read('public/national-tools/index.html');
   for(const id of ['elk-rut','trail-ridge-road','yellowstone-geysers'])assert.match(html,new RegExp(`data-tool-id="${id}"`));
   assert.match(html,/href="\/national-tools\/rockies\/"/);
-  assert.match(html,/Open the Rockies decision desk/);
+  // The materialized regional directory (179b462) replaced the old link label with a region cluster.
+  assert.match(html,/id="region-rockies"/);
 });
 
 test('Rockies serverless handlers load',()=>{
