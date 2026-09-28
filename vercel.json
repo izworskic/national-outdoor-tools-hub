@@ -10,6 +10,10 @@
     "api/yosemite-firefall.js": { "maxDuration": 30 }
   },
   "redirects": [
+    { "source": "/national-tools/old-faithful-next-eruption", "destination": "/national-tools/yellowstone-geysers/", "permanent": true },
+    { "source": "/national-tools/old-faithful-next-eruption/", "destination": "/national-tools/yellowstone-geysers/", "permanent": true },
+    { "source": "/national-tools/trail-ridge-road-status", "destination": "/national-tools/trail-ridge-road/", "permanent": true },
+    { "source": "/national-tools/trail-ridge-road-status/", "destination": "/national-tools/trail-ridge-road/", "permanent": true },
     { "source": "/national-tools/thunder-hole-live", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/", "permanent": true },
     { "source": "/national-tools/thunder-hole-live/", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/", "permanent": true },
     { "source": "/national-tools/thunder-hole-live/:path*", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/:path*", "permanent": true },
@@ -134,11 +138,11 @@
       "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/:path*"
     },
     {
-      "source": "/national-tools/:tool(live-decisions|zion-narrows-conditions|old-faithful-next-eruption|going-to-the-sun-road-status|yellowstone-road-status|trail-ridge-road-status|tioga-road-status|cadillac-mountain-sunrise|mount-rainier-road-status|lake-mead-access|lake-powell-ramp-status)",
+      "source": "/national-tools/:tool(live-decisions|zion-narrows-conditions|grand-canyon-access|going-to-the-sun-road-status|haleakala-sunrise|yellowstone-road-status|tioga-road-status|cadillac-mountain-sunrise|mount-rainier-road-status|lake-mead-access|lake-powell-ramp-status)",
       "destination": "https://national-outdoor-core.vercel.app/national-tools/:tool/index.html"
     },
     {
-      "source": "/national-tools/:tool(live-decisions|zion-narrows-conditions|old-faithful-next-eruption|going-to-the-sun-road-status|yellowstone-road-status|trail-ridge-road-status|tioga-road-status|cadillac-mountain-sunrise|mount-rainier-road-status|lake-mead-access|lake-powell-ramp-status)/",
+      "source": "/national-tools/:tool(live-decisions|zion-narrows-conditions|grand-canyon-access|going-to-the-sun-road-status|haleakala-sunrise|yellowstone-road-status|tioga-road-status|cadillac-mountain-sunrise|mount-rainier-road-status|lake-mead-access|lake-powell-ramp-status)/",
       "destination": "https://national-outdoor-core.vercel.app/national-tools/:tool/index.html"
     },
     {
