@@ -8,7 +8,7 @@
     "validate:production": "node scripts/validate-national-production.mjs"
   },
   "dependencies": {
-    "@izworskic/national-outdoor-core": "github:izworskic/national-outdoor-core#0531164f6c5293835e8274bf85a78ca92270d8b5",
+    "@izworskic/national-outdoor-core": "github:izworskic/national-outdoor-core#548cf54d8c289cd1ccbefdca3024227891e00f92",
     "gauley-release-live": "github:izworskic/gauley-release-live-#63cec09963093b5aa903245dda90388fc8edc988",
     "tsx": "^4.20.5",
     "yosemite-firefall-live": "github:izworskic/yosemite-firefall-live#78dcf63ef4687395696778402c59907350677c7a"
