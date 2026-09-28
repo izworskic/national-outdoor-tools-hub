@@ -138,14 +138,6 @@
       "destination": "https://national-outdoor-core.vercel.app/national-tools/smoke/:path*"
     },
     {
-      "source": "/national-tools/:tool(live-decisions|zion-narrows-conditions|grand-canyon-access|going-to-the-sun-road-status|haleakala-sunrise|yellowstone-road-status|tioga-road-status|cadillac-mountain-sunrise|mount-rainier-road-status|lake-mead-access|lake-powell-ramp-status)",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/:tool/index.html"
-    },
-    {
-      "source": "/national-tools/:tool(live-decisions|zion-narrows-conditions|grand-canyon-access|going-to-the-sun-road-status|haleakala-sunrise|yellowstone-road-status|tioga-road-status|cadillac-mountain-sunrise|mount-rainier-road-status|lake-mead-access|lake-powell-ramp-status)/",
-      "destination": "https://national-outdoor-core.vercel.app/national-tools/:tool/index.html"
-    },
-    {
       "source": "/national-tools/waterfalls",
       "destination": "/national-tools/waterfalls/index.html"
     },
