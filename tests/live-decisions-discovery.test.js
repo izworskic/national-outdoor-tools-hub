@@ -2,7 +2,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 
-const tools=['zion-narrows-conditions','grand-canyon-access','going-to-the-sun-road-status','haleakala-sunrise','yellowstone-road-status','tioga-road-status','cadillac-mountain-sunrise','mount-rainier-road-status','lake-mead-access','lake-powell-ramp-status'];
+const tools=['zion-narrows-conditions','grand-canyon-access','going-to-the-sun-road-status','haleakala-sunrise','kilauea-live','yellowstone-road-status','tioga-road-status','cadillac-mountain-sunrise','mount-rainier-road-status','lake-mead-access','lake-powell-ramp-status'];
 
 function section(html,id){
   const start=html.indexOf(`id="region-${id}"`);
@@ -24,7 +24,9 @@ test('national directory seats live destination tools in geographic regions',()=
   assert.match(section(html,'california-sierra'),/data-tool-id="tioga-road-status"/);
   assert.match(section(html,'pacific-northwest'),/data-tool-id="mount-rainier-road-status"/);
   assert.match(section(html,'northeast-great-lakes'),/data-tool-id="cadillac-mountain-sunrise"/);
-  assert.match(section(html,'hawaii'),/data-tool-id="haleakala-sunrise"/);
+  const hawaii=section(html,'hawaii');
+  assert.match(hawaii,/data-tool-id="haleakala-sunrise"/);
+  assert.match(hawaii,/data-tool-id="kilauea-live"/);
 
   const nationalStart=html.indexOf('aria-labelledby="national-tools-title"');
   const regionalStart=html.indexOf('class="regional-collections"',nationalStart);
