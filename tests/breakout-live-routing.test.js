@@ -7,7 +7,7 @@ const slugs=['live-decisions','zion-narrows-conditions','grand-canyon-access','g
 
 test('breakout live pages are materialized as hub static output',()=>{
   assert.equal(cfg.rewrites.some(r=>String(r.source).includes(':tool(live-decisions|')),false,'breakout pages must not depend on a second-hop rewrite');
-  assert.match(pkg.dependencies['@izworskic/national-outdoor-core'],/#7e4252133da0bc9a07766fc734e8aa175243b11b$/,'core dependency must be pinned');
+  assert.match(pkg.dependencies['@izworskic/national-outdoor-core'],/#[0-9a-f]{40}$/,'core dependency must be pinned to an immutable commit SHA');
   for(const slug of slugs){
     const file=`public/national-tools/${slug}/index.html`;
     assert.ok(fs.existsSync(file),`${slug} must exist in hub static output`);
