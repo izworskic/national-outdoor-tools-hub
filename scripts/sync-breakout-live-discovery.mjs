@@ -54,4 +54,28 @@ html=html.replace(match[0],`<script type="application/ld+json">${JSON.stringify(
 const count=(html.match(/data-search-card/g)||[]).length;
 html=html.replace(/(<p class="finder-count" id="finder-count" aria-live="polite">)\d+ tools shown(<\/p>)/,`$1${count} tools shown$2`);
 fs.writeFileSync(file,html,'utf8');
-console.log(`Live destination discovery synced | destination cards=${ids.length} | directory cards=${count} | structured=${list.numberOfItems}`);
+
+const collectionFile=path.join('public','national-tools','live-decisions','index.html');
+if(!fs.existsSync(collectionFile)) throw new Error('Live decisions discovery: geographic collection page missing');
+let collection=fs.readFileSync(collectionFile,'utf8');
+const kilaueaCard=`<a class="decision-link-card" href="/national-tools/kilauea-live/"><span>${KILAUEA.place}</span><strong>${KILAUEA.name}</strong><small>${KILAUEA.decision}</small></a>`;
+collection=collection.replace(/<a class="decision-link-card" href="\/national-tools\/kilauea-live\/">[\s\S]*?<\/a>/g,'');
+const hawaiiRe=/(<section class="decision-region"><div class="decision-region-head"><p class="eyebrow">Hawaii<\/p>[\s\S]*?<div class="decision-link-grid">)([\s\S]*?)(<\/div><\/section>)/;
+if(!hawaiiRe.test(collection)) throw new Error('Live decisions discovery: Hawaii region missing from collection page');
+collection=collection.replace(hawaiiRe,(_,open,body,close)=>`${open}${body}${kilaueaCard}${close}`);
+const collectionSchemaMatch=collection.match(schemaRe);
+if(!collectionSchemaMatch) throw new Error('Live decisions discovery: collection JSON-LD missing');
+const collectionSchema=JSON.parse(collectionSchemaMatch[1]);
+const collectionList=collectionSchema?.['@graph']?.find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/live-decisions/#list');
+if(!collectionList?.itemListElement) throw new Error('Live decisions discovery: collection ItemList missing');
+collectionList.itemListElement=collectionList.itemListElement.filter(x=>x.url!==urlFor(KILAUEA.id));
+collectionList.itemListElement.push({'@type':'ListItem',position:0,url:urlFor(KILAUEA.id),name:KILAUEA.name});
+collectionList.itemListElement.forEach((x,i)=>x.position=i+1);
+collectionList.numberOfItems=collectionList.itemListElement.length;
+const collectionPage=collectionSchema?.['@graph']?.find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/live-decisions/#page');
+if(collectionPage) collectionPage.dateModified='2026-09-28';
+collection=collection.replace(collectionSchemaMatch[0],`<script type="application/ld+json">${JSON.stringify(collectionSchema)}</script>`);
+if((collection.match(/href="\/national-tools\/kilauea-live\/"/g)||[]).length!==1) throw new Error('Live decisions discovery: Kilauea collection card must be unique');
+fs.writeFileSync(collectionFile,collection,'utf8');
+
+console.log(`Live destination discovery synced | destination cards=${ids.length} | directory cards=${count} | structured=${list.numberOfItems} | collection=${collectionList.numberOfItems}`);
