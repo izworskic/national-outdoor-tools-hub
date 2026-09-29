@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install pinned build dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
       - name: Materialize build-time discovery cards
         run: |
           node scripts/add-blue-ridge-fall-color.mjs
@@ -23,22 +25,25 @@ jobs:
           node scripts/sync-elk-rut-discovery.mjs
           node scripts/sync-thunder-hole-discovery.mjs
           node scripts/sync-great-lakes-levels-discovery.mjs
+          node scripts/sync-duluth-canal-park-discovery.mjs
           node scripts/sync-southeast-expansion.mjs
           node scripts/sync-rockies-expansion.mjs
           node scripts/sync-columbia-salmon-discovery.mjs
           node scripts/sync-bird-migration-discovery.mjs
+          node scripts/sync-breakout-live-pages.mjs
+          node scripts/sync-breakout-live-discovery.mjs
       - name: Organize national and regional collections
         run: node scripts/organize-regional-directory.mjs
       - name: Verify organized directory
         run: node scripts/verify-directory.mjs
       - name: Commit organized directory
         run: |
-          if git diff --quiet -- public/national-tools/index.html; then
+          if git diff --quiet -- public/national-tools/index.html public/national-tools/live-decisions; then
             echo "National Tools directory is already organized."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/national-tools/index.html
+          git add public/national-tools/index.html public/national-tools/live-decisions
           git commit -m "Materialize regional National Tools directory"
           git push
