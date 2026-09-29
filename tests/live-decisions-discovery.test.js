@@ -42,3 +42,24 @@ test('national directory seats live destination tools in geographic regions',()=
   for(const id of tools) assert.equal(list.itemListElement.filter(x=>x.url===`https://chrisizworski.com/national-tools/${id}/`).length,1,`${id} must appear once in ItemList`);
   assert.equal(list.numberOfItems,list.itemListElement.length,'structured tool count must match ItemList length');
 });
+
+test('live destination entry page is geographic and seats Kilauea in Hawaii',()=>{
+  const html=fs.readFileSync('public/national-tools/live-decisions/index.html','utf8');
+  assert.match(html,/Start with where you're going\./);
+  assert.match(html,/Southwest &amp; Colorado Plateau/);
+  assert.equal((html.match(/href="\/national-tools\/kilauea-live\/"/g)||[]).length,1,'Kilauea must appear exactly once in collection');
+  const hawaiiStart=html.indexOf('<p class="eyebrow">Hawaii</p>');
+  assert.ok(hawaiiStart>=0,'collection Hawaii region missing');
+  const nextRegion=html.indexOf('<section class="decision-region">',hawaiiStart+1);
+  const hawaii=html.slice(hawaiiStart,nextRegion<0?html.length:nextRegion);
+  assert.match(hawaii,/href="\/national-tools\/haleakala-sunrise\/"/);
+  assert.match(hawaii,/href="\/national-tools\/kilauea-live\/"/);
+  const schemaText=html.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
+  assert.ok(schemaText,'collection JSON-LD missing');
+  const schema=JSON.parse(schemaText);
+  const list=schema?.['@graph']?.find(x=>x?.['@id']==='https://chrisizworski.com/national-tools/live-decisions/#list');
+  assert.ok(list,'collection ItemList missing');
+  assert.equal(list.numberOfItems,11);
+  assert.equal(list.itemListElement.filter(x=>x.url==='https://chrisizworski.com/national-tools/kilauea-live/').length,1);
+  assert.equal(list.numberOfItems,list.itemListElement.length);
+});
