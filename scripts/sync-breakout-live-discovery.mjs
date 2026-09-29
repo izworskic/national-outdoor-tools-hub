@@ -8,18 +8,27 @@ const geography=JSON.parse(fs.readFileSync(path.join(core,'config','breakout-liv
 const pages=JSON.parse(fs.readFileSync(path.join(core,'config','breakout-live-pages.json'),'utf8'));
 const portfolio=JSON.parse(fs.readFileSync(path.join(core,'benchmarks','breakout-live-portfolio.json'),'utf8'));
 const candidates=new Map(portfolio.candidates.map(x=>[x.id,x]));
-const ids=geography.regions.flatMap(r=>r.toolIds);
+const coreIds=geography.regions.flatMap(r=>r.toolIds);
+const KILAUEA={
+  id:'kilauea-live',name:'Kīlauea Live',place:'Hawaiʻi Volcanoes National Park · Hawaiʻi',kind:'Live volcano decision',
+  tags:'kilauea volcano hawaii eruption lava national park live viewing hvo nps weather air quality',
+  description:'See what the summit is doing now, whether the view is worth the trip, and which public viewpoint best fits the current conditions.',
+  decision:'Is Kīlauea worth going to right now, and which viewpoint fits the conditions?'
+};
+const ids=[...coreIds,KILAUEA.id];
 const urlFor=id=>`https://chrisizworski.com/national-tools/${id}/`;
-const nameOf=id=>pages[id].title.replace(/ \| Chris Izworski$/,'');
+const nameOf=id=>id===KILAUEA.id?KILAUEA.name:pages[id].title.replace(/ \| Chris Izworski$/,'');
 
 function card(id){
+  if(id===KILAUEA.id){
+    return `<article class="directory-card" data-search-card data-tool-id="${id}" data-personas="trip conditions" data-tags="live destination decision ${KILAUEA.tags}" data-months="1,2,3,4,5,6,7,8,9,10,11,12"><div class="card-top"><span class="kind">${KILAUEA.kind}</span><span class="season-label" hidden>Useful now</span></div><h3>${KILAUEA.name}</h3><p class="place">${KILAUEA.place}</p><p class="description">${KILAUEA.description}</p><p class="signals"><strong>Decision:</strong> ${KILAUEA.decision}</p><div class="card-actions"><a class="primary-action" href="/national-tools/${id}/">Open live decision &rarr;</a></div></article>`;
+  }
   const p=pages[id], meta=geography.tools[id]||{}, c=candidates.get(id)||{};
   if(!p) throw new Error(`Live decisions discovery: page config missing for ${id}`);
   return `<article class="directory-card" data-search-card data-tool-id="${id}" data-personas="trip conditions" data-tags="live destination decision ${meta.tags||''}" data-months="1,2,3,4,5,6,7,8,9,10,11,12"><div class="card-top"><span class="kind">${meta.kind||'Live destination decision'}</span><span class="season-label" hidden>Useful now</span></div><h3>${nameOf(id)}</h3><p class="place">${meta.place||'United States'}</p><p class="description">${p.description}</p><p class="signals"><strong>Decision:</strong> ${c.primaryDecision||p.h1}</p><div class="card-actions"><a class="primary-action" href="/national-tools/${id}/">Open live decision &rarr;</a></div></article>`;
 }
 
-const allIds=['live-decisions',...ids];
-for(const id of allIds) html=html.replace(new RegExp(`<article class="directory-card"[^>]*data-tool-id="${id}"[\\s\\S]*?<\\/article>\\s*`,'g'),'');
+for(const id of ['live-decisions',...ids]) html=html.replace(new RegExp(`<article class="directory-card"[^>]*data-tool-id="${id}"[\\s\\S]*?<\\/article>\\s*`,'g'),'');
 const section=html.indexOf('<section class="catalog-group national-utilities"');
 if(section<0) throw new Error('Live decisions discovery: national utilities section missing');
 const grid=html.indexOf('<div class="catalog-grid">',section);
