@@ -9,6 +9,8 @@ const core=path.join(root,'node_modules','@izworskic','national-outdoor-core');
 if(!fs.existsSync(path.join(core,'package.json'))) throw new Error('Breakout sync: pinned national-outdoor-core dependency is missing');
 
 execFileSync(process.execPath,[path.join(core,'scripts','generate-breakout-live-pages.mjs')],{cwd:core,stdio:'inherit'});
+// Haleakala owns a purpose-built page (evidence engine UI) that replaces the generic template; generate it before analytics injection.
+execFileSync(process.execPath,[path.join(core,'scripts','generate-haleakala-sunrise-page.mjs')],{cwd:core,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(core,'scripts','inject-network-analytics.js')],{cwd:core,stdio:'inherit'});
 
 const config=JSON.parse(fs.readFileSync(path.join(core,'config','breakout-live-pages.json'),'utf8'));
