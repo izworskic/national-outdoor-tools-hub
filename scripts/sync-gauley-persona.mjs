@@ -18,6 +18,17 @@ let html=fs.readFileSync(path.join(dist,'index.html'),'utf8')
   .replaceAll("getJSON('./api/live')","getJSON('./api/live')")
   .replaceAll("getJSON('./api/history')","getJSON('./api/history')");
 
+// Preserve upstream crawl policy; an omitted robots tag defaults to index/follow.
+// Make that default explicit in the composed public shell for metadata verification.
+if(!/<meta[^>]+name=["']robots["']/i.test(html))html=html.replace('</head>','<meta name="robots" content="index,follow,max-image-preview:large">\n</head>');
+
+// Match social snippets to the upstream visible title/description; no invented preview image.
+const title=html.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
+const description=html.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
+if(!title||!description)throw new Error('Gauley upstream social metadata missing');
+if(!html.includes('name="twitter:title"'))html=html.replace('</head>',`<meta name="twitter:title" content="${title}">\n<meta name="twitter:description" content="${description}">\n</head>`);
+if(!html.includes('property="og:image"'))html=html.replace('name="twitter:card" content="summary_large_image"','name="twitter:card" content="summary"');
+
 for(const marker of [canonical,'G-Y5D2V2W7HN','Private paddle','Raft guest','data-persona="watch"','data-persona="photo"','Since your last check','ENVIRONMENTAL CONTEXT INDEX']){
   if(!html.includes(marker)) throw new Error(`Gauley persona build missing ${marker}`);
 }
