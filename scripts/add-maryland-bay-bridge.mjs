@@ -13,29 +13,37 @@ if (!html.includes(`data-tool-id="${toolId}"`)) {
   html = html.slice(0, at) + card + html.slice(at);
 }
 
+const orderedCards = [...html.matchAll(/<article class="directory-card"[\s\S]*?<\/article>/g)].map(match => match[0]);
+const directoryEntries = orderedCards.map((card, index) => {
+  const url = card.match(/<a class="primary-action" href="([^"]+)"/)?.[1];
+  const name = card.match(/<h3>([\s\S]*?)<\/h3>/)?.[1]?.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&');
+  if (!url || !name) throw new Error('Maryland Bay Bridge: directory card missing primary URL or name');
+  return {'@type':'ListItem', position:index + 1, url:new URL(url, 'https://chrisizworski.com').href, name};
+});
+if (new Set(directoryEntries.map(item => item.url)).size !== directoryEntries.length) {
+  throw new Error('Maryland Bay Bridge: duplicate directory canonical after injection');
+}
+
 const schemaMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 if (!schemaMatch) throw new Error('Maryland Bay Bridge: national directory JSON-LD missing');
 const schema = JSON.parse(schemaMatch[1]);
 const graph = schema?.['@graph'];
 const list = graph?.find(node => node?.['@id'] === 'https://chrisizworski.com/national-tools/#toollist');
-if (!list || !Array.isArray(list.itemListElement)) throw new Error('Maryland Bay Bridge: national ItemList missing');
-if (!list.itemListElement.some(item => item.url === canonical)) {
-  const cbbtIndex = list.itemListElement.findIndex(item => item.url === 'https://chrisizworski.com/chesapeake-bay-bridge-tunnel/');
-  const item = {'@type':'ListItem', position:0, url:canonical, name:'Maryland Chesapeake Bay Bridge Live'};
-  if (cbbtIndex >= 0) list.itemListElement.splice(cbbtIndex, 0, item);
-  else list.itemListElement.push(item);
-}
-list.itemListElement.forEach((item, index) => { item.position = index + 1; });
-list.numberOfItems = list.itemListElement.length;
+if (!list) throw new Error('Maryland Bay Bridge: national ItemList missing');
+list.itemListElement = directoryEntries;
+list.numberOfItems = directoryEntries.length;
 const page = graph?.find(node => node?.['@id'] === 'https://chrisizworski.com/national-tools/#page');
 if (page) page.dateModified = '2026-10-05';
 html = html.replace(schemaMatch[0], `<script type="application/ld+json">${JSON.stringify(schema)}</script>`);
 
-const count = (html.match(/data-search-card/g) || []).length;
+const count = orderedCards.length;
 html = html.replace(/(<p class="finder-count" id="finder-count" aria-live="polite">)\d+ tools shown(<\/p>)/, `$1${count} tools shown$2`);
 
 if (!html.includes(`data-tool-id="${toolId}"`) || !html.includes(canonical)) {
   throw new Error('Maryland Bay Bridge: directory injection verification failed');
+}
+if (!list.itemListElement.some(item => item.url === canonical)) {
+  throw new Error('Maryland Bay Bridge: structured directory entry missing');
 }
 
 fs.writeFileSync(file, html, 'utf8');
