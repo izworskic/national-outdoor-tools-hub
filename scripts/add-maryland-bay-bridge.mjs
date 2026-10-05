@@ -22,7 +22,7 @@ if (!list || !Array.isArray(list.itemListElement)) throw new Error('Maryland Bay
 if (!list.itemListElement.some(item => item.url === canonical)) {
   const cbbtIndex = list.itemListElement.findIndex(item => item.url === 'https://chrisizworski.com/chesapeake-bay-bridge-tunnel/');
   const item = {'@type':'ListItem', position:0, url:canonical, name:'Maryland Chesapeake Bay Bridge Live'};
-  if (cbbtIndex >= 0) list.itemListElement.splice(cbbtIndex + 1, 0, item);
+  if (cbbtIndex >= 0) list.itemListElement.splice(cbbtIndex, 0, item);
   else list.itemListElement.push(item);
 }
 list.itemListElement.forEach((item, index) => { item.position = index + 1; });
