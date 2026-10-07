@@ -15,6 +15,19 @@ Individual tools remain authoritative in their own repositories. Shared location
 
 Public canonical URLs remain on `chrisizworski.com` and are composed through the site-shell router.
 
+## Adjacent Everyday Decisions lane
+
+The public `/national-tools/` hub remains outdoor-first. It may also surface a clearly separated **Everyday Decisions** family for nationally useful decision engines that do not belong to an outdoor region.
+
+Rules:
+- Keep Everyday Decisions visually and taxonomically separate from national outdoor utilities and regional destination collections.
+- Do not apply outdoor scoring/source doctrine to a non-outdoor engine merely because it is discoverable from this hub.
+- The individual engine remains authoritative in its owning repository and keeps its existing canonical URL.
+- Add a dedicated intent filter only when the lane has a real user decision, not to create a generic miscellaneous bucket.
+- A new everyday tool must still appear once in the single catalog and once in the ordered ItemList.
+
+Current first member: `https://chrisizworski.com/can-i-afford-this-house/` — **Can I Afford This House? True Monthly Cost**.
+
 ## Landing-page contract
 
 - Keep one visible catalog card per tool or destination suite. Persona, search, and seasonal controls filter those same cards.
