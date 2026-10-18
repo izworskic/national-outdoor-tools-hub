@@ -81,7 +81,7 @@ function radiantAlt(at,lat,lon,shower){
 }
 function gradeHour(time,cloud,lat,lon,context){
  const astro=solarMoon(time,lat,lon);
- const active=showerContext(time).primary||context.primary;
+ const active=showerContext(time).primary; // never use an expired shower's radiant
  const radiant=active?radiantAlt(time,lat,lon,active):null;
  const dark=astro.sunAlt<=-18?'dark':astro.sunAlt<=-12?'twilight':'bright';
  // Decision index ranks potential observing hours. It is NOT a probability or predicted meteor count.
@@ -101,10 +101,10 @@ function bestWindow(hours){
  return valid.sort((a,b)=>b.score-a.score)[0]||null;
 }
 function forecastWindows(periods,lat,lon,now){
- const start=Math.ceil(now/HOUR)*HOUR,context=showerContext(now);
+ const start=Math.floor(now/HOUR)*HOUR,context=showerContext(now); // include the partial current hour
  const hours=[];
  for(let n=0;n<72;n++){let t=start+n*HOUR;hours.push(gradeHour(t,skyAt(t,periods),lat,lon,context));}
- return {hours,best:bestWindow(hours),nearTerm:bestWindow(hours.filter(h=>Date.parse(h.time)<now+18*HOUR))};
+ return {hours,best:bestWindow(hours),nearTerm:bestWindow(hours.filter(h=>Date.parse(h.time)+HOUR>now&&Date.parse(h.time)<now+18*HOUR))};
 }
 const UA='ChrisIzworskiMeteorViewing/1.0 (https://chrisizworski.com/national-tools/meteor-shower/)';
 async function loadJson(url){
@@ -130,7 +130,7 @@ function surrounding(lat,lon,miles){
  const km=miles*1.609344,shift=km/111.2;
  return [{label:'North sample',lat:lat+shift,lon},{label:'East sample',lat,lon:lon+shift/Math.max(.2,Math.cos(radians(lat)))},
  {label:'South sample',lat:lat-shift,lon},{label:'West sample',lat,lon:lon-shift/Math.max(.2,Math.cos(radians(lat)))}]
- .filter(x=>x.lat>19&&x.lat<72&&x.lon>-180&&x.lon<-60).map(x=>({...x,lat:+x.lat.toFixed(3),lon:+x.lon.toFixed(3),miles}));
+ .filter(x=>x.lat>=10&&x.lat<=75).map(x=>({...x,lat:+x.lat.toFixed(3),lon:+((((x.lon+180)%360+360)%360)-180).toFixed(3),miles}));
 }
 async function sample(loc,now){
  try{
@@ -146,8 +146,8 @@ async function handler(req,res){
  if(req.method==='OPTIONS'){res.setHeader('Access-Control-Allow-Methods','GET, OPTIONS');return res.status(204).end();}
  if(req.method!=='GET')return res.status(405).json({error:'GET only'});
  const lat=Number(req.query?.lat),lon=Number(req.query?.lon),radius=Number(req.query?.radius||0);
- if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<19||lat>72||lon< -180||lon> -60||![0,40,80].includes(radius))
-  return res.status(400).json({error:'Valid US coordinates and radius 0, 40, or 80 required'});
+ if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<10||lat>75||lon< -180||lon>180||![0,40,80].includes(radius))
+  return res.status(400).json({error:'Valid NWS-region coordinates and radius 0, 40, or 80 required'});
  const now=Date.now(),center={label:'Your forecast area',lat:+lat.toFixed(2),lon:+lon.toFixed(2)};
  const base=await sample(center,now);
  if(!base.available)return res.status(503).json({status:'unavailable',error:'A current NWS sky-cover forecast is not available here. No viewing verdict can be issued.',location:center,generatedAt:new Date(now).toISOString()});
@@ -159,7 +159,7 @@ async function handler(req,res){
   active:shower.active.map(s=>({name:s.name,id:s.id,idealPeakZhr:s.zhr,peakAt:s.peakAt})),
   upcoming:shower.next&&{name:shower.next.name,id:shower.next.id,peakAt:shower.next.peakAt,idealPeakZhr:shower.next.zhr},
   forecast:{updated:base.updated,office:base.office,timeZone:base.timeZone,hours:base.hours,best:base.best,nearTerm:base.nearTerm},
-  nearby:near.map(x=>({label:x.label,lat:x.lat,lon:x.lon,miles:x.miles,available:x.available,updated:x.updated||null,best:x.best})),
+  nearby:near.map(x=>({label:x.label,lat:x.lat,lon:x.lon,miles:x.miles,available:x.available,updated:x.updated||null,timeZone:x.timeZone||null,best:x.best})),
   sources:{weather:'National Weather Service forecastGridData skyCover',shower:'International Meteor Organization visual meteor shower working list (seasonal reference)',astronomy:'Approximate solar, lunar and radiant geometry'},
   notes:['Sky score is a relative observing-conditions index, not a chance of seeing a meteor or predicted hourly count.','Nearby compass points sample NWS forecast grids, NOT legal viewing destinations or driving distances.','ZHR refers to ideal dark clear skies with the radiant at the zenith, not a local observation.','After 2026 peak dates represent approximate annual timing; meteor-shower maxima vary by year.']
  });
