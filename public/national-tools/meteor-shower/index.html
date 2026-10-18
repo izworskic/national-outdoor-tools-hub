@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meteor Shower Tonight: Best Hours &amp; Clear Sky Finder | Chris Izworski</title>
+<meta name="description" content="Should you watch meteors tonight? Compare hourly NWS clouds, darkness, moonlight, radiant position and nearby forecast areas to find a better viewing window.">
+<link rel="canonical" href="https://chrisizworski.com/national-tools/meteor-shower/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website"><meta property="og:title" content="Meteor Shower Tonight: Best Hours & Clear Sky Finder"><meta property="og:url" content="https://chrisizworski.com/national-tools/meteor-shower/">
+<meta property="og:description" content="Find the best weather window for meteors tonight, then compare clearer skies nearby.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://chrisizworski.com/#person","name":"Chris Izworski","url":"https://chrisizworski.com/"},{"@type":"WebApplication","@id":"https://chrisizworski.com/national-tools/meteor-shower/#app","name":"Meteor Viewing Tonight","url":"https://chrisizworski.com/national-tools/meteor-shower/","applicationCategory":"WeatherApplication","operatingSystem":"Web","isAccessibleForFree":true,"author":{"@id":"https://chrisizworski.com/#person"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"U.S. Outdoor Tools","item":"https://chrisizworski.com/national-tools/"},{"@type":"ListItem","position":2,"name":"Meteor Shower Tonight","item":"https://chrisizworski.com/national-tools/meteor-shower/"}]}]}</script>
+<style>
+:root{color-scheme:dark;--bg:#080e20;--panel:#111d33;--line:#273752;--muted:#aabbd0;--gold:#ffd585;--mint:#75efd0;--ink:#eef4ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:#aedcfb}a:hover{text-decoration:none}button,input,select{font:inherit}button{cursor:pointer}
+.wrap{width:min(1150px,calc(100% - 36px));margin-inline:auto}
+header{background:#0a1427;border-bottom:1px solid var(--line);padding:13px 0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.top strong{font-size:15px;letter-spacing:.02em}.top nav{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}.top a{text-decoration:none}
+.hero{padding:62px 0 36px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 76% 10%,#273b69 0,transparent 42%),radial-gradient(ellipse at 3% 70%,#183656 0,transparent 39%),linear-gradient(160deg,#0d1732,#090f20)}
+.hero:before{content:"";pointer-events:none;position:absolute;inset:0;opacity:.7;background-image:radial-gradient(2px 2px at 10% 20%,#fff 95%,transparent),radial-gradient(1px 1px at 35% 60%,#fff 95%,transparent),radial-gradient(2px 2px at 74% 22%,#fff 95%,transparent),radial-gradient(1px 1px at 81% 74%,#fff 95%,transparent);background-size:175px 125px,151px 192px,237px 172px,197px 136px}
+.hero .wrap{position:relative}.eyebrow{font-weight:800;color:var(--mint);font-size:11px;text-transform:uppercase;letter-spacing:.15em}h1{font-size:clamp(35px,5vw,65px);line-height:1.06;letter-spacing:-.045em;font-weight:750;max-width:810px;margin:14px 0}
+.hero p{color:#c8d7eb;max-width:650px;font-size:18px;margin:13px 0 0}
+.hero .meteor{position:absolute;width:190px;height:2px;transform:rotate(-34deg);background:linear-gradient(90deg,transparent,#80d8ec,#fff);right:10%;top:30%;box-shadow:0 0 20px #98ddec}
+main{padding-bottom:48px}.workbench{margin-top:-8px;position:relative}
+.search{background:#14213a;border:1px solid #31405d;border-radius:16px;padding:20px;display:flex;align-items:end;gap:12px;flex-wrap:wrap;box-shadow:0 12px 35px #0004}
+.search .query{flex:1 1 245px}.search label{display:block;color:#becce0;font-weight:650;font-size:12px;margin-bottom:8px}
+.search input,.search select{background:#091426;border:1px solid #4d6080;border-radius:9px;padding:12px;color:white;width:100%;min-height:47px}
+.search select{width:125px}.search button,.btn{border:0;border-radius:9px;background:var(--mint);color:#062b30;padding:12px 18px;font-weight:800;min-height:47px}
+.search button.secondary{background:#293b59;color:white}
+.search small{color:#aebcd2;width:100%;font-size:12px}.search .note{color:#cad4e3}
+.status{color:var(--muted);margin:16px 0;min-height:24px}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:21px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:24px;min-width:0}
+.kicker{color:var(--mint);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.big{font-size:clamp(27px,3vw,39px);line-height:1.18;margin:11px 0;font-weight:750;letter-spacing:-.035em}
+.text-secondary,.muted{color:var(--muted)}.small{font-size:13px}.reason{color:#d9e5f7;font-size:15px;max-width:670px}
+.meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:21px}
+.chip{border:1px solid #405572;border-radius:18px;font-size:12px;padding:7px 10px;background:#192b44}
+.num{font-size:33px;font-weight:750;margin:8px 0 0;color:var(--gold)}
+.scard{border-top:1px solid #2c3a52;padding-top:12px;margin-top:18px}
+h2{font-size:23px;margin:0 0 5px;letter-spacing:-.025em}h3{font-size:17px;margin:0 0 9px}
+.section{margin-top:21px}.section .panel{padding:23px}
+.flex-title{display:flex;align-items:start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#c7d3e1;margin:13px 0}.legend span:before{content:"";display:inline-block;height:8px;width:8px;border-radius:50%;background:var(--mint);margin-right:7px}.legend span:nth-child(2):before{background:#fbc779}
+.timeline{display:flex;gap:5px;align-items:flex-end;min-height:195px;overflow-x:auto;padding:15px 0;border-bottom:1px solid #40516b}
+.hour{width:32px;min-width:32px;height:165px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px}
+.bar{width:24px;min-height:2px;border-radius:5px 5px 1px 1px;background:linear-gradient(0deg,#347da7,var(--mint))}
+.bar.dim{background:linear-gradient(0deg,#6c556c,#c19d76)}
+.hour time{font-size:10px;color:#c0d0e4;white-space:nowrap}.hour strong{font-size:9px;color:#f3f7ff}
+.hour:focus{outline:2px solid var(--gold);outline-offset:3px}.hour[aria-label*="No"] .bar{background:#536078}
+.callout{border-left:3px solid var(--gold);padding:10px 14px;background:#1a2942;margin-top:18px;border-radius:0 8px 8px 0;color:#d6e3f3;font-size:13px}
+.compass{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:17px}
+.spot{background:#0e1b30;border:1px solid #31435e;border-radius:11px;padding:16px}
+.spot .value{font-weight:800;font-size:18px;color:var(--mint)}
+.spot button{font-size:12px;color:#a7e2f6;border:1px solid #4a637d;background:#152b42;border-radius:6px;padding:8px 11px;margin-top:10px}
+#map{height:270px;border-radius:11px;background:#122039;margin-top:16px;overflow:hidden}.mapfallback{padding:20px;color:var(--muted)}
+.sources{font-size:13px;color:#c5d2df}.sources li{margin:9px 0}
+footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
+:focus-visible{outline:3px solid #ffdb90;outline-offset:3px}
+[hidden]{display:none!important}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.hero{padding:46px 0 28px}.search{align-items:stretch}.search button{flex:1 1 135px}.panel{padding:19px}.compass{grid-template-columns:1fr}.hero .meteor{right:2%;top:17%;width:75px}.top{align-items:start;flex-direction:column}}
+</style>
+<!-- Keep existing network ad implementation untouched. -->
+</head><body>
+<header><div class="wrap top"><strong><a href="https://chrisizworski.com/">Chris Izworski</a> / Night Sky</strong><nav><a href="/national-tools/">All outdoor tools</a><a href="/national-tools/night-sky/">Aurora planner</a><a href="/tools/">Michigan tools</a></nav></div></header>
+<section class="hero"><span class="meteor" aria-hidden="true"></span><div class="wrap"><div class="eyebrow">A living calendar of the night sky</div><h1>Will the meteors be worth watching tonight?</h1><p>Find your best dark-sky hours. Compare local cloud cover and moonlight. If your sky looks poor, see whether another forecast area nearby looks clearer.</p></div></section>
+<main class="wrap">
+<section class="workbench" aria-label="Select your viewing location">
+<form class="search" id="locationForm"><div class="query"><label for="place">U.S. city, state or ZIP</label><input id="place" placeholder="Bay City, MI" value="Bay City, MI" autocomplete="address-level2"></div>
+<div><label for="radius">Nearby comparison</label><select id="radius"><option value="0">Off</option><option value="40" selected>40 miles</option><option value="80">80 miles</option></select></div>
+<button type="submit">Check the sky</button><button class="secondary" type="button" id="locate">Use my location</button>
+<small>Only an approximate forecast coordinate is used. Nearby points are weather samples, not verified observing sites or travel directions.</small></form>
+<div class="status" id="status" role="status" aria-live="polite">Select a location to load live weather forecasts.</div>
+</section>
+<section class="layout" aria-label="Viewing outlook">
+<div class="panel"><div class="kicker">Your meteor-watching verdict</div><div class="big" id="verdict">Checking the night sky…</div><p class="reason" id="why">Current forecast is being requested. No viewing conditions are assumed until weather returns.</p>
+<div class="meta" id="metrics"></div><div class="scard"><div class="kicker">Best viewing hour in the next 72 hours</div><div class="num" id="bestHour">—</div><p class="small muted" id="bestDetail">Waiting for the NWS hourly cloud grid.</p></div></div>
+<div class="panel"><div class="kicker">Meteor activity</div><div class="big" id="shower">Seasonal calendar</div><p id="showerDetail" class="reason">Showers are seasonal; active dates are not a promise of sightings.</p>
+<div class="scard"><div class="kicker">Observed activity vs calendar</div><p class="small">The <a href="https://globalmeteornetwork.org/flux/" target="_blank" rel="noopener noreferrer">Global Meteor Network flux dashboard</a> publishes measured camera activity with its own observation timestamps. This page does not yet ingest those observations into its local verdict.</p><p class="small muted">Peak ZHR means an idealized maximum under a perfectly dark, clear sky with the radiant overhead—not expected meteors per hour here.</p></div></div>
+</section>
+<section class="section panel" aria-labelledby="hours-title"><div class="flex-title"><div><div class="kicker">Hourly opportunity · 72-hour window</div><h2 id="hours-title">When should I step outside?</h2><p class="small muted">Bars rank the relative observing conditions of each hour with a fresh NWS cloud forecast, twilight, moonlight and approximate radiant elevation. Not predicted meteor counts.</p></div><div id="freshness" class="small muted">Forecast time: —</div></div>
+<div class="legend"><span>Dark and more promising</span><span>Twilight / lower opportunity</span></div>
+<div id="timeline" class="timeline" aria-label="Hourly meteor viewing conditions">Forecast pending</div><div id="hourExplain" class="callout" role="status">Choose any hour for its forecast details.</div></section>
+<section class="section panel" aria-labelledby="chase-title"><div class="kicker">Meteor Chase · NWS grid comparison</div><h2 id="chase-title">Could the sky be clearer nearby?</h2><p class="small muted">Compare compass directions around your location. Each sample has its own NWS weather lookup and best hour. These points may be over water, private property or inaccessible terrain; check legal nighttime access before travelling.</p><div id="spots" class="compass"><p class="muted">Load a location to compare weather.</p></div><div id="map" class="mapfallback" aria-label="Map of approximate forecast sample locations"><span>Forecast point map loads with weather results.</span></div></section>
+<section class="section panel" aria-labelledby="method"><h2 id="method">What this tool knows—and what it doesn't</h2>
+<div class="layout">
+<div><h3>Inputs and transparency</h3><ul class="sources"><li><a href="https://www.weather.gov/documentation/services-web-api">NWS sky-cover grid</a>: U.S. forecast data, checked for age and hourly coverage.</li><li><a href="https://imo.net/meteor-activity/meteor-shower-calendar/">International Meteor Organization</a>: annual shower windows, radiant reference and ideal ZHR.</li><li><a href="https://globalmeteornetwork.org/flux/">Global Meteor Network</a>: actual observed meteor flux, linked separately until machine ingestion is validated.</li></ul></div>
+<div><h3>Reading the results</h3><p class="small">The 0–100 observing index compares weather and sky conditions; it is neither the probability of seeing a meteor nor a meteor-per-hour estimate. No forecast means no score. Seasonal peak dates outside 2026 are approximate until refreshed against the current IMO calendar. Nearshore clouds can vary sharply from the NWS grid forecast.</p><p class="small">Watching meteors requires an unobstructed view of the sky. Dress for the weather, avoid unsafe roadside stops, and give your eyes 20–30 minutes to adapt to darkness.</p></div>
+</div>
+</section>
+</main><footer><div class="wrap">Built by <a href="https://chrisizworski.com/chris-izworski/" rel="author">Chris Izworski</a> · <a href="/national-tools/">Outdoor tools</a> · No key-based weather subscription required.</div></footer>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const f=$('locationForm'),state={lat:43.594,lon:-83.889,label:'Bay City, MI (example)',map:null};
+const api='/national-tools/meteor-shower/_api/live';
+function set(id,value){$(id).textContent=value;}
+function datefmt(t,tz,options){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz,...options}).format(new Date(t));}catch{return new Date(t).toLocaleString();}}
+function hourLabel(t,tz){return datefmt(t,tz,{weekday:'short',hour:'numeric',minute:'2-digit'});}
+function scoreName(v){return v>=65?'A more promising window':v>=35?'Possible, but conditions are mixed':'Limited viewing conditions';}
+function nearest(hours,at){return hours.find(h=>h.time===at)||null;}
+function failure(message){set('status',message);set('verdict','Conditions unavailable');set('why','No live NWS cloud forecast could be verified. A clear-sky recommendation would be misleading.');set('bestHour','—');set('bestDetail','Please try another location or check again later.');set('freshness','Forecast unavailable');$('timeline').textContent='No verified hourly cloud forecast.';$('spots').textContent='Nearby comparisons unavailable.';$('metrics').textContent='';set('hourExplain','No weather forecast to explain.');}
+async function json(url){const r=await fetch(url,{headers:{Accept:'application/json'}});const data=await r.json();if(!r.ok)throw Error(data.error||'Upstream service unavailable');return data;}
+function metric(label){let el=document.createElement('span');el.className='chip';el.textContent=label;return el;}
+function drawHours(hours,tz){
+ const box=$('timeline');box.textContent='';let usable=hours.filter(h=>h.sky!=='bright');if(!usable.length){box.textContent='No sufficiently dark hours in the selected forecast period.';return;}
+ for(const h of usable){
+  let button=document.createElement('button');button.type='button';button.className='hour';button.style.border='0';button.style.background='transparent';button.style.color='inherit';button.style.padding='0';
+  let bar=document.createElement('span');bar.className='bar'+(h.sky==='twilight'?' dim':'');bar.style.height=(h.score===null?3:Math.max(3,h.score*1.25))+'px';
+  let n=document.createElement('strong');n.textContent=h.score===null?'—':String(h.score);
+  let time=document.createElement('time');time.textContent=datefmt(h.time,tz,{hour:'numeric'});time.dateTime=h.time;
+  button.append(n,bar,time);button.setAttribute('aria-label',hourLabel(h.time,tz)+': '+(h.score===null?'No cloud forecast':h.score+' of 100 observing index, '+h.cloud+'% cloud cover'));
+  button.title=button.getAttribute('aria-label');
+  button.addEventListener('click',()=>{set('hourExplain',hourLabel(h.time,tz)+' · '+(h.score===null?'Cloud forecast unavailable':h.score+'/100 index; '+h.cloud+'% clouds')+' · Moon '+h.moonIllum+'% lit'+(h.moonUp?' and above horizon':' and below horizon')+' · '+(h.radiantAlt==null?'No active shower radiant':'Leading radiant '+h.radiantAlt+'° above horizon')+'.');});
+  box.appendChild(button);
+ }
+}
+function showMap(loc,near){
+ const root=$('map');const points=[{...loc,label:'Your forecast point'},...near.filter(n=>n.available)];
+ if(typeof L==='undefined'){root.textContent='Map unavailable. Forecast sample directions and values are listed above.';return;}
+ root.textContent='';
+ if(state.map){state.map.remove();state.map=null;}
+ state.map=L.map(root,{scrollWheelZoom:false,zoomControl:true});
+ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap contributors &copy; CARTO',maxZoom:18}).addTo(state.map);
+ const bounds=[];
+ points.forEach((p,i)=>{L.circleMarker([p.lat,p.lon],{radius:i===0?8:6,color:i===0?'#ffd585':'#70efd0',fillColor:i===0?'#ffd585':'#70efd0',fillOpacity:.85}).bindPopup(p.label+' — weather forecast point, not a viewing destination').addTo(state.map);bounds.push([p.lat,p.lon]);});
+ if(bounds.length>1)state.map.fitBounds(bounds,{padding:[28,28],maxZoom:9});else state.map.setView(bounds[0],8);
+}
+function render(data){
+ const tz=data.forecast.timeZone||'UTC',hours=data.forecast.hours||[],best=data.forecast.best,lead=data.primary;
+ set('status','Forecast for '+state.label+' · updated '+datefmt(data.generatedAt,tz,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}));
+ set('shower',lead?lead.name+' active':'No major shower currently active');
+ set('showerDetail',lead?'Listed peak '+datefmt(lead.peakAt,'UTC',{month:'short',day:'numeric',year:'numeric'})+' (date is a seasonal reference). Ideal peak ZHR '+lead.idealPeakZhr+', not a local count.':data.upcoming?'Next listed peak: '+data.upcoming.name+' around '+datefmt(data.upcoming.peakAt,'UTC',{month:'short',day:'numeric'})+'. Background sporadic meteors are possible year-round.':'Meteors can appear outside named showers.');
+ if(!best){set('verdict','No verified dark-sky viewing window');set('why','The NWS forecast has no adequately dark, scored hours in this 72-hour window. Do not interpret unavailable forecast cells as clear weather.');set('bestHour','—');set('bestDetail','No scored dark hour in the available forecast.');}
+ else{set('verdict',scoreName(best.score));set('why',(lead?lead.name+' are seasonally active. ':'No major shower is active, but occasional meteors remain possible. ')+'The best available dark hour combines '+best.cloud+'% predicted cloud cover with current moon and radiant geometry. This is not a sighting forecast.');set('bestHour',hourLabel(best.time,tz));set('bestDetail',best.score+'/100 relative index · '+best.cloud+'% clouds · Moon '+best.moonIllum+'% lit'+(best.moonUp?' above the horizon':' below the horizon'));}
+ $('metrics').textContent='';$('metrics').append(metric('NWS '+(data.forecast.office||'grid')),metric(lead?'Active: '+lead.name:'Sporadic meteors'),metric('72-hour comparison'));
+ set('freshness','NWS issued: '+datefmt(data.forecast.updated,tz,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}));
+ drawHours(hours,tz);
+ if(best)set('hourExplain','Best scored hour: '+hourLabel(best.time,tz)+' · '+best.score+'/100 index, '+best.cloud+'% clouds. Select any hour for details.');
+ const near=data.nearby||[],spots=$('spots');spots.textContent='';
+ if(!near.length){spots.textContent='Turn on 40- or 80-mile comparison to sample surrounding NWS forecast areas.';}else near.forEach(s=>{
+  const item=document.createElement('div');item.className='spot';
+  let name=document.createElement('h3');name.textContent=s.label+' · about '+s.miles+' mi';item.appendChild(name);
+  let value=document.createElement('div');value.className='value';value.textContent=s.best?s.best.score+'/100 best hour':s.available?'No dark scored hour':'Weather unavailable';item.appendChild(value);
+  let desc=document.createElement('div');desc.className='small muted';desc.textContent=s.best?hourLabel(s.best.time,tz)+' · '+s.best.cloud+'% clouds':s.available?'No verified dark window':'NWS grid may be unavailable';item.appendChild(desc);
+  if(s.available){const b=document.createElement('button');b.textContent='Check this forecast point';b.type='button';b.addEventListener('click',()=>{state.lat=s.lat;state.lon=s.lon;state.label=s.label+' near '+$('place').value;refresh();window.scrollTo({top:0,behavior:'smooth'});});item.appendChild(b);}
+  spots.appendChild(item);
+ });showMap({lat:state.lat,lon:state.lon},near);
+}
+let seq=0;
+async function refresh(){
+ const request=++seq;set('status','Checking NWS cloud forecasts and astronomical darkness…');
+ try{const radius=Number($('radius').value),d=await json(api+'?lat='+encodeURIComponent(state.lat)+'&lon='+encodeURIComponent(state.lon)+'&radius='+radius);if(request===seq)render(d);}
+ catch(e){if(request===seq)failure(e.message||'Weather unavailable');}
+}
+async function lookup(q){
+ if(!q||q.length<2)throw Error('Enter a city, state or ZIP.');
+ return json('/api/national-geocode?q='+encodeURIComponent(q));
+}
+f.addEventListener('submit',async function(e){e.preventDefault();try{set('status','Finding location…');const loc=await lookup($('place').value.trim());state.lat=Number(loc.latitude);state.lon=Number(loc.longitude);state.label=loc.place&&loc.stateCode?loc.place+', '+loc.stateCode:loc.displayName||$('place').value;refresh();}catch(err){failure('Location lookup failed: '+err.message);}});
+$('radius').addEventListener('change',refresh);
+$('locate').addEventListener('click',()=>{if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{state.lat=Math.round(p.coords.latitude*100)/100;state.lon=Math.round(p.coords.longitude*100)/100;state.label='Your approximate location';$('place').value=state.label;refresh();},()=>set('status','Device location was not shared. You can use a city or ZIP instead.'),{enableHighAccuracy:false,timeout:10000});});
+const url=new URLSearchParams(location.search);if(url.get('q')){$('place').value=url.get('q');f.requestSubmit();}else refresh();
+})();
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</body></html>
