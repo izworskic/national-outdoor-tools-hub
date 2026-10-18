@@ -90,6 +90,8 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 </div>
 </section>
 </main><footer><div class="wrap">Built by <a href="https://chrisizworski.com/chris-izworski/" rel="author">Chris Izworski</a> · <a href="/national-tools/">Outdoor tools</a> · No key-based weather subscription required.</div></footer>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 (function(){
 'use strict';
@@ -146,12 +148,12 @@ function render(data){
   const item=document.createElement('div');item.className='spot';
   let name=document.createElement('h3');name.textContent=s.label+' · about '+s.miles+' mi';item.appendChild(name);
   let value=document.createElement('div');value.className='value';value.textContent=s.best?s.best.score+'/100 best hour':s.available?'No dark scored hour':'Weather unavailable';item.appendChild(value);
-  let desc=document.createElement('div');desc.className='small muted';desc.textContent=s.best?hourLabel(s.best.time,tz)+' · '+s.best.cloud+'% clouds':s.available?'No verified dark window':'NWS grid may be unavailable';item.appendChild(desc);
+  let desc=document.createElement('div');desc.className='small muted';desc.textContent=s.best?hourLabel(s.best.time,s.timeZone||tz)+' · '+s.best.cloud+'% clouds':s.available?'No verified dark window':'NWS grid may be unavailable';item.appendChild(desc);
   if(s.available){const b=document.createElement('button');b.textContent='Check this forecast point';b.type='button';b.addEventListener('click',()=>{state.lat=s.lat;state.lon=s.lon;state.label=s.label+' near '+$('place').value;refresh();window.scrollTo({top:0,behavior:'smooth'});});item.appendChild(b);}
   spots.appendChild(item);
  });showMap({lat:state.lat,lon:state.lon},near);
 }
-let seq=0;
+let seq=0,lookupSeq=0;
 async function refresh(){
  const request=++seq;set('status','Checking NWS cloud forecasts and astronomical darkness…');
  try{const radius=Number($('radius').value),d=await json(api+'?lat='+encodeURIComponent(state.lat)+'&lon='+encodeURIComponent(state.lon)+'&radius='+radius);if(request===seq)render(d);}
@@ -161,12 +163,10 @@ async function lookup(q){
  if(!q||q.length<2)throw Error('Enter a city, state or ZIP.');
  return json('/api/national-geocode?q='+encodeURIComponent(q));
 }
-f.addEventListener('submit',async function(e){e.preventDefault();try{set('status','Finding location…');const loc=await lookup($('place').value.trim());state.lat=Number(loc.latitude);state.lon=Number(loc.longitude);state.label=loc.place&&loc.stateCode?loc.place+', '+loc.stateCode:loc.displayName||$('place').value;refresh();}catch(err){failure('Location lookup failed: '+err.message);}});
+f.addEventListener('submit',async function(e){e.preventDefault();const request=++lookupSeq;++seq;try{set('status','Finding location…');const query=$('place').value.trim();const loc=await lookup(query);if(request!==lookupSeq)return;state.lat=Number(loc.latitude);state.lon=Number(loc.longitude);state.label=loc.place&&loc.stateCode?loc.place+', '+loc.stateCode:loc.displayName||query;refresh();}catch(err){if(request===lookupSeq)failure('Location lookup failed: '+err.message);}});
 $('radius').addEventListener('change',refresh);
-$('locate').addEventListener('click',()=>{if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{state.lat=Math.round(p.coords.latitude*100)/100;state.lon=Math.round(p.coords.longitude*100)/100;state.label='Your approximate location';$('place').value=state.label;refresh();},()=>set('status','Device location was not shared. You can use a city or ZIP instead.'),{enableHighAccuracy:false,timeout:10000});});
+$('locate').addEventListener('click',()=>{const request=++lookupSeq;++seq;if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{if(request!==lookupSeq)return;state.lat=Math.round(p.coords.latitude*100)/100;state.lon=Math.round(p.coords.longitude*100)/100;state.label='Your approximate location';$('place').value=state.label;refresh();},()=>{if(request===lookupSeq)set('status','Device location was not shared. You can use a city or ZIP instead.');},{enableHighAccuracy:false,timeout:10000});});
 const url=new URLSearchParams(location.search);if(url.get('q')){$('place').value=url.get('q');f.requestSubmit();}else refresh();
 })();
 </script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body></html>
