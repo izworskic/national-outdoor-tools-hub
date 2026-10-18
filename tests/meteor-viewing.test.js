@@ -33,7 +33,8 @@ test('72-hour forecast never invents cloudy-hour data and compares coordinates c
  const f=forecastWindows(p,43.59,-83.89,now);
  assert.equal(f.hours.length,72);
  assert.ok(f.nearTerm===null||Date.parse(f.nearTerm.time)<now+18*3600000,'near-term verdict must stay within next 18 hours');
- assert.equal(f.hours[0].cloud,30);
+ assert.equal(f.hours[0].cloud,null); // the partial 23:00 hour precedes valid NWS coverage
+ assert.equal(f.hours[1].cloud,30);
  assert.equal(f.hours[3].cloud,null);
  assert.equal(surrounding(43.59,-83.89,40).length,4);
  assert.equal(surrounding(43.59,-83.89,0).length,0);
