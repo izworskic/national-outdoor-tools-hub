@@ -129,12 +129,14 @@ function showMap(loc,near){
  if(bounds.length>1)state.map.fitBounds(bounds,{padding:[28,28],maxZoom:9});else state.map.setView(bounds[0],8);
 }
 function render(data){
- const tz=data.forecast.timeZone||'UTC',hours=data.forecast.hours||[],best=data.forecast.best,lead=data.primary;
+ const tz=data.forecast.timeZone||'UTC',hours=data.forecast.hours||[],best=data.forecast.best,soon=data.forecast.nearTerm,lead=data.primary;
  set('status','Forecast for '+state.label+' · updated '+datefmt(data.generatedAt,tz,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}));
  set('shower',lead?lead.name+' active':'No major shower currently active');
  set('showerDetail',lead?'Listed peak '+datefmt(lead.peakAt,'UTC',{month:'short',day:'numeric',year:'numeric'})+' (date is a seasonal reference). Ideal peak ZHR '+lead.idealPeakZhr+', not a local count.':data.upcoming?'Next listed peak: '+data.upcoming.name+' around '+datefmt(data.upcoming.peakAt,'UTC',{month:'short',day:'numeric'})+'. Background sporadic meteors are possible year-round.':'Meteors can appear outside named showers.');
- if(!best){set('verdict','No verified dark-sky viewing window');set('why','The NWS forecast has no adequately dark, scored hours in this 72-hour window. Do not interpret unavailable forecast cells as clear weather.');set('bestHour','—');set('bestDetail','No scored dark hour in the available forecast.');}
- else{set('verdict',scoreName(best.score));set('why',(lead?lead.name+' are seasonally active. ':'No major shower is active, but occasional meteors remain possible. ')+'The best available dark hour combines '+best.cloud+'% predicted cloud cover with current moon and radiant geometry. This is not a sighting forecast.');set('bestHour',hourLabel(best.time,tz));set('bestDetail',best.score+'/100 relative index · '+best.cloud+'% clouds · Moon '+best.moonIllum+'% lit'+(best.moonUp?' above the horizon':' below the horizon'));}
+ if(!soon){set('verdict','No scored dark window in the next 18 hours');set('why','No adequately dark hour with verified NWS cloud coverage could be scored for the upcoming 18 hours. That is not evidence of clear skies. Check the 72-hour outlook below.');}
+ else{set('verdict',scoreName(soon.score));set('why',(lead?lead.name+' are seasonally active. ':'No major shower is active, but occasional meteors remain possible. ')+'Within the next 18 hours, '+hourLabel(soon.time,tz)+' combines '+soon.cloud+'% forecast cloud cover with moon and radiant geometry. This is a relative viewing index, not a sighting probability.'+(best&&best.score>=soon.score+18&&best.time!==soon.time?' There may be a substantially better viewing hour later in the three-day outlook.':''));}
+ if(!best){set('bestHour','—');set('bestDetail','No scored dark hour in the available 72-hour forecast.');}
+ else{set('bestHour',hourLabel(best.time,tz));set('bestDetail',best.score+'/100 relative index · '+best.cloud+'% clouds · Moon '+best.moonIllum+'% lit'+(best.moonUp?' above the horizon':' below the horizon'));}
  $('metrics').textContent='';$('metrics').append(metric('NWS '+(data.forecast.office||'grid')),metric(lead?'Active: '+lead.name:'Sporadic meteors'),metric('72-hour comparison'));
  set('freshness','NWS issued: '+datefmt(data.forecast.updated,tz,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}));
  drawHours(hours,tz);

@@ -32,6 +32,7 @@ test('72-hour forecast never invents cloudy-hour data and compares coordinates c
  const p=normalizeSky([{validTime:'2026-10-18T00:00:00Z/PT2H',value:30}]);
  const f=forecastWindows(p,43.59,-83.89,now);
  assert.equal(f.hours.length,72);
+ assert.ok(f.nearTerm===null||Date.parse(f.nearTerm.time)<now+18*3600000,'near-term verdict must stay within next 18 hours');
  assert.equal(f.hours[0].cloud,30);
  assert.equal(f.hours[3].cloud,null);
  assert.equal(surrounding(43.59,-83.89,40).length,4);
