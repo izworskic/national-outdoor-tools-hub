@@ -2,37 +2,116 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "functions": {
-    "api/national-waterfall-window-v3.js": { "maxDuration": 25 },
-    "api/national-waterfall-window-v4.js": { "maxDuration": 25 },
-    "api/national-waterfall-window-v5.js": { "maxDuration": 25 },
-    "api/gauley-live.js": { "maxDuration": 25 },
-    "api/gauley-history.js": { "maxDuration": 25 },
-    "api/yosemite-firefall.js": { "maxDuration": 30 }
+    "api/national-waterfall-window-v3.js": {
+      "maxDuration": 25
+    },
+    "api/national-waterfall-window-v4.js": {
+      "maxDuration": 25
+    },
+    "api/national-waterfall-window-v5.js": {
+      "maxDuration": 25
+    },
+    "api/gauley-live.js": {
+      "maxDuration": 25
+    },
+    "api/gauley-history.js": {
+      "maxDuration": 25
+    },
+    "api/yosemite-firefall.js": {
+      "maxDuration": 30
+    }
   },
   "redirects": [
-    { "source": "/national-tools/old-faithful-next-eruption", "destination": "/national-tools/yellowstone-geysers/", "permanent": true },
-    { "source": "/national-tools/old-faithful-next-eruption/", "destination": "/national-tools/yellowstone-geysers/", "permanent": true },
-    { "source": "/national-tools/trail-ridge-road-status", "destination": "/national-tools/trail-ridge-road/", "permanent": true },
-    { "source": "/national-tools/trail-ridge-road-status/", "destination": "/national-tools/trail-ridge-road/", "permanent": true },
-    { "source": "/national-tools/thunder-hole-live", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/", "permanent": true },
-    { "source": "/national-tools/thunder-hole-live/", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/", "permanent": true },
-    { "source": "/national-tools/thunder-hole-live/:path*", "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/:path*", "permanent": true },
-    { "source": "/national-tools/niagara-falls-rainbow-planner", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
-    { "source": "/national-tools/niagara-falls-rainbow-planner/", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
-    { "source": "/national-tools/niagara-falls-rainbow-planner/:path*", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
-    { "source": "/national-tools/waterfalls/niagara-falls-live", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
-    { "source": "/national-tools/waterfalls/niagara-falls-live/", "destination": "/national-tools/niagara-rainbow/", "permanent": true },
-    { "source": "/national-tools/waterfalls/niagara-falls-live/:path*", "destination": "/national-tools/niagara-rainbow/", "permanent": true }
+    {
+      "source": "/national-tools/old-faithful-next-eruption",
+      "destination": "/national-tools/yellowstone-geysers/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/old-faithful-next-eruption/",
+      "destination": "/national-tools/yellowstone-geysers/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/trail-ridge-road-status",
+      "destination": "/national-tools/trail-ridge-road/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/trail-ridge-road-status/",
+      "destination": "/national-tools/trail-ridge-road/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/thunder-hole-live",
+      "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/thunder-hole-live/",
+      "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/thunder-hole-live/:path*",
+      "destination": "https://chrisizworski.com/national-tools/coastal/thunder-hole-live/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/niagara-falls-rainbow-planner",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/niagara-falls-rainbow-planner/",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/niagara-falls-rainbow-planner/:path*",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live/",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    },
+    {
+      "source": "/national-tools/waterfalls/niagara-falls-live/:path*",
+      "destination": "/national-tools/niagara-rainbow/",
+      "permanent": true
+    }
   ],
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     }
   ],
   "rewrites": [
+    {
+      "source": "/national-tools/meteor-shower/_api/live",
+      "destination": "/api/meteor-viewing"
+    },
+    {
+      "source": "/national-tools/meteor-shower",
+      "destination": "/national-tools/meteor-shower/index.html"
+    },
+    {
+      "source": "/national-tools/meteor-shower/",
+      "destination": "/national-tools/meteor-shower/index.html"
+    },
     {
       "source": "/national-tools/yosemite-firefall-live",
       "destination": "/national-tools/yosemite-firefall-live/index.html"
