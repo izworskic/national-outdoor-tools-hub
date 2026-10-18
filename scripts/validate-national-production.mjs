@@ -125,12 +125,31 @@ await check("snow production has live source coverage",async()=>{
   if(snowControlsWithLiveSource<1)throw new Error("all Snow controls lost every source family");
 });
 
-for(const route of ["/national-tools/","/national-tools/aurora/","/national-tools/rivers/","/national-tools/coastal/","/national-tools/snow/","/national-tools/white-christmas/","/national-tools/frost/","/national-tools/planting/","/national-tools/garden-water/","/national-tools/fall-color/","/national-tools/garden/","/national-tools/fall/","/national-tools/water/","/national-tools/night-sky/"]){
+for(const route of ["/national-tools/","/national-tools/aurora/","/national-tools/rivers/","/national-tools/coastal/","/national-tools/snow/","/national-tools/white-christmas/","/national-tools/frost/","/national-tools/planting/","/national-tools/garden-water/","/national-tools/fall-color/","/national-tools/garden/","/national-tools/fall/","/national-tools/water/","/national-tools/night-sky/","/national-tools/meteor-shower/"]){
   await check(route+" page",async()=>{
     const body=await get(route,{json:false});
     if(!/<title>[^<]+<\/title>/i.test(body)||!body.includes("Chris Izworski"))throw new Error("page shell incomplete");
   });
 }
+
+await check("Meteor Shower Tonight public page and analytics",async()=>{
+ const body=await get("/national-tools/meteor-shower/",{json:false});
+ if(!body.includes('Will the meteors be worth watching tonight?'))throw new Error("meteor page content missing");
+ if(!body.includes('G-Y5D2V2W7HN'))throw new Error("GA4 measurement missing on rendered meteor page");
+ if(!body.includes('https://chrisizworski.com/national-tools/meteor-shower/'))throw new Error("canonical missing");
+});
+await check("Meteor meteor-viewing weather endpoint contract",async()=>{
+ const url=origin+"/national-tools/meteor-shower/_api/live?lat=43.594&lon=-83.889&radius=0";
+ const response=await fetch(url,{headers:{accept:"application/json"},signal:AbortSignal.timeout(20000)});
+ const data=await response.json().catch(()=>{throw new Error("API route did not return JSON")});
+ if(response.ok){
+   if(data.status!=="ok"||!Array.isArray(data.forecast?.hours)||data.forecast.hours.length!==72||!data.sources?.weather)throw new Error("weather response incomplete");
+   if(!data.forecast.updated)throw new Error("NWS freshness not exposed");
+ }else if(response.status===503){
+   if(data.status!=="unavailable"||!data.error)throw new Error("unavailable weather did not fail closed");
+ }else throw new Error("meteor API route HTTP "+response.status);
+});
+
 await check("planting crop rules",async()=>{
   const x=await get("/data/national-planting-crops.json");
   const crops=Array.isArray(x)?x:x.crops;
