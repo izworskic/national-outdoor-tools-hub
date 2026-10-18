@@ -55,7 +55,7 @@ h2{font-size:23px;margin:0 0 5px;letter-spacing:-.025em}h3{font-size:17px;margin
 .spot .value{font-weight:800;font-size:18px;color:var(--mint)}
 .spot button{font-size:12px;color:#a7e2f6;border:1px solid #4a637d;background:#152b42;border-radius:6px;padding:8px 11px;margin-top:10px}
 #map{height:270px;border-radius:11px;background:#122039;margin-top:16px;overflow:hidden}
-/* Render public USGS raster tiles in a night-sky-friendly theme; do not invert markers or controls. */
+/* Apply the night theme only to basemap tiles, not markers or controls. */
 #map .leaflet-tile-pane{filter:invert(.88) hue-rotate(165deg) brightness(.76) saturate(.70)}.mapfallback{padding:20px;color:var(--muted)}
 .sources{font-size:13px;color:#c5d2df}.sources li{margin:9px 0}
 footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
@@ -127,24 +127,24 @@ function showMap(loc,near){
  root.textContent='';
  if(state.map){state.map.remove();state.map=null;}
  state.map=L.map(root,{scrollWheelZoom:false,zoomControl:true});
- // Keyless, public-domain USGS National Map tiles. CARTO's formerly keyless URL now returns "API KEY REQUIRED".
- // Use the community OSM service only as a last-resort fallback, respecting its tile policy.
- const USGS_TILES='https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}';
+ // Full-coverage map tiles. Standard OSM raster tiles need no key.
+ // Respect OSM's attribution, referer, caching, and light-use policy; do not prefetch.
  const OSM_TILES='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
- const usgsCredit='Map data: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener">USGS National Map</a>';
+ const USGS_TILES='https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}';
  const osmCredit='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>';
+ const usgsCredit='Map data: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener">USGS National Map</a>';
  let loadedTiles=0,failedTiles=0,switched=false;
- const topo=L.tileLayer(USGS_TILES,{attribution:usgsCredit,maxNativeZoom:16,maxZoom:18,keepBuffer:1});
- topo.on('tileload',()=>{loadedTiles++;});
- topo.on('tileerror',()=>{
+ const primary=L.tileLayer(OSM_TILES,{attribution:osmCredit,maxNativeZoom:19,maxZoom:18,keepBuffer:1});
+ primary.on('tileload',()=>{loadedTiles++;});
+ primary.on('tileerror',()=>{
    failedTiles++;
    if(!switched && loadedTiles===0 && failedTiles>=3){
      switched=true;
-     state.map.removeLayer(topo);
-     L.tileLayer(OSM_TILES,{attribution:osmCredit,maxNativeZoom:19,maxZoom:18,keepBuffer:1}).addTo(state.map);
+     state.map.removeLayer(primary);
+     L.tileLayer(USGS_TILES,{attribution:usgsCredit,maxNativeZoom:16,maxZoom:18,keepBuffer:1}).addTo(state.map);
    }
  });
- topo.addTo(state.map);
+ primary.addTo(state.map);
  const bounds=[];
  points.forEach((p,i)=>{L.circleMarker([p.lat,p.lon],{radius:i===0?8:6,color:i===0?'#ffd585':'#70efd0',fillColor:i===0?'#ffd585':'#70efd0',fillOpacity:.85}).bindPopup(p.label+' — weather forecast point, not a viewing destination').addTo(state.map);bounds.push([p.lat,p.lon]);});
  if(bounds.length>1)state.map.fitBounds(bounds,{padding:[28,28],maxZoom:9});else state.map.setView(bounds[0],8);
