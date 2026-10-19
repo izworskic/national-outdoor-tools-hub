@@ -13,7 +13,7 @@ import path from 'node:path';
  function head(title,description,url,schema){
  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <title>${E(title)}</title><meta name="description" content="${E(description)}"><meta name="robots" content="index,follow,max-image-preview:large">
- <link rel="canonical" href="${E(url)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)}"><meta property="og:description" content="${E(description)}"><meta property="og:url" content="${E(url)}"><meta name="twitter:card" content="summary">
+ <link rel="canonical" href="${E(url)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)}"><meta property="og:description" content="${E(description)}"><meta property="og:url" content="${E(url)}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="${E(title)}"><meta name="twitter:description" content="${E(description)}">
  <link rel="stylesheet" href="/national-tools/dark-sky/assets/great-lakes-dark-sky.css"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
  <script type="application/ld+json">${json(schema)}</script></head>`;
  }
