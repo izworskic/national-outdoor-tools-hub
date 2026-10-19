@@ -38,7 +38,7 @@ main{padding:21px 0 55px}.panel{border:1px solid var(--edge);background:var(--pa
 /* Destination pins: marker-pane HTML receives pointer and keyboard events reliably on touch screens. */
 #darkSkyMap .leaflet-marker-pane,#darkSkyMap .leaflet-popup-pane{pointer-events:none}
 #darkSkyMap .leaflet-marker-pane .sky-destination-pin{pointer-events:auto!important;cursor:pointer;outline-offset:2px}
-#darkSkyMap .sky-destination-pin{display:flex!important;width:38px!important;height:38px!important;align-items:center;justify-content:center;background:transparent;border:0}
+#darkSkyMap .sky-destination-pin{display:flex!important;width:44px!important;height:44px!important;align-items:center;justify-content:center;background:transparent;border:0}
 #darkSkyMap .sky-destination-pin span{box-sizing:border-box;width:23px;height:23px;display:block;border-radius:50%;border:3px solid #fff;box-shadow:0 1px 7px #071b31,0 0 0 2px #0b243caa;background:#80d7ac}
 #darkSkyMap .sky-destination-preserve span{background:#78bded}
 #darkSkyMap .sky-destination-community span{background:#b299f9}
