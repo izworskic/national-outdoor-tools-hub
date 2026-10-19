@@ -80,7 +80,7 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
  assert.match(maps(bwca),/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
  assert.ok(!maps(bwca).includes('47.95'),'Never route drivers to a wilderness-center pin');
  assert.match(runtime,/L\.divIcon\(\{className:'sky-destination-pin/);
- assert.match(runtime,/iconSize:\[38,38\]/);
+ assert.match(runtime,/iconSize:\[44,44\]/);
  assert.match(runtime,/keyboard:true,interactive:true,riseOnHover:true/);
  assert.match(runtime,/state\.inspector\.selectPark\(p\)/);
  assert.match(runtime,/DarkSkyMapInspector/);
