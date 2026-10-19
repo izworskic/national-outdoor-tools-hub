@@ -96,3 +96,31 @@ test('Named Great Lakes dark-sky sites bypass city-only geocoder using curated c
  assert.match(page,/Open '\+site\.name\+' forecast →'/);
  assert.match(page,/\/api\/national-geocode\?q=/,'Unknown city and ZIP queries still use geocoder');
 });
+
+
+test('CARTO dark-sky pins are large tappable destinations with park details and Google Maps',()=>{
+ const body=script.replace(/^<script>/,'').replace(/<\/script>$/,'');
+ const urlFn=body.match(/function skyGoogleMapsUrl\(p\)\{[\s\S]*?\n\}/)?.[0];
+ assert.ok(urlFn,'The park navigator helper must exist');
+ const maps=new Function(urlFn+';return skyGoogleMapsUrl;')();
+ const headlands={id:'headlands',name:'Headlands Dark Sky Park',state:'MI',type:'international',approximateLocation:false};
+ const remote={id:'bwca',name:'Boundary Waters Canoe Area Wilderness',state:'MN',type:'sanctuary',approximateLocation:true};
+ const ontario={id:'fathom',name:'Fathom Five National Marine Park',state:'ON',type:'canadian',approximateLocation:true};
+ assert.match(maps(headlands),/^https:\/\/www\.google\.com\/maps\/dir\/\?api=1&destination=/);
+ assert.match(maps(headlands),/travelmode=driving/);
+ assert.ok(maps(headlands).includes(encodeURIComponent('Headlands Dark Sky Park, MI, USA')));
+ assert.match(maps(remote),/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
+ assert.match(maps(ontario),/Canada/);
+ assert.ok(!maps(remote).includes('47.95'),'Regional marker must not be interpreted as an entrance');
+ assert.match(page,/L\.divIcon\(\{className:'sky-park-marker/);
+ assert.match(page,/iconSize:\[38,38\]/);
+ assert.match(page,/keyboard:true,riseOnHover:true,interactive:true/);
+ assert.match(page,/skyMarkers\.set\(p\.id,marker\)/);
+ assert.match(page,/Show on map/);
+ assert.match(page,/Park planner \+ viewing decision/);
+ assert.match(page,/Official access information/);
+ assert.match(page,/Google Maps directions/);
+ assert.match(page,/#map \.leaflet-marker-pane \.sky-park-marker\{pointer-events:auto!important/);
+ assert.match(page,/#map \.leaflet-interactive\{pointer-events:auto!important/);
+ assert.match(page,/Gold = selected forecast coordinate; small cyan dots = NWS weather samples/);
+});
