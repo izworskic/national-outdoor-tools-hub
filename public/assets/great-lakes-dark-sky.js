@@ -6,7 +6,7 @@ const cfg=JSON.parse(node.textContent),sites=cfg.places,here=cfg.place||null,par
 const $=id=>document.getElementById(id),cache=new Map();
 const typeNames={international:'International Dark Sky Park',sanctuary:'International Dark Sky Sanctuary',state:'Michigan state-designated preserve',canadian:'Canadian Dark Sky Preserve',community:'International Dark Sky Community'};
 const URL_BASE='/national-tools/dark-sky/';
-const state={user:null,map:null,sitesLayer:null,focusLayer:null,tiles:null,ready:false,visible:sites,comparing:false,siteMarkers:new Map()};
+const state={user:null,map:null,sitesLayer:null,focusLayer:null,tiles:null,ready:false,visible:sites,comparing:false,siteMarkers:new Map(),inspector:null};
 function text(id,value){const target=$(id);if(target)target.textContent=String(value);}
 function element(tag,cl,value){const e=document.createElement(tag);if(cl)e.className=cl;if(value!==undefined)e.textContent=String(value);return e;}
 function formatted(iso,tz,opts){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz||'America/Detroit',...opts}).format(new Date(iso));}catch{return 'Time unavailable';}}
@@ -28,17 +28,8 @@ function showSiteOnMap(p){
  if(!state.map||!marker)return;
  // Recenter only when the visitor explicitly selects 'Show on map'.
  state.map.setView([p.lat,p.lon],Math.max(8,state.map.getZoom()),{animate:false});
- marker.openPopup();
+ if(state.inspector)state.inspector.selectPark(p);
  document.getElementById('darkSkyMap').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function markerPopup(p){
- const box=element('div','site-map-popup');
- box.append(element('strong','',p.name+' · '+p.state),element('p','',typeNames[p.type]+'. '+p.note));
- const access=element('p','site-map-access',p.approximateLocation?'Regional reference only; NOT an entrance. '+p.access:'Check official parking and nighttime access. '+p.access);
- const actions=element('div','site-map-actions');
- const planner=createAnchor(p,'View full park forecast and decision →');actions.append(planner);
- const official=element('a','','Official park information ↗');official.href=p.source||p.url;official.target='_blank';official.rel='noopener noreferrer';actions.append(official,mapLink(p));
- box.append(access,actions);return box;
 }
 function visibleSites(){if(parkMode)return sites;const region=$('region')?.value||'all',kind=$('designation')?.value||'all',q=($('searchSites')?.value||'').toLowerCase().trim();return sites.filter(p=>(region==='all'||region===p.state)&&(kind==='all'||kind===p.type)&&(!q||(p.name+' '+p.state+' '+p.intro).toLowerCase().includes(q))).sort((a,b)=>miles(origin(),a)-miles(origin(),b));}
 function renderSiteCards(){const out=$('siteCards');if(!out)return;out.textContent='';const places=visibleSites();state.visible=places;text('siteCount',places.length+' destinations · distances are straight line, not routes');
@@ -66,11 +57,11 @@ function updatePins(){
   const selected=parkMode&&p.id===here.id;
   const icon=L.divIcon({className:'sky-destination-pin sky-destination-'+(selected?'selected':color),html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
   const marker=L.marker([p.lat,p.lon],{icon,keyboard:true,interactive:true,riseOnHover:true,title:p.name+' — open dark-sky park details'})
-   .bindPopup(markerPopup(p),{maxWidth:290,keepInView:false,autoPan:false}).addTo(state.sitesLayer);
+   .on('click',()=>{if(state.inspector)state.inspector.selectPark(p);}).addTo(state.sitesLayer);
   state.siteMarkers.set(p.id,marker);
  }
  state.focusLayer.clearLayers();
- if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1,interactive:true}).bindPopup('Your approximate location; not saved or a park entrance',{autoPan:false,keepInView:false}).addTo(state.focusLayer);
+ if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1,interactive:true}).on('click',()=>{if(state.inspector)state.inspector.showNotice('Your approximate location','This coordinate is used for distance comparisons and is not stored or a park entrance.');}).addTo(state.focusLayer);
  // Updating marker layers must NEVER override a visitor's zoom or pan.
 }
 function resetDarkSkyViewport(){
@@ -91,7 +82,7 @@ function loadTiles(url,carto){
 function initMap(){
  if(!$('darkSkyMap'))return;
  if(typeof L==='undefined'){mapStatus('Map library could not load. All destinations are available in the linked list.');return;}
- try{state.map=L.map('darkSkyMap',{scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true});state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();resetDarkSkyViewport();L.control.scale({imperial:true,metric:false}).addTo(state.map);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
+ try{state.map=L.map('darkSkyMap',{scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true});state.inspector=window.DarkSkyMapInspector?.mount({mapId:'darkSkyMap',getDesignation:p=>typeNames[p.type],getMapsUrl:googleMapsUrl})||null;state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();resetDarkSkyViewport();L.control.scale({imperial:true,metric:false}).addTo(state.map);const requested=new URLSearchParams(location.search).get('inspect');const selected=sites.find(p=>p.id===requested);if(selected&&state.inspector)state.inspector.selectPark(selected);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),7000);
  fetch('/api/carto-basemap-config',{headers:{Accept:'application/json'},signal:controller.signal}).then(r=>{if(!r.ok)throw Error('CARTO config inaccessible');return r.json();})
  .then(c=>{if(c?.provider!=='CARTO'||typeof c.key!=='string'||!c.key.trim())throw Error('Missing public CARTO key');loadTiles('https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(c.key.trim()),true);mapStatus('Connecting to the CARTO Voyager basemap…');})
