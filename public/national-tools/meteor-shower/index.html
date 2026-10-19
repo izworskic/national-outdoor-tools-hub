@@ -112,16 +112,8 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 #map .leaflet-popup-content{min-width:190px;max-width:260px}
 #map .leaflet-popup-close-button{pointer-events:auto}
 #map .leaflet-interactive{pointer-events:auto!important;cursor:pointer}
-.sky-popup{font-size:13px;line-height:1.4}
-.sky-popup strong{font-size:15px}
-.sky-popup p{font-size:12px;margin:5px 0 9px}
-.sky-popup .sky-popup-caution{color:#475568;border-left:3px solid #bd854c;padding-left:8px}
-.sky-popup .sky-popup-actions{display:flex;flex-direction:column;gap:7px;margin-top:10px}
-.sky-popup .sky-popup-actions a,.sky-popup .sky-popup-actions button{display:block;border:1px solid #a9c5d0;border-radius:7px;padding:9px 10px;background:#e6f1f6;text-align:left;font-size:12px;line-height:1.3;color:#12506c;text-decoration:none;min-height:36px;white-space:normal;overflow-wrap:anywhere}
-.sky-popup .sky-popup-actions button{background:#205572;color:#fff;border-color:#205572}
-.sky-popup .sky-popup-actions a:focus-visible,.sky-popup .sky-popup-actions button:focus-visible{outline:3px solid #ffdc8a}
-@media(max-width:760px){#map .leaflet-popup-content{max-width:min(250px,calc(100vw - 100px))}#map .leaflet-popup-content-wrapper{max-height:280px;overflow-y:auto}}
 </style>
+<link rel="stylesheet" href="/national-tools/dark-sky/assets/dark-sky-map-inspector.css">
 <!-- Keep existing network ad implementation untouched. -->
 </head><body>
 <header><div class="wrap top"><strong><a href="https://chrisizworski.com/">Chris Izworski</a> / Night Sky</strong><nav><a href="/national-tools/">All outdoor tools</a><a href="/national-tools/night-sky/">Aurora planner</a><a href="/tools/">Michigan tools</a></nav></div></header>
@@ -145,7 +137,7 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 <button id="mapLocate" type="button">Use my location</button><button id="mapAll" type="button">Show all destinations</button>
 </div>
 <div class="sky-map-status" id="skyMapStatus" role="status" aria-live="polite">Preparing the Great Lakes map…</div>
-<div class="sky-row"><div><div id="map" aria-label="Interactive map of Great Lakes dark sky parks, preserves, sanctuaries and selected forecast points"></div><p class="small muted">Tap a large park marker to open its details, viewing planner, official information, and Google Maps. Green = certified International Dark Sky Places, blue = state or Canadian preserves, purple = certified community. Gold = selected forecast coordinate; small cyan dots = NWS weather samples, not park entrances. CARTO basemap with OpenStreetMap fallback.</p></div><div><h3 id="skyListHeading">Places to explore</h3><div class="sky-list" id="skyPlaces" role="list" aria-labelledby="skyListHeading"></div></div></div>
+<div class="sky-row"><div><div id="map" aria-label="Interactive map of Great Lakes dark sky parks, preserves, sanctuaries and selected forecast points"></div><p class="small muted">Tap a park marker to select its dedicated details panel below the map—no clipped popup bubbles. Green = certified International Dark Sky Places, blue = state or Canadian preserves, purple = certified community. Gold = selected forecast coordinate; small cyan dots = NWS weather samples, not park entrances. CARTO basemap with OpenStreetMap fallback.</p></div><div><h3 id="skyListHeading">Places to explore</h3><div class="sky-list" id="skyPlaces" role="list" aria-labelledby="skyListHeading"></div></div></div>
 <p class="small muted">The NWS weather comparison currently covers U.S. coordinates. Canadian destinations remain linked to their official operators; no U.S. forecast or observing score is assigned to them. Distances are straight-line estimates from the selected forecast coordinate, never driving distance.</p>
 </section>
 <section class="layout" aria-label="Viewing outlook">
@@ -167,6 +159,7 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 </main><footer><div class="wrap">Built by <a href="https://chrisizworski.com/chris-izworski/" rel="author">Chris Izworski</a> · <a href="/national-tools/">Outdoor tools</a> · No key-based weather subscription required.</div></footer>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/national-tools/dark-sky/assets/dark-sky-map-inspector.js"></script>
 <script>
 (function(){
 'use strict';
@@ -236,7 +229,7 @@ function selectParkForecast(site){
  $('place').value=site.name+', '+site.state;
  refresh();
 }
-let skyPlaceLayer=null,skyForecastLayer=null,skyLoaded=false;
+let skyPlaceLayer=null,skyForecastLayer=null,skyLoaded=false,skyInspector=null;
 const skyMarkers=new Map();
 function skyGoogleMapsUrl(p){
  const query=p.name+', '+p.state+', '+(p.state==='ON'?'Canada':'USA');
@@ -246,32 +239,12 @@ function skyMapZoomTo(p){
  const marker=skyMarkers.get(p.id);if(!state.map||!marker)return;
  // Only an explicit 'Show on map' request changes the viewport.
  state.map.setView([p.lat,p.lon],Math.max(8,state.map.getZoom()),{animate:false});
- marker.openPopup();$('map').scrollIntoView({behavior:'smooth',block:'center'});
+ if(skyInspector)skyInspector.selectPark(p);
+ $('map').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function skyVisible(){const region=$('skyRegion').value,kind=$('skyType').value;return SKY_PLACES.filter(p=>(region==='all'||p.state===region)&&(kind==='all'||p.type===kind));}
 function skyMiles(a,b,c,d){const rad=Math.PI/180,x=(c-a)*rad,y=(d-b)*rad,h=Math.sin(x/2)**2+Math.cos(a*rad)*Math.cos(c*rad)*Math.sin(y/2)**2;return Math.round(3958.8*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h)));}
 function chooseSkyPlace(p){++lookupSeq;++seq;selectParkForecast(p);window.scrollTo({top:0,behavior:'smooth'});}
-function placePopup(p){
- const node=document.createElement('div');node.className='sky-popup';
- const heading=document.createElement('strong');heading.textContent=p.name;
- const type=document.createElement('p');type.textContent=SKY_NAMES[p.type]+' · '+p.state;
- const note=document.createElement('p');note.textContent=p.note;
- const access=document.createElement('p');access.className='sky-popup-caution';access.textContent=(p.approximateLocation?'Regional marker, not a verified entrance. ':'Park-area marker, not a verified parking spot. ')+(p.access||'Check official access rules before traveling.');
- const buttons=document.createElement('div');buttons.className='sky-popup-actions';
- function link(label,href,external){
-  const a=document.createElement('a');a.href=href;a.textContent=label;
-  if(external){a.target='_blank';a.rel='noopener noreferrer';}buttons.append(a);
- }
- link('Park planner + viewing decision →','/national-tools/dark-sky/'+encodeURIComponent(p.id)+'/',false);
- link('Official access information ↗',p.url,true);
- link(p.approximateLocation||p.type==='community'?'Find access on Google Maps ↗':'Google Maps directions ↗',skyGoogleMapsUrl(p),true);
- if(p.state!=='ON'){
-  const b=document.createElement('button');b.type='button';b.textContent='Use this park for my meteor forecast';
-  b.addEventListener('click',()=>chooseSkyPlace(p));buttons.append(b);
- }
- node.append(heading,type,note,access,buttons);
- return node;
-}
 function renderSkyPlaces(){
  const items=skyVisible().map(p=>({...p,distance:skyMiles(state.lat,state.lon,p.lat,p.lon)})).sort((a,b)=>a.distance-b.distance);
  const box=$('skyPlaces');box.textContent='';$('skyListHeading').textContent=items.length+' dark-sky destinations';
@@ -293,7 +266,7 @@ function renderSkyPlaces(){
  for(const p of items){
   const icon=L.divIcon({className:'sky-park-marker sky-park-'+p.type,html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
   const marker=L.marker([p.lat,p.lon],{icon,title:p.name+' — open dark-sky destination',keyboard:true,riseOnHover:true,interactive:true})
-   .bindPopup(placePopup(p),{maxWidth:290,autoPan:false,keepInView:false}).addTo(skyPlaceLayer);
+   .on('click',()=>{if(skyInspector)skyInspector.selectPark(p);}).addTo(skyPlaceLayer);
   skyMarkers.set(p.id,marker);
  }
 }
@@ -303,7 +276,7 @@ function showMap(loc,near){
  if(skyForecastLayer)skyForecastLayer.clearLayers();
  state.currentSamples.forEach((p,i)=>{
   L.circleMarker([p.lat,p.lon],{radius:i===0?9:5,weight:2,color:i===0?'#fff3da':'#bbf4ff',fillColor:i===0?'#e5a940':'#7bcbe5',fillOpacity:.95})
-   .bindPopup(p.label+' — forecast sample, not a designated viewing site.',{autoPan:false,keepInView:false}).addTo(skyForecastLayer);
+   .on('click',()=>{if(skyInspector)skyInspector.showNotice(p.label,'Weather sampling coordinates represent model grid observations, not public park entrances or recommended observing locations.');}).addTo(skyForecastLayer);
  });
  renderSkyPlaces();
 }
@@ -321,8 +294,11 @@ function initSkyMap(){
  root.textContent='';
  try{
   state.map=L.map(root,{scrollWheelZoom:true,zoomControl:true,worldCopyJump:false,dragging:true,doubleClickZoom:true,touchZoom:true});
+  skyInspector=window.DarkSkyMapInspector?.mount({mapId:'map',getDesignation:p=>SKY_NAMES[p.type],getMapsUrl:skyGoogleMapsUrl,onForecast:chooseSkyPlace})||null;
   skyPlaceLayer=L.layerGroup().addTo(state.map);skyForecastLayer=L.layerGroup().addTo(state.map);
   state.map.setView([44.5,-86.3],5);skyAllBounds();renderSkyPlaces();
+  const inspected=new URLSearchParams(location.search).get('inspect');const candidate=SKY_PLACES.find(p=>p.id===inspected);
+  if(candidate&&skyInspector)skyInspector.selectPark(candidate);
   L.control.scale({imperial:true,metric:false}).addTo(state.map);
  }catch(e){set('skyMapStatus','Map could not initialize. Use the destination list and links.');return;}
  const OSM='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
