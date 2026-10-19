@@ -35,6 +35,9 @@ test('Generated pages have distinct canonical URLs, descriptive guidance, safe w
 test('Explorer is discoverable, mobile responsive and sitemap URLs match generated destinations',()=>{
  assert.match(atlas,/id="region"/);assert.match(atlas,/id="designation"/);assert.match(atlas,/id="myLocation"/);assert.match(atlas,/id="compare4"/);
  assert.match(stylesheet,/@media\(max-width:800px\)/);
+ assert.match(stylesheet,/#darkSkyMap\{height:410px;min-height:0/);
+ assert.match(stylesheet,/#darkSkyMap\{height:330px;min-height:0/);
+ assert.doesNotMatch(stylesheet,/#darkSkyMap\{min-height:410px/);
  const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
  assert.equal((sitemap.match(/<url>/g)||[]).length,25);
  assert.match(sitemap,/\/national-tools\/dark-sky\/headlands\/<\/loc>/);
