@@ -93,3 +93,18 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
  const remote=fs.readFileSync('public/national-tools/dark-sky/bwca/index.html','utf8');
  assert.match(remote,/Find a legal access point on Google Maps/);
 });
+
+
+test('User zoom stays fixed across map marker updates, geolocation and forecast refresh',()=>{
+ assert.match(runtime,/scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true/);
+ assert.match(runtime,/bindPopup\(markerPopup\(p\),\{maxWidth:290,keepInView:false,autoPan:false\}\)/);
+ const update=runtime.match(/function updatePins\(\)\{[\s\S]*?\n\}\nfunction resetDarkSkyViewport/)?.[0]||'';
+ assert.ok(update,'Marker updater must be separate from viewport reset');
+ assert.doesNotMatch(update,/\.fitBounds\(|\.setView\(|\.flyTo\(/);
+ assert.match(runtime,/function resetDarkSkyViewport\(\)/);
+ assert.match(runtime,/\$\('resetDarkSkyMap'\)\?\.addEventListener\('click',resetDarkSkyViewport\)/);
+ assert.match(runtime,/state\.map\.setView\(\[p\.lat,p\.lon\],Math\.max\(8,state\.map\.getZoom\(\)\),\{animate:false\}\)/);
+ const page=fs.readFileSync('public/national-tools/dark-sky/headlands/index.html','utf8');
+ assert.match(page,/id="resetDarkSkyMap"/);
+ assert.match(page,/Marker details do not move the map/);
+});
