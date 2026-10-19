@@ -14,11 +14,11 @@ import path from 'node:path';
  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <title>${E(title)}</title><meta name="description" content="${E(description)}"><meta name="robots" content="index,follow,max-image-preview:large">
  <link rel="canonical" href="${E(url)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)}"><meta property="og:description" content="${E(description)}"><meta property="og:url" content="${E(url)}"><meta name="twitter:card" content="summary">
- <link rel="stylesheet" href="/assets/great-lakes-dark-sky.css"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
+ <link rel="stylesheet" href="/national-tools/dark-sky/assets/great-lakes-dark-sky.css"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyojv+eUvVt/0A0=" crossorigin="">
  <script type="application/ld+json">${json(schema)}</script></head>`;
  }
  const navbar=`<header><div class="wrap headrow"><strong><a href="/">Chris Izworski</a> / Night Sky</strong><nav><a href="/national-tools/meteor-shower/">Meteor shower</a><a href="${BASE}">Dark-sky parks</a><a href="/national-tools/aurora/">Aurora</a><a href="/national-tools/">All tools</a></nav></div></header>`;
- const footer=`<footer><div class="wrap">Built by <a href="/chris-izworski/" rel="author">Chris Izworski</a> · <a href="${BASE}">Great Lakes Dark Sky Explorer</a> · No astronomy index is an access or safety clearance. Sources: <a href="https://www.weather.gov/documentation/services-web-api">NWS</a>, <a href="https://imo.net/meteor-activity/meteor-shower-calendar/">IMO</a>, and park operators.</div></footer><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script><script src="/assets/great-lakes-dark-sky.js" defer></script></body></html>`;
+ const footer=`<footer><div class="wrap">Built by <a href="/chris-izworski/" rel="author">Chris Izworski</a> · <a href="${BASE}">Great Lakes Dark Sky Explorer</a> · No astronomy index is an access or safety clearance. Sources: <a href="https://www.weather.gov/documentation/services-web-api">NWS</a>, <a href="https://imo.net/meteor-activity/meteor-shower-calendar/">IMO</a>, and park operators.</div></footer><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script><script src="/national-tools/dark-sky/assets/great-lakes-dark-sky.js" defer></script></body></html>`;
  const payload=p=>`<script type="application/json" id="darkSkyPayload">${json({mode:p?'park':'index',place:p||null,places})}</script>`;
  function hero(title,desc,site){
  return `<section class="hero"><div class="wrap"><div class="crumb"><a href="/national-tools/">Outdoor tools</a> / <a href="${BASE}">Great Lakes dark skies</a>${site?' / '+E(site):''}</div><div class="eyebrow">A living calendar of the night sky</div><h1>${E(title)}</h1><p class="lede">${E(desc)}</p><div class="hero-links"><a href="${BASE}">Compare dark-sky destinations →</a><a class="secondary" href="/national-tools/meteor-shower/">Meteor Shower Tracker ↗</a></div></div></section>`;
@@ -62,7 +62,7 @@ import path from 'node:path';
  }
  if(places.length<20||new Set(places.map(x=>x.slug)).size!==places.length)throw Error('Dark sky source missing sites or duplicate slugs');
  for(const p of places)if(!/^[a-z0-9-]+$/.test(p.slug)||!TYPES[p.type]||!p.access||!p.source||!p.intro||!p.whatToWatch||!Number.isFinite(p.lat)||!Number.isFinite(p.lon))throw Error('Incomplete dark sky metadata: '+p.id);
- const out='public/national-tools/dark-sky';fs.mkdirSync(out,{recursive:true});
+ const out='public/national-tools/dark-sky';fs.mkdirSync(out,{recursive:true});fs.mkdirSync(path.join(out,'assets'),{recursive:true});for(const ext of ['css','js'])fs.copyFileSync('public/assets/great-lakes-dark-sky.'+ext,path.join(out,'assets','great-lakes-dark-sky.'+ext));
  fs.writeFileSync(path.join(out,'index.html'),hub());
  for(const p of places){const dir=path.join(out,p.slug);fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),individual(p));}
  fs.writeFileSync(path.join(out,'destinations.json'),JSON.stringify({updated:input.updated,places},null,2));
