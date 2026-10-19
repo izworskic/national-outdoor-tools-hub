@@ -149,7 +149,8 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
-const f=$('locationForm'),state={lat:43.594,lon:-83.889,label:'Bay City, MI (example)',map:null};
+const f=$('locationForm'),state={lat:43.594,lon:-83.889,label:'Bay City, MI (example)',map:null,deviceLocation:null};
+const DEVICE_LOCATION_LABEL='Your approximate location';
 const api='/national-tools/meteor-shower/_api/live';
 function set(id,value){$(id).textContent=value;}
 function datefmt(t,tz,options){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz,...options}).format(new Date(t));}catch{return new Date(t).toLocaleString();}}
@@ -298,9 +299,15 @@ async function lookup(q){
  if(!q||q.length<2)throw Error('Enter a city, state or ZIP.');
  return json('/api/national-geocode?q='+encodeURIComponent(q));
 }
-f.addEventListener('submit',async function(e){e.preventDefault();const request=++lookupSeq;++seq;try{set('status','Finding location…');const query=$('place').value.trim();const loc=await lookup(query);if(request!==lookupSeq)return;state.lat=Number(loc.latitude);state.lon=Number(loc.longitude);state.label=loc.place&&loc.stateCode?loc.place+', '+loc.stateCode:loc.displayName||query;refresh();}catch(err){if(request===lookupSeq)failure('Location lookup failed: '+err.message);}});
+function resolveDeviceQuery(query, deviceLocation){
+ if(query!==DEVICE_LOCATION_LABEL)return null;
+ if(!deviceLocation)throw Error('Use the location button to select your device coordinates, or enter a city or ZIP.');
+ return {lat:deviceLocation.lat,lon:deviceLocation.lon};
+}
+f.addEventListener('submit',async function(e){e.preventDefault();const request=++lookupSeq;++seq;try{set('status','Finding location…');const query=$('place').value.trim();const device=resolveDeviceQuery(query,state.deviceLocation);if(device){if(request!==lookupSeq)return;state.lat=device.lat;state.lon=device.lon;state.label=DEVICE_LOCATION_LABEL;refresh();return;}const loc=await lookup(query);if(request!==lookupSeq)return;state.lat=Number(loc.latitude);state.lon=Number(loc.longitude);state.label=loc.place&&loc.stateCode?loc.place+', '+loc.stateCode:loc.displayName||query;refresh();}catch(err){if(request===lookupSeq)failure('Location lookup failed: '+err.message);}});
 $('radius').addEventListener('change',refresh);
-$('locate').addEventListener('click',()=>{const request=++lookupSeq;++seq;if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{if(request!==lookupSeq)return;state.lat=Math.round(p.coords.latitude*100)/100;state.lon=Math.round(p.coords.longitude*100)/100;state.label='Your approximate location';$('place').value=state.label;refresh();},()=>{if(request===lookupSeq)set('status','Device location was not shared. You can use a city or ZIP instead.');},{enableHighAccuracy:false,timeout:10000});});
+$('place').addEventListener('input',()=>{if($('place').value.trim()!==DEVICE_LOCATION_LABEL)state.deviceLocation=null;});
+$('locate').addEventListener('click',()=>{const request=++lookupSeq;++seq;if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{if(request!==lookupSeq)return;const lat=p?.coords?.latitude,lon=p?.coords?.longitude;if(typeof lat!=='number'||typeof lon!=='number'||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){failure('Device coordinates unavailable. Enter a city or ZIP instead.');return;}state.deviceLocation={lat:Math.round(lat*100)/100,lon:Math.round(lon*100)/100};state.lat=state.deviceLocation.lat;state.lon=state.deviceLocation.lon;state.label=DEVICE_LOCATION_LABEL;$('place').value=DEVICE_LOCATION_LABEL;refresh();},()=>{if(request===lookupSeq)set('status','Device location was not shared. You can use a city or ZIP instead.');},{enableHighAccuracy:false,timeout:10000});});
 initSkyMap();
 const url=new URLSearchParams(location.search);if(url.get('q')){$('place').value=url.get('q');f.requestSubmit();}else refresh();
 })();
