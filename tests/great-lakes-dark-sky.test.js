@@ -82,10 +82,10 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
  assert.match(runtime,/L\.divIcon\(\{className:'sky-destination-pin/);
  assert.match(runtime,/iconSize:\[38,38\]/);
  assert.match(runtime,/keyboard:true,interactive:true,riseOnHover:true/);
- assert.match(runtime,/marker\.openPopup\(\)/);
- assert.match(runtime,/Official park information/);
- assert.match(runtime,/View full park forecast and decision/);
- assert.match(runtime,/mapLink\(p\)/);
+ assert.match(runtime,/state\.inspector\.selectPark\(p\)/);
+ assert.match(runtime,/DarkSkyMapInspector/);
+ assert.match(runtime,/getDesignation:p=>typeNames\[p\.type\]/);
+ assert.match(runtime,/getMapsUrl:googleMapsUrl/);
  assert.match(stylesheet,/#darkSkyMap \.leaflet-marker-pane \.sky-destination-pin\{pointer-events:auto!important/);
  assert.match(stylesheet,/#darkSkyMap \.leaflet-interactive\{pointer-events:auto!important/);
  const generated=fs.readFileSync('public/national-tools/dark-sky/headlands/index.html','utf8');
@@ -97,7 +97,7 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
 
 test('User zoom stays fixed across map marker updates, geolocation and forecast refresh',()=>{
  assert.match(runtime,/scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true/);
- assert.match(runtime,/bindPopup\(markerPopup\(p\),\{maxWidth:290,keepInView:false,autoPan:false\}\)/);
+ assert.match(runtime,/\.on\('click',\(\)=>\{if\(state\.inspector\)state\.inspector\.selectPark\(p\);\}\)/);
  const update=runtime.match(/function updatePins\(\)\{[\s\S]*?\n\}\nfunction resetDarkSkyViewport/)?.[0]||'';
  assert.ok(update,'Marker updater must be separate from viewport reset');
  assert.doesNotMatch(update,/\.fitBounds\(|\.setView\(|\.flyTo\(/);
