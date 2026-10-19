@@ -35,7 +35,7 @@ test('Great Lakes atlas exposes destination selection, location opt-in and offic
 test('International, sanctuary, state, Canadian preserves and community are distinguished',()=>{
  for(const id of ['headlands','lawless','keweenaw','beaver','lake-hudson','negwegon','port-crescent','rockport','thompsons-harbor','wilderness','newport','voyageurs','bwca','middlefork','geauga','beverly','cherry','quetico','superior-on','killarney','point-pelee','bruce','fathom','torrance'])assert.ok(page.includes('"'+id+'"'),id);
  assert.match(page,/state==='ON'/);
- assert.match(page,/this NWS engine covers U\.S\. locations/);
+ assert.match(page,/uses Canadian forecast data/);
  assert.match(page,/Pins represent areas/);
  assert.match(page,/winter plowing|winter-plowed/);
 });
