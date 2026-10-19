@@ -43,3 +43,24 @@ test('Client code is syntactically valid',()=>{
  assert.ok(script,'Meteor UI script missing');
  assert.doesNotThrow(()=>new Function(script.replace(/^<script>/,'').replace(/<\/script>$/,'')));
 });
+
+
+test('Device coordinates remain the source of truth after Check the sky is pressed',()=>{
+ const label="Your approximate location";
+ const source=script.match(/function resolveDeviceQuery\(query, deviceLocation\)\{[\s\S]*?\n\}/)?.[0];
+ assert.ok(source,'Missing a dedicated device query resolver');
+ const resolve=new Function("const DEVICE_LOCATION_LABEL="+JSON.stringify(label)+";"+source+";return resolveDeviceQuery;")();
+ const device={lat:43.59,lon:-83.89};
+ assert.deepEqual(resolve(label,device),device);
+ assert.equal(resolve('Bay City, MI',device),null,'Manual city lookup must still use geocoding');
+ assert.equal(resolve('48631',device),null,'ZIP lookup must still use geocoding');
+ assert.throws(()=>resolve(label,null),/Use the location button/,'Never geocode the device-label placeholder');
+ assert.match(page,/const device=resolveDeviceQuery\(query,state\.deviceLocation\);if\(device\)\{/);
+ assert.match(page,/state\.deviceLocation=\{lat:Math\.round\(lat\*100\)\/100,lon:Math\.round\(lon\*100\)\/100\}/);
+ assert.match(page,/\$\('place'\)\.value=DEVICE_LOCATION_LABEL;refresh\(\)/);
+ assert.match(page,/\$\('place'\)\.addEventListener\('input'/);
+ assert.match(page,/id="locate"[^>]*|id="locate"/);
+ assert.match(page,/type="button" id="locate"/,'Geolocation must not submit the search form by itself');
+ assert.match(page,/type="button" id="mapLocate"/,'Map location control must not submit a form');
+ assert.match(page,/if\(request!==lookupSeq\)return/,'Stale location responses must be ignored');
+});
