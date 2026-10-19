@@ -67,3 +67,29 @@ test('Shared client uses public CARTO credential endpoint, location opt-in and e
  const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
  assert.match(index,/\/national-tools\/dark-sky\/assets\/great-lakes-dark-sky\.js/);
 });
+
+
+test('Explorer map markers open details, show Google Maps safely, and are touch and keyboard usable',()=>{
+ const fn=runtime.match(/function googleMapsUrl\(p\)\{[\s\S]*?\n\}/)?.[0];
+ assert.ok(fn,'Missing shared safe Google Maps helper');
+ const maps=new Function(fn+';return googleMapsUrl;')();
+ const headlands=data.places.find(p=>p.id==='headlands');
+ const bwca=data.places.find(p=>p.id==='bwca');
+ assert.match(maps(headlands),/^https:\/\/www\.google\.com\/maps\/dir\/\?api=1&destination=/);
+ assert.ok(maps(headlands).includes(encodeURIComponent('Headlands Dark Sky Park, MI, USA')));
+ assert.match(maps(bwca),/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
+ assert.ok(!maps(bwca).includes('47.95'),'Never route drivers to a wilderness-center pin');
+ assert.match(runtime,/L\.divIcon\(\{className:'sky-destination-pin/);
+ assert.match(runtime,/iconSize:\[38,38\]/);
+ assert.match(runtime,/keyboard:true,interactive:true,riseOnHover:true/);
+ assert.match(runtime,/marker\.openPopup\(\)/);
+ assert.match(runtime,/Official park information/);
+ assert.match(runtime,/View full park forecast and decision/);
+ assert.match(runtime,/mapLink\(p\)/);
+ assert.match(stylesheet,/#darkSkyMap \.leaflet-marker-pane \.sky-destination-pin\{pointer-events:auto!important/);
+ assert.match(stylesheet,/#darkSkyMap \.leaflet-interactive\{pointer-events:auto!important/);
+ const generated=fs.readFileSync('public/national-tools/dark-sky/headlands/index.html','utf8');
+ assert.match(generated,/Google Maps directions to named park/);
+ const remote=fs.readFileSync('public/national-tools/dark-sky/bwca/index.html','utf8');
+ assert.match(remote,/Find a legal access point on Google Maps/);
+});
