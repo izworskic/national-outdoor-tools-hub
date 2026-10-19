@@ -64,3 +64,35 @@ test('Device coordinates remain the source of truth after Check the sky is press
  assert.match(page,/id="mapLocate" type="button"/,'Map location control must not submit a form');
  assert.match(page,/if\(request!==lookupSeq\)return/,'Stale location responses must be ignored');
 });
+
+
+test('Named Great Lakes dark-sky sites bypass city-only geocoder using curated coordinates',()=>{
+ const catalogMatch=page.match(/const SKY_PLACES=(\[[\s\S]*?\]);\s*const SKY_NAMES/);
+ assert.ok(catalogMatch,'Curated map catalog must remain available to the search');
+ const parks=JSON.parse(catalogMatch[1]);
+ const funcs=script.match(/const SKY_STATE_NAMES=[\s\S]*?(?=for\(const site of SKY_PLACES\.filter)/)?.[0];
+ assert.ok(funcs,'Park alias index must be available before geocoding');
+ const {resolveParkQuery,normalizeParkName}=new Function('SKY_PLACES',funcs+';return {resolveParkQuery,normalizeParkName};')(parks);
+ for(const query of ['Headlands State Park','headlands state park, mi','Headlands International Dark Sky Park','HEADLANDS','Headlands Dark Sky Park, Michigan','Headlands County Park']){
+  const result=resolveParkQuery(query);
+  assert.equal(result?.id,'headlands',query);
+  assert.equal(result?.name,'Headlands Dark Sky Park');
+  assert.equal(result?.state,'MI');
+  assert.ok(Number.isFinite(result?.lat)&&Number.isFinite(result?.lon));
+ }
+ for(const park of parks){
+  assert.equal(resolveParkQuery(park.name+', '+park.state)?.id,park.id,park.name);
+ }
+ assert.equal(resolveParkQuery('Bay City, MI'),null,'Cities continue to use geocoding');
+ assert.equal(resolveParkQuery('48631'),null,'ZIP codes continue to use geocoding');
+ assert.equal(resolveParkQuery('Headlands State Park, California'),null,'No incorrect cross-state match');
+ assert.equal(normalizeParkName('Dr. T.K. Lawless County Park'),'dr t k lawless county park');
+ assert.match(page,/id="place" list="parkSuggestions"/);
+ assert.match(page,/const park=resolveParkQuery\(query\);if\(park\)\{/);
+ assert.match(page,/selectParkForecast\(park\);return/);
+ assert.match(page,/state\.lat=site\.lat;state\.lon=site\.lon/);
+ assert.match(page,/state\.label=site\.name\+' \('\+site\.state\+' park-area reference\)'/);
+ assert.match(page,/site\.state==='ON'/);
+ assert.match(page,/Open '\+site\.name\+' forecast →'/);
+ assert.match(page,/\/api\/national-geocode\?q=/,'Unknown city and ZIP queries still use geocoder');
+});
