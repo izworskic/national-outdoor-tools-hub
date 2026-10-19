@@ -22,7 +22,7 @@ for(const tool of additions){
 }
 
 const liveIds=['zion-narrows-conditions','grand-canyon-access','going-to-the-sun-road-status','haleakala-sunrise','kilauea-live','yellowstone-road-status','tioga-road-status','cadillac-mountain-sunrise','mount-rainier-road-status','lake-mead-access','lake-powell-ramp-status'];
-const nationalIds=['rivers','coastal','smoke','snow','epic-ikon-pass','aurora','meteor-viewing','waterfall-window','monarch','bird-migration','fall-color','ice-out','white-christmas','frost','planting','garden-water'];
+const nationalIds=['rivers','coastal','smoke','snow','epic-ikon-pass','aurora','meteor-viewing','great-lakes-dark-sky','waterfall-window','monarch','bird-migration','fall-color','ice-out','white-christmas','frost','planting','garden-water'];
 const everydayIds=['house-fit'];
 const regions=[
 {id:'northeast-great-lakes',name:'Northeast & Great Lakes',search:'northeast great lakes lake superior duluth canal park minnesota superior wisconsin aerial lift bridge ships freighters boat watching michigan huron erie ontario water levels shoreline new york niagara maine acadia thunder hole cadillac mountain sunrise',description:'Major-water, transportation and destination decisions from New York City bridge and tunnel crossings to Duluth ship watching, Great Lakes shoreline conditions, Niagara viewing geometry and Acadia sunrise and surf timing.',ids:['nyc-crossing','niagara-border','old-sow','duluth-canal-park','great-lakes-levels','niagara-rainbow','thunder-hole','cadillac-mountain-sunrise'],hub:'/national-tools/northeast-great-lakes/',hubLabel:'Open the Northeast & Great Lakes decision desk →'},

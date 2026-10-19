@@ -101,6 +101,22 @@
   ],
   "rewrites": [
     {
+      "source": "/national-tools/dark-sky",
+      "destination": "/national-tools/dark-sky/index.html"
+    },
+    {
+      "source": "/national-tools/dark-sky/",
+      "destination": "/national-tools/dark-sky/index.html"
+    },
+    {
+      "source": "/national-tools/dark-sky/:slug(headlands|keweenaw|lawless|beaver|lake-hudson|negwegon|port-crescent|rockport|thompsons-harbor|wilderness|newport|voyageurs|bwca|middlefork|geauga|beverly|cherry|quetico|superior-on|killarney|point-pelee|bruce|fathom|torrance)",
+      "destination": "/national-tools/dark-sky/:slug/index.html"
+    },
+    {
+      "source": "/national-tools/dark-sky/:slug(headlands|keweenaw|lawless|beaver|lake-hudson|negwegon|port-crescent|rockport|thompsons-harbor|wilderness|newport|voyageurs|bwca|middlefork|geauga|beverly|cherry|quetico|superior-on|killarney|point-pelee|bruce|fathom|torrance)/",
+      "destination": "/national-tools/dark-sky/:slug/index.html"
+    },
+    {
       "source": "/national-tools/meteor-shower/_api/live",
       "destination": "/api/meteor-viewing"
     },
