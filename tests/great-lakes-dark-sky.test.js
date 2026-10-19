@@ -49,6 +49,8 @@ test('Shared client uses public CARTO credential endpoint, location opt-in and e
  assert.doesNotThrow(()=>new Function(runtime));
  assert.match(runtime,/fetch\('\/api\/carto-basemap-config'/);
  assert.match(runtime,/basemaps\.cartocdn\.com\/rastertiles\/voyager/);
+ assert.match(runtime,/https:\/\/a\.basemaps\.cartocdn\.com\/rastertiles\/voyager/);
+ assert.doesNotMatch(runtime,/https:\/\/\{s\}\.basemaps\.cartocdn\.com/);
  assert.match(runtime,/tile\.openstreetmap\.org/);
  assert.match(runtime,/navigator\.geolocation\.getCurrentPosition/);
  assert.match(runtime,/Math\.round\(pos\.coords\.latitude\*100\)\/100/);
