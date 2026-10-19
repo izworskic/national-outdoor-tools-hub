@@ -124,3 +124,19 @@ test('CARTO dark-sky pins are large tappable destinations with park details and 
  assert.match(page,/#map \.leaflet-interactive\{pointer-events:auto!important/);
  assert.match(page,/Gold = selected forecast coordinate; small cyan dots = NWS weather samples/);
 });
+
+
+test('Map zoom does not trigger involuntary Leaflet autopan',()=>{
+ assert.match(page,/scrollWheelZoom:true,zoomControl:true,worldCopyJump:false,dragging:true,doubleClickZoom:true,touchZoom:true/);
+ assert.match(page,/bindPopup\(placePopup\(p\),\{maxWidth:290,autoPan:false,keepInView:false\}\)/);
+ assert.match(page,/forecast sample, not a designated viewing site\.',/);
+ assert.match(page,/autoPan:false,keepInView:false/);
+ assert.doesNotMatch(page,/map\.flyTo\(/);
+ const display=script.match(/function renderSkyPlaces\(\)\{[\s\S]*?\n\}\nfunction showMap/)?.[0]||'';
+ assert.ok(display,'Park marker refresh code exists');
+ assert.doesNotMatch(display,/fitBounds\(|setView\(|flyTo\(/);
+ const samples=script.match(/function showMap\(loc,near\)\{[\s\S]*?\n\}\nfunction skyAllBounds/)?.[0]||'';
+ assert.ok(samples,'Weather samples redraw code exists');
+ assert.doesNotMatch(samples,/fitBounds\(|setView\(|flyTo\(/);
+ assert.match(page,/state\.map\.setView\(\[p\.lat,p\.lon\],Math\.max\(8,state\.map\.getZoom\(\)\),\{animate:false\}\)/);
+});

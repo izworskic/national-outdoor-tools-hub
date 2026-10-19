@@ -244,7 +244,8 @@ function skyGoogleMapsUrl(p){
 }
 function skyMapZoomTo(p){
  const marker=skyMarkers.get(p.id);if(!state.map||!marker)return;
- state.map.flyTo([p.lat,p.lon],Math.max(8,state.map.getZoom()),{duration:.45});
+ // Only an explicit 'Show on map' request changes the viewport.
+ state.map.setView([p.lat,p.lon],Math.max(8,state.map.getZoom()),{animate:false});
  marker.openPopup();$('map').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function skyVisible(){const region=$('skyRegion').value,kind=$('skyType').value;return SKY_PLACES.filter(p=>(region==='all'||p.state===region)&&(kind==='all'||p.type===kind));}
@@ -292,7 +293,7 @@ function renderSkyPlaces(){
  for(const p of items){
   const icon=L.divIcon({className:'sky-park-marker sky-park-'+p.type,html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
   const marker=L.marker([p.lat,p.lon],{icon,title:p.name+' — open dark-sky destination',keyboard:true,riseOnHover:true,interactive:true})
-   .bindPopup(placePopup(p),{maxWidth:290,autoPan:true,keepInView:true}).addTo(skyPlaceLayer);
+   .bindPopup(placePopup(p),{maxWidth:290,autoPan:false,keepInView:false}).addTo(skyPlaceLayer);
   skyMarkers.set(p.id,marker);
  }
 }
@@ -302,7 +303,7 @@ function showMap(loc,near){
  if(skyForecastLayer)skyForecastLayer.clearLayers();
  state.currentSamples.forEach((p,i)=>{
   L.circleMarker([p.lat,p.lon],{radius:i===0?9:5,weight:2,color:i===0?'#fff3da':'#bbf4ff',fillColor:i===0?'#e5a940':'#7bcbe5',fillOpacity:.95})
-   .bindPopup(p.label+' — forecast sample, not a designated viewing site.').addTo(skyForecastLayer);
+   .bindPopup(p.label+' — forecast sample, not a designated viewing site.',{autoPan:false,keepInView:false}).addTo(skyForecastLayer);
  });
  renderSkyPlaces();
 }
@@ -319,7 +320,7 @@ function initSkyMap(){
  if(typeof L==='undefined'){set('skyMapStatus','Map library unavailable. Destinations and official links remain available below.');return;}
  root.textContent='';
  try{
-  state.map=L.map(root,{scrollWheelZoom:false,zoomControl:true,worldCopyJump:false});
+  state.map=L.map(root,{scrollWheelZoom:true,zoomControl:true,worldCopyJump:false,dragging:true,doubleClickZoom:true,touchZoom:true});
   skyPlaceLayer=L.layerGroup().addTo(state.map);skyForecastLayer=L.layerGroup().addTo(state.map);
   state.map.setView([44.5,-86.3],5);skyAllBounds();renderSkyPlaces();
   L.control.scale({imperial:true,metric:false}).addTo(state.map);

@@ -26,7 +26,8 @@ function mapLink(p){const a=element('a','secondary',mapsLabel(p));a.href=googleM
 function showSiteOnMap(p){
  const marker=state.siteMarkers.get(p.id);
  if(!state.map||!marker)return;
- state.map.flyTo([p.lat,p.lon],Math.max(8,state.map.getZoom()),{duration:.5});
+ // Recenter only when the visitor explicitly selects 'Show on map'.
+ state.map.setView([p.lat,p.lon],Math.max(8,state.map.getZoom()),{animate:false});
  marker.openPopup();
  document.getElementById('darkSkyMap').scrollIntoView({behavior:'smooth',block:'center'});
 }
@@ -65,14 +66,20 @@ function updatePins(){
   const selected=parkMode&&p.id===here.id;
   const icon=L.divIcon({className:'sky-destination-pin sky-destination-'+(selected?'selected':color),html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
   const marker=L.marker([p.lat,p.lon],{icon,keyboard:true,interactive:true,riseOnHover:true,title:p.name+' — open dark-sky park details'})
-   .bindPopup(markerPopup(p),{maxWidth:290,keepInView:true,autoPan:true}).addTo(state.sitesLayer);
+   .bindPopup(markerPopup(p),{maxWidth:290,keepInView:false,autoPan:false}).addTo(state.sitesLayer);
   state.siteMarkers.set(p.id,marker);
  }
  state.focusLayer.clearLayers();
- if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1,interactive:true}).bindPopup('Your approximate location; not saved or a park entrance').addTo(state.focusLayer);
- if(parkMode){if(state.user)state.map.fitBounds([[here.lat,here.lon],[state.user.lat,state.user.lon]],{padding:[38,38],maxZoom:9});else state.map.setView([here.lat,here.lon],8);}
- else if(points.length){const bounds=L.latLngBounds(points.map(p=>[p.lat,p.lon]));state.map.fitBounds(bounds,{padding:[35,35],maxZoom:9});}
+ if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1,interactive:true}).bindPopup('Your approximate location; not saved or a park entrance',{autoPan:false,keepInView:false}).addTo(state.focusLayer);
+ // Updating marker layers must NEVER override a visitor's zoom or pan.
 }
+function resetDarkSkyViewport(){
+ if(!state.ready)return;
+ const points=parkMode?[here]:state.visible;
+ if(parkMode){state.map.setView([here.lat,here.lon],8,{animate:false});return;}
+ if(points.length){state.map.fitBounds(points.map(p=>[p.lat,p.lon]),{padding:[35,35],maxZoom:9,animate:false});}
+}
+
 function fallbackMap(){mapStatus('CARTO unavailable here. OpenStreetMap fallback active; destination links and forecasts remain available.');loadTiles('https://tile.openstreetmap.org/{z}/{x}/{y}.png',false);}
 function loadTiles(url,carto){
  if(!state.map)return;if(state.tiles)state.map.removeLayer(state.tiles);
@@ -84,7 +91,7 @@ function loadTiles(url,carto){
 function initMap(){
  if(!$('darkSkyMap'))return;
  if(typeof L==='undefined'){mapStatus('Map library could not load. All destinations are available in the linked list.');return;}
- try{state.map=L.map('darkSkyMap',{scrollWheelZoom:false,zoomControl:true});state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();L.control.scale({imperial:true,metric:false}).addTo(state.map);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
+ try{state.map=L.map('darkSkyMap',{scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true});state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();resetDarkSkyViewport();L.control.scale({imperial:true,metric:false}).addTo(state.map);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),7000);
  fetch('/api/carto-basemap-config',{headers:{Accept:'application/json'},signal:controller.signal}).then(r=>{if(!r.ok)throw Error('CARTO config inaccessible');return r.json();})
  .then(c=>{if(c?.provider!=='CARTO'||typeof c.key!=='string'||!c.key.trim())throw Error('Missing public CARTO key');loadTiles('https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(c.key.trim()),true);mapStatus('Connecting to the CARTO Voyager basemap…');})
@@ -167,10 +174,11 @@ async function compareMySky(){
 }
 function wire(){
  $('myLocation')?.addEventListener('click',()=>{useLocation();});
+ $('resetDarkSkyMap')?.addEventListener('click',resetDarkSkyViewport);
  $('compareMySky')?.addEventListener('click',compareMySky);
  $('compare4')?.addEventListener('click',compareHub);
  for(const id of ['region','designation','searchSites'])$(id)?.addEventListener(id==='searchSites'?'input':'change',renderSiteCards);
- $('showAll')?.addEventListener('click',()=>{if($('region'))$('region').value='all';if($('designation'))$('designation').value='all';if($('searchSites'))$('searchSites').value='';renderSiteCards();});
+ $('showAll')?.addEventListener('click',()=>{if($('region'))$('region').value='all';if($('designation'))$('designation').value='all';if($('searchSites'))$('searchSites').value='';renderSiteCards();resetDarkSkyViewport();});
 }
 wire();renderSiteCards();nearAlternatives();initMap();parkForecast();
 })();
