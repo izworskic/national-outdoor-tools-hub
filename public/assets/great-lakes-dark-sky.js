@@ -53,7 +53,7 @@ function updatePins(){
 function fallbackMap(){mapStatus('CARTO unavailable here. OpenStreetMap fallback active; destination links and forecasts remain available.');loadTiles('https://tile.openstreetmap.org/{z}/{x}/{y}.png',false);}
 function loadTiles(url,carto){
  if(!state.map)return;if(state.tiles)state.map.removeLayer(state.tiles);
- let errs=0,loaded=0;const layer=L.tileLayer(url,{subdomains:carto?'abcd':'abc',maxZoom:18,keepBuffer:1,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'+(carto?' &copy; <a href="https://carto.com/attributions">CARTO</a>':'')});
+ let errs=0,loaded=0;const layer=L.tileLayer(url,{subdomains:carto?'a':'abc',maxZoom:18,keepBuffer:1,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'+(carto?' &copy; <a href="https://carto.com/attributions">CARTO</a>':'')});
  layer.on('tileload',()=>{loaded++;if(carto)mapStatus('CARTO Voyager basemap loaded. Map pins indicate destination areas, not certified parking or entrances.');});
  layer.on('tileerror',()=>{errs++;if(errs>=3&&carto&&state.tiles===layer)fallbackMap();else if(errs>=3&&!carto&&!loaded)mapStatus('Map tiles unavailable. The linked park directory remains available.');});
  state.tiles=layer;layer.addTo(state.map);
@@ -64,7 +64,7 @@ function initMap(){
  try{state.map=L.map('darkSkyMap',{scrollWheelZoom:false,zoomControl:true});state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();L.control.scale({imperial:true,metric:false}).addTo(state.map);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),7000);
  fetch('/api/carto-basemap-config',{headers:{Accept:'application/json'},signal:controller.signal}).then(r=>{if(!r.ok)throw Error('CARTO config inaccessible');return r.json();})
- .then(c=>{if(c?.provider!=='CARTO'||typeof c.key!=='string'||!c.key.trim())throw Error('Missing public CARTO key');loadTiles('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(c.key.trim()),true);mapStatus('Connecting to the CARTO Voyager basemap…');})
+ .then(c=>{if(c?.provider!=='CARTO'||typeof c.key!=='string'||!c.key.trim())throw Error('Missing public CARTO key');loadTiles('https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(c.key.trim()),true);mapStatus('Connecting to the CARTO Voyager basemap…');})
  .catch(fallbackMap).finally(()=>clearTimeout(timeout));
 }
 function forecastURL(p){return p.country==='CA'?'/national-tools/dark-sky/_api/forecast?site='+encodeURIComponent(p.id):'/national-tools/meteor-shower/_api/live?lat='+encodeURIComponent(p.lat)+'&lon='+encodeURIComponent(p.lon)+'&radius=0';}
