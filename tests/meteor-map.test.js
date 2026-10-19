@@ -113,7 +113,7 @@ test('CARTO dark-sky pins are large tappable destinations with park details and 
  assert.match(maps(ontario),/Canada/);
  assert.ok(!maps(remote).includes('47.95'),'Regional marker must not be interpreted as an entrance');
  assert.match(page,/L\.divIcon\(\{className:'sky-park-marker/);
- assert.match(page,/iconSize:\[38,38\]/);
+ assert.match(page,/iconSize:\[44,44\]/);
  assert.match(page,/keyboard:true,riseOnHover:true,interactive:true/);
  assert.match(page,/skyMarkers\.set\(p\.id,marker\)/);
  assert.match(page,/Show on map/);
