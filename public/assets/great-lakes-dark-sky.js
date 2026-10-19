@@ -16,7 +16,6 @@ function miles(a,b){const rad=Math.PI/180,dlat=(b.lat-a.lat)*rad,dlon=(b.lon-a.l
 function origin(){return state.user||{lat:43.594,lon:-83.889};}
 function distanceNote(p){return '~'+miles(origin(),p)+' mi straight line'+(state.user?' from your approximate location':' from Bay City, MI reference');}
 function path(p){return URL_BASE+encodeURIComponent(p.slug)+'/';}
-function accessible(p){return p.state==='ON'?false:true;}
 function createAnchor(p,label){const a=element('a','',label);a.href=path(p);return a;}
 function visibleSites(){if(parkMode)return sites;const region=$('region')?.value||'all',kind=$('designation')?.value||'all',q=($('searchSites')?.value||'').toLowerCase().trim();return sites.filter(p=>(region==='all'||region===p.state)&&(kind==='all'||kind===p.type)&&(!q||(p.name+' '+p.state+' '+p.intro).toLowerCase().includes(q))).sort((a,b)=>miles(origin(),a)-miles(origin(),b));}
 function renderSiteCards(){const out=$('siteCards');if(!out)return;out.textContent='';const places=visibleSites();state.visible=places;text('siteCount',places.length+' destinations · distances are straight line, not routes');
@@ -48,7 +47,7 @@ function updatePins(){
  }
  state.focusLayer.clearLayers();
  if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1}).bindPopup('Approximate device location; not stored or used as a public viewing place').addTo(state.focusLayer);
- if(parkMode){state.map.setView([here.lat,here.lon],8);}
+ if(parkMode){if(state.user)state.map.fitBounds([[here.lat,here.lon],[state.user.lat,state.user.lon]],{padding:[38,38],maxZoom:9});else state.map.setView([here.lat,here.lon],8);}
  else if(points.length){const bounds=L.latLngBounds(points.map(p=>[p.lat,p.lon]));state.map.fitBounds(bounds,{padding:[35,35],maxZoom:9});}
 }
 function fallbackMap(){mapStatus('CARTO unavailable here. OpenStreetMap fallback active; destination links and forecasts remain available.');loadTiles('https://tile.openstreetmap.org/{z}/{x}/{y}.png',false);}
@@ -97,13 +96,13 @@ async function parkForecast(){
   if(near&&near.score!==null){const v=verdict(near.score);text('parkVerdict',v.label);container.className=v.klass;
    text('parkReason',when(near.time,tz)+' is the best verified dark hour in the next 18 hours: '+near.score+'/100 index with '+near.cloud+'% forecast clouds. '+(near.score>=65?'Sky conditions may justify planning, but access remains unverified.':'A darker park alone cannot overcome adverse cloud or moon conditions.')+' The index is not an expected meteor count.');
   }else{text('parkVerdict','No verified near-term dark viewing window');text('parkReason','No adequately dark hour with current cloud forecast data could be scored in the next 18 hours. Check the 72-hour outlook.');}
-  text('parkTonight',near?near.score+'/100':'Unavailable');
+  text('parkTonight',near?.score==null?'Unavailable':near.score+'/100');
   text('parkBest',best?when(best.time,tz)+' · '+best.score+'/100':'No scored window');
   text('parkShower',d.primary?d.primary.name+' active · ideal peak ZHR '+d.primary.idealPeakZhr+' (not local counts)':'No major shower active; sporadic meteors remain possible.');
   const weatherProvider=here.country==='CA'?'MET Norway Locationforecast global model (CC BY 4.0)':'National Weather Service sky-cover grid';
   text('parkForecastStatus',weatherProvider+' · updated '+(f.updated?when(f.updated,tz):'unknown')+' · checked '+when(d.generatedAt,tz)+'. This is a modeled relative viewing index; different weather providers are not directly calibrated. Access not verified.');
   showHours(f.hours||[],tz);if(best)text('parkHourDetail','Best 72-hour period: '+explainHour(best,tz));
- }catch(e){text('parkVerdict','Viewing forecast unavailable');text('parkReason','No reliable NWS cloud forecast was returned for this park. Do not infer a clear or safe viewing night.');text('parkForecastStatus','Forecast unavailable. Recheck later or consult the official park and NWS sources.');text('parkBest','Unavailable');text('parkTonight','Unavailable');text('parkShower','Seasonal meteor shower information: see the national tracker.');$('parkTimeline').textContent='No verified hourly score.';}
+ }catch(e){text('parkVerdict','Viewing forecast unavailable');text('parkReason','No fresh and complete cloud-cover forecast was returned for this park. Do not infer a clear or safe viewing night.');text('parkForecastStatus','Forecast unavailable. Recheck later or consult the park operator and '+(here.country==='CA'?'Environment Canada':'NWS')+' for local weather.');text('parkBest','Unavailable');text('parkTonight','Unavailable');text('parkShower','Seasonal meteor shower information: see the national tracker.');$('parkTimeline').textContent='No verified hourly score.';}
 }
 async function compareHub(){
  const box=$('compareResults');if(!box)return;if(state.comparing)return;
@@ -141,7 +140,7 @@ async function compareMySky(){
  if(a?.score==null||b?.score==null){out.textContent='Comparable near-term forecasts are incomplete. No advantage can be calculated.';return;}
  const diff=b.score-a.score;
  out.textContent='Your location: '+a.score+'/100 near-term index; park: '+b.score+'/100. '+(diff>0?'Park weather scores '+diff+' points higher.':diff<0?'Your local sky scores '+Math.abs(diff)+' points higher.':'Scores are equal.')+' Each is its own best hour within 18 hours; times may differ. This comparison does not include actual local light pollution or open gates.';
- }catch{out.textContent='Cannot compare both current NWS forecasts. No location advantage is assumed.';}
+ }catch{out.textContent='Cannot compare both current forecast points. No location advantage is assumed.';}
 }
 function wire(){
  $('myLocation')?.addEventListener('click',()=>{useLocation();});
