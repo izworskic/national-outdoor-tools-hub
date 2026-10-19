@@ -101,7 +101,7 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 <section class="section panel" id="darkSkyAtlas" aria-labelledby="dark-sky-title">
 <div class="kicker">Great Lakes dark-sky destination atlas</div>
 <h2 id="dark-sky-title">Where can I watch under darker skies?</h2>
-<p class="small muted">Find certified International Dark Sky Places, Michigan's state-designated preserves, and Canadian preserves. Tap a pin or destination to inspect the official site. A park's designation does not confirm tonight's clouds, parking, safe access or night hours. Pins represent areas, <strong>not guaranteed entry points</strong>.</p>
+<p class="small muted">Find certified International Dark Sky Places, Michigan's state-designated preserves, and Canadian preserves. Tap a pin or destination to inspect the official site. A park's designation does not confirm tonight's clouds, parking, safe access or night hours. Pins represent areas, <strong>not guaranteed entry points</strong>. <a href="/national-tools/dark-sky/">Open individual dark-sky park viewing planners →</a></p>
 <div class="sky-controls">
 <label for="skyRegion">State or province<select id="skyRegion"><option value="all">All Great Lakes</option><option value="MI">Michigan</option><option value="WI">Wisconsin</option><option value="MN">Minnesota</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="OH">Ohio</option><option value="PA">Pennsylvania</option><option value="ON">Ontario</option></select></label>
 <label for="skyType">Designation<select id="skyType"><option value="all">All designations</option><option value="international">International Dark Sky Parks</option><option value="sanctuary">International Sanctuaries</option><option value="state">Michigan state preserves</option><option value="canadian">Canadian dark-sky preserves</option><option value="community">Certified communities</option></select></label>
@@ -170,7 +170,9 @@ function placePopup(p){
  const heading=document.createElement('strong');heading.textContent=p.name;
  const desc=document.createElement('p');desc.textContent=SKY_NAMES[p.type]+' · '+p.state+'. '+p.note;
  const link=document.createElement('a');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Official designation / access information ↗';
- node.append(heading,desc,link);
+ const planner=document.createElement('a');planner.href='/national-tools/dark-sky/'+encodeURIComponent(p.id)+'/';planner.textContent='Open this park’s decision planner →';
+ const more=document.createElement('p');more.append(planner);
+ node.append(heading,desc,link,more);
  if(p.state!=='ON'){const br=document.createElement('p');const b=document.createElement('button');b.type='button';b.textContent='Check NWS sky here';b.addEventListener('click',()=>chooseSkyPlace(p));br.append(b);node.append(br);}
  return node;
 }
@@ -183,6 +185,7 @@ function renderSkyPlaces(){
   const desc=document.createElement('p');desc.textContent=SKY_NAMES[p.type]+' · '+p.state+' · ~'+p.distance+' mi straight line. '+p.note;
   const actions=document.createElement('div');actions.className='sky-actions';
   const link=document.createElement('a');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Official details ↗';actions.append(link);
+  const planner=document.createElement('a');planner.href='/national-tools/dark-sky/'+encodeURIComponent(p.id)+'/';planner.textContent='Full park planner →';actions.append(planner);
   if(p.state!=='ON'){const button=document.createElement('button');button.type='button';button.textContent='Check sky here';button.addEventListener('click',()=>chooseSkyPlace(p));actions.append(button);}
   item.append(name,desc,actions);box.append(item);
  }
