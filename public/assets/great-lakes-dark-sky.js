@@ -55,7 +55,7 @@ function updatePins(){
  for(const p of points){
   const color=p.type==='international'||p.type==='sanctuary'?'international':p.type==='community'?'community':'preserve';
   const selected=parkMode&&p.id===here.id;
-  const icon=L.divIcon({className:'sky-destination-pin sky-destination-'+(selected?'selected':color),html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
+  const icon=L.divIcon({className:'sky-destination-pin sky-destination-'+(selected?'selected':color),html:'<span aria-hidden="true"></span>',iconSize:[44,44],iconAnchor:[22,22]});
   const marker=L.marker([p.lat,p.lon],{icon,keyboard:true,interactive:true,riseOnHover:true,title:p.name+' — open dark-sky park details'})
    .on('click',()=>{if(state.inspector)state.inspector.selectPark(p);}).addTo(state.sitesLayer);
   state.siteMarkers.set(p.id,marker);
