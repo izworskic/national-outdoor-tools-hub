@@ -30,7 +30,7 @@ test('Great Lakes atlas exposes destination selection, location opt-in and offic
  assert.match(page,/Official details/);
  assert.match(page,/SKY_NAMES/);
  assert.match(page,/fitBounds/);
- assert.match(page,/leaflet-popup-content|sky-popup/);
+ assert.match(page,/dark-sky-map-inspector\.css/);
 });
 test('International, sanctuary, state, Canadian preserves and community are distinguished',()=>{
  for(const id of ['headlands','lawless','keweenaw','beaver','lake-hudson','negwegon','port-crescent','rockport','thompsons-harbor','wilderness','newport','voyageurs','bwca','middlefork','geauga','beverly','cherry','quetico','superior-on','killarney','point-pelee','bruce','fathom','torrance'])assert.ok(page.includes('"'+id+'"'),id);
@@ -117,8 +117,8 @@ test('CARTO dark-sky pins are large tappable destinations with park details and 
  assert.match(page,/keyboard:true,riseOnHover:true,interactive:true/);
  assert.match(page,/skyMarkers\.set\(p\.id,marker\)/);
  assert.match(page,/Show on map/);
- assert.match(page,/Park planner \+ viewing decision/);
- assert.match(page,/Official access information/);
+ assert.match(page,/skyInspector\.selectPark\(p\)/);
+ assert.match(page,/dark-sky-map-inspector\.js/);
  assert.match(page,/Google Maps directions/);
  assert.match(page,/#map \.leaflet-marker-pane \.sky-park-marker\{pointer-events:auto!important/);
  assert.match(page,/#map \.leaflet-interactive\{pointer-events:auto!important/);
@@ -128,9 +128,9 @@ test('CARTO dark-sky pins are large tappable destinations with park details and 
 
 test('Map zoom does not trigger involuntary Leaflet autopan',()=>{
  assert.match(page,/scrollWheelZoom:true,zoomControl:true,worldCopyJump:false,dragging:true,doubleClickZoom:true,touchZoom:true/);
- assert.match(page,/bindPopup\(placePopup\(p\),\{maxWidth:290,autoPan:false,keepInView:false\}\)/);
- assert.match(page,/forecast sample, not a designated viewing site\.',/);
- assert.match(page,/autoPan:false,keepInView:false/);
+ assert.match(page,/\.on\('click',\(\)=>\{if\(skyInspector\)skyInspector\.selectPark\(p\);\}\)/);
+ assert.match(page,/Weather sampling coordinates represent model grid observations/);
+ assert.doesNotMatch(page,/\.bindPopup\(/);
  assert.doesNotMatch(page,/map\.flyTo\(/);
  const display=script.match(/function renderSkyPlaces\(\)\{[\s\S]*?\n\}\nfunction showMap/)?.[0]||'';
  assert.ok(display,'Park marker refresh code exists');
