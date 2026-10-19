@@ -6,7 +6,7 @@ const cfg=JSON.parse(node.textContent),sites=cfg.places,here=cfg.place||null,par
 const $=id=>document.getElementById(id),cache=new Map();
 const typeNames={international:'International Dark Sky Park',sanctuary:'International Dark Sky Sanctuary',state:'Michigan state-designated preserve',canadian:'Canadian Dark Sky Preserve',community:'International Dark Sky Community'};
 const URL_BASE='/national-tools/dark-sky/';
-const state={user:null,map:null,sitesLayer:null,focusLayer:null,tiles:null,ready:false,visible:sites,comparing:false};
+const state={user:null,map:null,sitesLayer:null,focusLayer:null,tiles:null,ready:false,visible:sites,comparing:false,siteMarkers:new Map()};
 function text(id,value){const target=$(id);if(target)target.textContent=String(value);}
 function element(tag,cl,value){const e=document.createElement(tag);if(cl)e.className=cl;if(value!==undefined)e.textContent=String(value);return e;}
 function formatted(iso,tz,opts){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz||'America/Detroit',...opts}).format(new Date(iso));}catch{return 'Time unavailable';}}
@@ -17,13 +17,36 @@ function origin(){return state.user||{lat:43.594,lon:-83.889};}
 function distanceNote(p){return '~'+miles(origin(),p)+' mi straight line'+(state.user?' from your approximate location':' from Bay City, MI reference');}
 function path(p){return URL_BASE+encodeURIComponent(p.slug)+'/';}
 function createAnchor(p,label){const a=element('a','',label);a.href=path(p);return a;}
+function googleMapsUrl(p){
+ const query=p.name+', '+p.state+', '+(p.country==='CA'?'Canada':'USA');
+ return p.approximateLocation||p.type==='community'?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query):'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(query)+'&travelmode=driving';
+}
+function mapsLabel(p){return p.approximateLocation||p.type==='community'?'Find access on Google Maps ↗':'Google Maps directions ↗';}
+function mapLink(p){const a=element('a','secondary',mapsLabel(p));a.href=googleMapsUrl(p);a.target='_blank';a.rel='noopener noreferrer';return a;}
+function showSiteOnMap(p){
+ const marker=state.siteMarkers.get(p.id);
+ if(!state.map||!marker)return;
+ state.map.flyTo([p.lat,p.lon],Math.max(8,state.map.getZoom()),{duration:.5});
+ marker.openPopup();
+ document.getElementById('darkSkyMap').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function markerPopup(p){
+ const box=element('div','site-map-popup');
+ box.append(element('strong','',p.name+' · '+p.state),element('p','',typeNames[p.type]+'. '+p.note));
+ const access=element('p','site-map-access',p.approximateLocation?'Regional reference only; NOT an entrance. '+p.access:'Check official parking and nighttime access. '+p.access);
+ const actions=element('div','site-map-actions');
+ const planner=createAnchor(p,'View full park forecast and decision →');actions.append(planner);
+ const official=element('a','','Official park information ↗');official.href=p.source||p.url;official.target='_blank';official.rel='noopener noreferrer';actions.append(official,mapLink(p));
+ box.append(access,actions);return box;
+}
 function visibleSites(){if(parkMode)return sites;const region=$('region')?.value||'all',kind=$('designation')?.value||'all',q=($('searchSites')?.value||'').toLowerCase().trim();return sites.filter(p=>(region==='all'||region===p.state)&&(kind==='all'||kind===p.type)&&(!q||(p.name+' '+p.state+' '+p.intro).toLowerCase().includes(q))).sort((a,b)=>miles(origin(),a)-miles(origin(),b));}
 function renderSiteCards(){const out=$('siteCards');if(!out)return;out.textContent='';const places=visibleSites();state.visible=places;text('siteCount',places.length+' destinations · distances are straight line, not routes');
 for(const p of places){
  const card=element('article','site');const tag=element('div','tag',typeNames[p.type]+' · '+p.state),h=element('h3');h.append(createAnchor(p,p.name));
  const desc=element('p','',p.intro),small=element('p','small subtle',distanceNote(p));
  const actions=element('div','actions');actions.append(createAnchor(p,'Open viewing planner'));
- const official=element('a','secondary','Official operator ↗');official.href=p.source||p.url;official.target='_blank';official.rel='noopener noreferrer';actions.append(official);
+ const official=element('a','secondary','Official operator ↗');official.href=p.source||p.url;official.target='_blank';official.rel='noopener noreferrer';actions.append(official,mapLink(p));
+ const show=element('button','secondary','Show on map');show.type='button';show.addEventListener('click',()=>showSiteOnMap(p));actions.append(show);
  card.append(tag,h,desc,small,actions);out.append(card);
 }
 if(!places.length)out.append(element('p','subtle','No matching destinations. Clear filters to show all.'));
@@ -35,18 +58,18 @@ for(const p of alt){const item=element('div','nextsite'),a=createAnchor(p,p.name
 function mapStatus(msg){text('mapStatus',msg);}
 function updatePins(){
  if(!state.ready)return;
- state.sitesLayer.clearLayers();
+ state.sitesLayer.clearLayers();state.siteMarkers.clear();
  const points=parkMode?[here,...sites.filter(p=>p.id!==here.id)]:state.visible;
  for(const p of points){
-  const chosen=parkMode&&p.id===here.id;
-  const color=chosen?'#fac66f':p.type==='international'||p.type==='sanctuary'?'#80d7ac':p.type==='community'?'#b299f9':'#78bded';
-  const pin=L.circleMarker([p.lat,p.lon],{radius:chosen?11:7,color:'#fff',weight:chosen?2.5:1,fillColor:color,fillOpacity:1});
-  const popup=element('div');const title=element('strong','',p.name+' · '+p.state),desc=element('p','',typeNames[p.type]+'. '+(p.approximateLocation?'Regional reference, not an entrance.':'Location reference; confirm entrance on the official site.'));
-  const a=createAnchor(p,'Open park planner →');popup.append(title,desc,a);
-  pin.bindPopup(popup,{maxWidth:260}).addTo(state.sitesLayer);
+  const color=p.type==='international'||p.type==='sanctuary'?'international':p.type==='community'?'community':'preserve';
+  const selected=parkMode&&p.id===here.id;
+  const icon=L.divIcon({className:'sky-destination-pin sky-destination-'+(selected?'selected':color),html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
+  const marker=L.marker([p.lat,p.lon],{icon,keyboard:true,interactive:true,riseOnHover:true,title:p.name+' — open dark-sky park details'})
+   .bindPopup(markerPopup(p),{maxWidth:290,keepInView:true,autoPan:true}).addTo(state.sitesLayer);
+  state.siteMarkers.set(p.id,marker);
  }
  state.focusLayer.clearLayers();
- if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1}).bindPopup('Approximate device location; not stored or used as a public viewing place').addTo(state.focusLayer);
+ if(state.user)L.circleMarker([state.user.lat,state.user.lon],{radius:7,color:'#fff',weight:2,fillColor:'#ffda8c',fillOpacity:1,interactive:true}).bindPopup('Your approximate location; not saved or a park entrance').addTo(state.focusLayer);
  if(parkMode){if(state.user)state.map.fitBounds([[here.lat,here.lon],[state.user.lat,state.user.lon]],{padding:[38,38],maxZoom:9});else state.map.setView([here.lat,here.lon],8);}
  else if(points.length){const bounds=L.latLngBounds(points.map(p=>[p.lat,p.lon]));state.map.fitBounds(bounds,{padding:[35,35],maxZoom:9});}
 }
