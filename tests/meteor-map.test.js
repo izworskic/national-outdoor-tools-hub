@@ -13,6 +13,8 @@ test('Meteor Chase uses the existing Vercel CARTO public basemap config, never h
  assert.match(page,/errors>=3/);
  assert.match(page,/OpenStreetMap contributors/);
  assert.match(page,/CARTO/);
+ assert.match(page,/https:\/\/a\.basemaps\.cartocdn\.com\/rastertiles\/voyager/);
+ assert.doesNotMatch(page,/https:\/\/\{s\}\.basemaps\.cartocdn\.com/);
 });
 test('Great Lakes atlas exposes destination selection, location opt-in and official source links',()=>{
  assert.match(page,/id="skyRegion"/);
