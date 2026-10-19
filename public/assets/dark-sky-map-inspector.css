@@ -1,0 +1,19 @@
+/* Independent destination inspector. Links never live in clipped Leaflet bubbles. */
+.sky-inspector[hidden],.sky-inspector-toast[hidden]{display:none!important}
+.sky-inspector{position:relative;display:block;box-sizing:border-box;margin:12px 0 16px;width:100%;max-width:100%;min-width:0;padding:16px;border:1px solid #56869c;border-radius:12px;background:#152e45;color:#f3f8ff;overflow-wrap:anywhere;word-break:normal;box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.sky-inspector *{box-sizing:border-box;min-width:0}
+.sky-inspector-head{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.sky-inspector-titles{flex:1 1 auto}
+.sky-inspector-eyebrow{display:block;color:#9be2d5;font-size:11px;font-weight:750;letter-spacing:.07em}
+.sky-inspector-title{margin:5px 0!important;font-size:clamp(17px,2vw,22px)!important;font-weight:800!important;line-height:1.25!important;letter-spacing:normal!important;color:#f4fbff!important}
+.sky-inspector-close{flex:0 0 auto;border:1px solid #6187a0;border-radius:9px;padding:8px 10px;min-height:44px;min-width:44px;color:#e9fbff;background:#1e425c;font-size:13px;font-weight:700}
+.sky-inspector-designation{color:#b2e6e0!important;font-size:12px!important;font-weight:750!important;margin:6px 0!important}
+.sky-inspector-summary{margin:8px 0!important;font-size:14px!important;line-height:1.45!important;color:#e2eef8!important}
+.sky-inspector-access{margin:12px 0!important;padding:10px 12px;border-left:3px solid #f2ca83;background:#223a51;color:#e8eef5!important;border-radius:0 7px 7px 0;font-size:13px!important;line-height:1.45!important}
+.sky-inspector-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+.sky-inspector-action{display:flex;align-items:center;justify-content:center;min-height:44px;width:100%;max-width:100%;padding:10px 12px;border:1px solid #719db4;border-radius:9px;background:#234a63;color:#eaf8ff!important;text-decoration:none!important;font-family:inherit;font-weight:750;font-size:13px;line-height:1.3;text-align:center;overflow-wrap:anywhere;cursor:pointer}
+.sky-inspector-action.sky-inspector-primary{background:#b2e9dd;border-color:#b2e9dd;color:#113746!important}
+.sky-inspector-action.sky-inspector-secondary{background:#18394f;color:#e6f6ff!important}
+.sky-inspector-action:focus-visible,.sky-inspector-close:focus-visible{outline:3px solid #ffdf89;outline-offset:3px}
+.sky-inspector-toast{position:absolute;z-index:901;left:8px;right:8px;bottom:26px;max-width:calc(100% - 16px);pointer-events:none;border:1px solid #b9d2e4;border-radius:8px;padding:6px 9px;background:rgba(8,28,45,.94);color:#eefaff;font:700 12px/1.35 system-ui,sans-serif;overflow-wrap:anywhere;text-align:left}
+@media(max-width:600px){.sky-inspector{padding:12px;margin-top:10px}.sky-inspector-actions{grid-template-columns:1fr}.sky-inspector-action{min-height:44px}.sky-inspector-close{padding:8px}}
