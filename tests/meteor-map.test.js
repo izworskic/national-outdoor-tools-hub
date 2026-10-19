@@ -14,6 +14,8 @@ test('Meteor Chase uses the existing Vercel CARTO public basemap config, never h
  assert.match(page,/OpenStreetMap contributors/);
  assert.match(page,/CARTO/);
  assert.match(page,/#map \.leaflet-tile[^\n]*position:absolute!important/);
+ assert.match(page,/#map \.leaflet-bottom\{bottom:0\}/);
+ assert.match(page,/#map \.leaflet-control-attribution\{/);
  assert.match(page,/https:\/\/a\.basemaps\.cartocdn\.com\/rastertiles\/voyager/);
  assert.doesNotMatch(page,/https:\/\/\{s\}\.basemaps\.cartocdn\.com/);
 });

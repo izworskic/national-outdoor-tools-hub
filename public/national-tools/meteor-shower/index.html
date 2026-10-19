@@ -89,6 +89,16 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 #map .leaflet-pane,#map .leaflet-tile,#map .leaflet-marker-icon,#map .leaflet-marker-shadow,#map .leaflet-tile-container,#map .leaflet-pane > svg,#map .leaflet-pane > canvas{position:absolute!important;left:0;top:0}
 #map .leaflet-tile{display:block;max-width:none!important;max-height:none!important;border:0;pointer-events:none}
 #map .leaflet-tile-pane{z-index:200}#map .leaflet-overlay-pane{z-index:400}#map .leaflet-marker-pane{z-index:600}#map .leaflet-tooltip-pane{z-index:650}#map .leaflet-popup-pane{z-index:700}
+
+#map .leaflet-top,#map .leaflet-bottom{position:absolute!important;z-index:1000;pointer-events:none}
+#map .leaflet-top{top:0}#map .leaflet-bottom{bottom:0}#map .leaflet-left{left:0}#map .leaflet-right{right:0}
+#map .leaflet-control{clear:both;pointer-events:auto}
+#map .leaflet-left .leaflet-control{float:left;margin-left:10px}#map .leaflet-right .leaflet-control{float:right;margin-right:10px}
+#map .leaflet-top .leaflet-control{margin-top:10px}#map .leaflet-bottom .leaflet-control{margin-bottom:10px}
+#map .leaflet-control-attribution{font-size:10px;line-height:1.25;padding:2px 5px;background:rgba(255,255,255,.9);max-width:min(300px,calc(100vw - 32px));color:#222}
+#map .leaflet-control-attribution a{color:#175a8a}
+#map .leaflet-bar a{display:block;width:30px;height:30px;line-height:30px;text-align:center;font-size:19px;font-weight:bold;background:#fff;color:#222;text-decoration:none;border-bottom:1px solid #ccc}
+#map .leaflet-control-scale-line{border:2px solid #777;border-top:none;background:rgba(255,255,255,.88);padding:2px 5px;white-space:nowrap;font-size:11px;color:#222}
 </style>
 <!-- Keep existing network ad implementation untouched. -->
 </head><body>

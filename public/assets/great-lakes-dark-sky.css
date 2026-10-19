@@ -18,5 +18,18 @@ main{padding:21px 0 55px}.panel{border:1px solid var(--edge);background:var(--pa
 #darkSkyMap .leaflet-marker-pane{z-index:600}
 #darkSkyMap .leaflet-tooltip-pane{z-index:650}
 #darkSkyMap .leaflet-popup-pane{z-index:700}
-#darkSkyMap .leaflet-control-container{position:relative;z-index:800}
+#darkSkyMap .leaflet-control-container{position:static}
+#darkSkyMap .leaflet-top,#darkSkyMap .leaflet-bottom{position:absolute!important;z-index:1000;pointer-events:none}
+#darkSkyMap .leaflet-top{top:0}#darkSkyMap .leaflet-bottom{bottom:0}
+#darkSkyMap .leaflet-left{left:0}#darkSkyMap .leaflet-right{right:0}
+#darkSkyMap .leaflet-control{clear:both;pointer-events:auto}
+#darkSkyMap .leaflet-left .leaflet-control{float:left;margin-left:10px}
+#darkSkyMap .leaflet-right .leaflet-control{float:right;margin-right:10px}
+#darkSkyMap .leaflet-top .leaflet-control{margin-top:10px}
+#darkSkyMap .leaflet-bottom .leaflet-control{margin-bottom:10px}
+#darkSkyMap .leaflet-control-attribution{font-size:10px;line-height:1.25;padding:2px 5px;background:rgba(255,255,255,.9);max-width:min(300px,calc(100vw - 32px));color:#222}
+#darkSkyMap .leaflet-control-attribution a{color:#175a8a}
+#darkSkyMap .leaflet-bar a{display:block;width:30px;height:30px;line-height:30px;text-align:center;font-size:19px;font-weight:bold;background:#fff;color:#222;text-decoration:none;border-bottom:1px solid #ccc}
+#darkSkyMap .leaflet-control-scale-line{border:2px solid #777;border-top:none;background:rgba(255,255,255,.88);padding:2px 5px;white-space:nowrap;font-size:11px;color:#222}
+
 #darkSkyMap .leaflet-container{overflow:hidden}

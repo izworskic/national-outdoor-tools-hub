@@ -39,6 +39,8 @@ test('Explorer is discoverable, mobile responsive and sitemap URLs match generat
  assert.match(stylesheet,/#darkSkyMap\{height:330px;min-height:0/);
  assert.match(stylesheet,/#darkSkyMap \.leaflet-tile[^\n]*position:absolute!important/);
  assert.match(stylesheet,/#darkSkyMap \.leaflet-pane[^\n]*position:absolute!important/);
+ assert.match(stylesheet,/#darkSkyMap \.leaflet-bottom\{bottom:0\}/);
+ assert.match(stylesheet,/#darkSkyMap \.leaflet-control-attribution\{/);
  assert.doesNotMatch(stylesheet,/#darkSkyMap\{min-height:410px/);
  const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
  assert.equal((sitemap.match(/<url>/g)||[]).length,25);
