@@ -26,7 +26,7 @@ test('Great Lakes atlas exposes destination selection, location opt-in and offic
  assert.match(page,/id="skyPlaces"/);
  assert.match(page,/mapLocate'\)\.addEventListener\('click'/);
  assert.match(page,/navigator\.geolocation\.getCurrentPosition/);
- assert.match(page,/Math\.round\(p\.coords\.latitude\*100\)\/100/);
+ assert.match(page,/Math\.round\(lat\*100\)\/100/);
  assert.match(page,/Official details/);
  assert.match(page,/SKY_NAMES/);
  assert.match(page,/fitBounds/);
@@ -61,6 +61,6 @@ test('Device coordinates remain the source of truth after Check the sky is press
  assert.match(page,/\$\('place'\)\.addEventListener\('input'/);
  assert.match(page,/id="locate"[^>]*|id="locate"/);
  assert.match(page,/type="button" id="locate"/,'Geolocation must not submit the search form by itself');
- assert.match(page,/type="button" id="mapLocate"/,'Map location control must not submit a form');
+ assert.match(page,/id="mapLocate" type="button"/,'Map location control must not submit a form');
  assert.match(page,/if\(request!==lookupSeq\)return/,'Stale location responses must be ignored');
 });
