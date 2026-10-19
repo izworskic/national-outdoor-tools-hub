@@ -84,6 +84,11 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 .sky-popup button{border:0;border-radius:5px;padding:7px 8px;background:#124d63;color:white;cursor:pointer}
 .sky-popup a{color:#075e81}
 @media(max-width:760px){.sky-row{grid-template-columns:1fr}.sky-list{max-height:320px}#map{height:340px}.sky-controls label{flex:1 1 140px}.sky-controls select{width:100%}}
+
+/* Ensure Leaflet tile / marker geometry even if CDN Leaflet CSS is blocked or overridden. */
+#map .leaflet-pane,#map .leaflet-tile,#map .leaflet-marker-icon,#map .leaflet-marker-shadow,#map .leaflet-tile-container,#map .leaflet-pane > svg,#map .leaflet-pane > canvas{position:absolute!important;left:0;top:0}
+#map .leaflet-tile{display:block;max-width:none!important;max-height:none!important;border:0;pointer-events:none}
+#map .leaflet-tile-pane{z-index:200}#map .leaflet-overlay-pane{z-index:400}#map .leaflet-marker-pane{z-index:600}#map .leaflet-tooltip-pane{z-index:650}#map .leaflet-popup-pane{z-index:700}
 </style>
 <!-- Keep existing network ad implementation untouched. -->
 </head><body>
