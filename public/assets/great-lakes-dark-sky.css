@@ -33,3 +33,26 @@ main{padding:21px 0 55px}.panel{border:1px solid var(--edge);background:var(--pa
 #darkSkyMap .leaflet-control-scale-line{border:2px solid #777;border-top:none;background:rgba(255,255,255,.88);padding:2px 5px;white-space:nowrap;font-size:11px;color:#222}
 
 #darkSkyMap .leaflet-container{overflow:hidden}
+
+
+/* Destination pins: marker-pane HTML receives pointer and keyboard events reliably on touch screens. */
+#darkSkyMap .leaflet-marker-pane,#darkSkyMap .leaflet-popup-pane{pointer-events:none}
+#darkSkyMap .leaflet-marker-pane .sky-destination-pin{pointer-events:auto!important;cursor:pointer;outline-offset:2px}
+#darkSkyMap .sky-destination-pin{display:flex!important;width:38px!important;height:38px!important;align-items:center;justify-content:center;background:transparent;border:0}
+#darkSkyMap .sky-destination-pin span{box-sizing:border-box;width:23px;height:23px;display:block;border-radius:50%;border:3px solid #fff;box-shadow:0 1px 7px #071b31,0 0 0 2px #0b243caa;background:#80d7ac}
+#darkSkyMap .sky-destination-preserve span{background:#78bded}
+#darkSkyMap .sky-destination-community span{background:#b299f9}
+#darkSkyMap .sky-destination-selected span{background:#fac66f;width:27px;height:27px}
+#darkSkyMap .sky-destination-pin:focus-visible span{outline:3px solid #ffdd83;outline-offset:3px}
+#darkSkyMap .leaflet-interactive{pointer-events:auto!important;cursor:pointer}
+#darkSkyMap .leaflet-popup-pane .leaflet-popup,#darkSkyMap .leaflet-popup-close-button{pointer-events:auto}
+#darkSkyMap .leaflet-popup-content{overflow-wrap:anywhere;max-width:260px}
+.site-map-popup{color:#182a3a;font-size:13px;line-height:1.4}
+.site-map-popup strong{font-size:15px}
+.site-map-popup p{margin:7px 0;color:#34495d}
+.site-map-popup .site-map-access{border-left:3px solid #bd854c;padding-left:8px}
+.site-map-actions{display:flex;flex-direction:column;gap:7px}
+.site-map-actions a{background:#e8f3f8;color:#12516e;border:1px solid #a8c2d0;border-radius:7px;padding:9px 10px;text-decoration:none;white-space:normal;overflow-wrap:anywhere;font-size:12px}
+.site-map-actions a:focus-visible{outline:3px solid #ffdf80}
+.site .actions button.secondary{font:inherit;font-size:12px;font-weight:750;border:1px solid #59718b;border-radius:9px;padding:7px 11px;background:#172d43;color:#d2eafd;min-height:35px}
+@media(max-width:800px){#darkSkyMap .leaflet-popup-content-wrapper{max-height:280px;overflow-y:auto}#darkSkyMap .leaflet-popup-content{max-width:min(250px,calc(100vw - 110px))}}
