@@ -103,7 +103,7 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 /* Large accessible tap targets for named park locations. Forecast samples remain separate. */
 #map .leaflet-marker-pane,#map .leaflet-popup-pane{pointer-events:none}
 #map .leaflet-marker-pane .sky-park-marker{pointer-events:auto!important;cursor:pointer;outline-offset:2px}
-#map .sky-park-marker{display:flex!important;align-items:center;justify-content:center;width:38px!important;height:38px!important;background:transparent;border:0}
+#map .sky-park-marker{display:flex!important;align-items:center;justify-content:center;width:44px!important;height:44px!important;background:transparent;border:0}
 #map .sky-park-marker span{display:block;box-sizing:border-box;width:23px;height:23px;border-radius:50%;border:3px solid #f7fbff;background:#77dbac;box-shadow:0 1px 7px #071b31,0 0 0 2px #0b243caa}
 #map .sky-park-state span,#map .sky-park-canadian span{background:#4ca9dc}
 #map .sky-park-community span{background:#a18cf5}
@@ -264,7 +264,7 @@ function renderSkyPlaces(){
  if(!state.map)return;
  if(skyPlaceLayer)skyPlaceLayer.clearLayers();skyMarkers.clear();
  for(const p of items){
-  const icon=L.divIcon({className:'sky-park-marker sky-park-'+p.type,html:'<span aria-hidden="true"></span>',iconSize:[38,38],iconAnchor:[19,19]});
+  const icon=L.divIcon({className:'sky-park-marker sky-park-'+p.type,html:'<span aria-hidden="true"></span>',iconSize:[44,44],iconAnchor:[22,22]});
   const marker=L.marker([p.lat,p.lon],{icon,title:p.name+' — open dark-sky destination',keyboard:true,riseOnHover:true,interactive:true})
    .on('click',()=>{if(skyInspector)skyInspector.selectPark(p);}).addTo(skyPlaceLayer);
   skyMarkers.set(p.id,marker);
