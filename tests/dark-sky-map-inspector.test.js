@@ -98,6 +98,8 @@ test('Mobile inspect panels meet structural clipping and target-size contracts',
  assert.match(inspectorCSS,/min-height:44px/);
  assert.match(inspectorCSS,/\.sky-inspector\[hidden\]/);
  assert.match(inspectorCSS,/pointer-events:none/); // Non-interactive status strip, not a popup mask.
+ assert.match(inspectorCSS,/top:9px;right:9px;left:auto;bottom:auto/);
+ assert.match(inspectorCSS,/max-width:min\(248px,calc\(100% - 65px\)\)/);
  assert.match(inspectorJS,/map\.insertAdjacentElement\('afterend',box\)/);
  assert.match(inspectorJS,/actions\.replaceChildren\(\)/);
  assert.match(inspectorJS,/close\.addEventListener\('click',clear\)/);

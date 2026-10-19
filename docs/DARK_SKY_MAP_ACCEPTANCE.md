@@ -41,3 +41,7 @@ Deterministic URLs (shareable and do not recenter):
 Pass criteria: (1) inspector fits page width with no clipped buttons, overlap or horizontal scroll; (2) banner is short and does not cover map controls; (3) destinations show the correct 3–4 actions, with active clickable URLs; (4) after user zoom/pan, selecting and closing does not shift the viewport; (5) Google Maps for wilderness uses a search; (6) CSS still displays the inspector if external Leaflet styles fail; (7) forecast samples cannot masquerade as park entries.
 
 Release policy: don't equate Vercel READY with a visual pass. Keep work on a single branch until CI and production-proxy browser checks pass; do not add new services or repeatedly trigger builds solely for status checks.
+
+## Visual QA correction after initial production smoke test
+
+Production screenshots at 390px showed the selection banner covering the Leaflet scale and attribution in the lower map corner. The correction anchors the non-interactive banner in the upper-right (top 9px, maximum 248px width, 65px clearance from left-edge zoom controls). This is a hard overlap regression gate, not a stylistic preference.

@@ -15,5 +15,5 @@
 .sky-inspector-action.sky-inspector-primary{background:#b2e9dd;border-color:#b2e9dd;color:#113746!important}
 .sky-inspector-action.sky-inspector-secondary{background:#18394f;color:#e6f6ff!important}
 .sky-inspector-action:focus-visible,.sky-inspector-close:focus-visible{outline:3px solid #ffdf89;outline-offset:3px}
-.sky-inspector-toast{position:absolute;z-index:901;left:8px;right:8px;bottom:26px;max-width:calc(100% - 16px);pointer-events:none;border:1px solid #b9d2e4;border-radius:8px;padding:6px 9px;background:rgba(8,28,45,.94);color:#eefaff;font:700 12px/1.35 system-ui,sans-serif;overflow-wrap:anywhere;text-align:left}
+.sky-inspector-toast{position:absolute;z-index:901;top:9px;right:9px;left:auto;bottom:auto;max-width:min(248px,calc(100% - 65px));pointer-events:none;border:1px solid #b9d2e4;border-radius:8px;padding:6px 9px;background:rgba(8,28,45,.94);color:#eefaff;font:700 12px/1.35 system-ui,sans-serif;overflow-wrap:anywhere;text-align:left}
 @media(max-width:600px){.sky-inspector{padding:12px;margin-top:10px}.sky-inspector-actions{grid-template-columns:1fr}.sky-inspector-action{min-height:44px}.sky-inspector-close{padding:8px}}
