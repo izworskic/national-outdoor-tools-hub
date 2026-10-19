@@ -101,6 +101,10 @@
   ],
   "rewrites": [
     {
+      "source": "/national-tools/dark-sky/_api/forecast",
+      "destination": "/api/dark-sky-canada"
+    },
+    {
       "source": "/national-tools/dark-sky",
       "destination": "/national-tools/dark-sky/index.html"
     },

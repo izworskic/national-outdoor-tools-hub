@@ -340,9 +340,10 @@
       "access": "Use Ontario Parks official entry and permit information; no U.S. NWS verdict is provided.",
       "source": "https://blog.ontarioparks.ca/quetico-international-dark-sky-park/",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Atikokan"
     },
     {
       "id": "superior-on",
@@ -359,9 +360,10 @@
       "access": "Official Ontario Parks material identifies the Agawa Bay area and Rabbit Blanket Lake as viewing contexts; check opening dates.",
       "source": "https://blog.ontarioparks.ca/lake-superior-dark-sky-preserve/",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Toronto"
     },
     {
       "id": "killarney",
@@ -378,9 +380,10 @@
       "access": "Review Ontario Parks programs, campground reservations and park operating dates.",
       "source": "https://blog.ontarioparks.ca/killarney-dark-sky-preserve/",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Toronto"
     },
     {
       "id": "point-pelee",
@@ -397,9 +400,10 @@
       "access": "Parks Canada identifies West Beach and the Visitor Centre parking lots for vehicle-accessible observing on scheduled nights.",
       "source": "https://parks.canada.ca/pn-np/on/pelee/activ/sky-ciel",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Toronto"
     },
     {
       "id": "bruce",
@@ -416,9 +420,10 @@
       "access": "Use Parks Canada parking-reservation and visitor guidance; the map reference is not a designated night viewing area.",
       "source": "https://parks.canada.ca/voyage-travel/experiences/ciel-sky",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Toronto"
     },
     {
       "id": "fathom",
@@ -435,9 +440,10 @@
       "access": "Check Parks Canada programs and accessible mainland areas rather than navigating to the mapped regional coordinate.",
       "source": "https://parks.canada.ca/voyage-travel/experiences/ciel-sky",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Toronto"
     },
     {
       "id": "torrance",
@@ -454,9 +460,10 @@
       "access": "Verify official conservation-reserve rules and lawful parking before a night visit.",
       "source": "https://www.ontario.ca/page/torrance-barrens-conservation-reserve-management-statement",
       "country": "CA",
-      "weatherSource": "Environment Canada (manual link)",
+      "weatherSource": "MET Norway Locationforecast 2.0 (CC BY 4.0); compare with Environment Canada warnings",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "timeZone": "America/Toronto"
     }
   ]
 }

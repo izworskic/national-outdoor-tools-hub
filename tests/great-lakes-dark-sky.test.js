@@ -40,8 +40,9 @@ test('Explorer is discoverable, mobile responsive and sitemap URLs match generat
  assert.match(sitemap,/\/national-tools\/dark-sky\/headlands\/<\/loc>/);
  assert.match(sitemap,/\/national-tools\/dark-sky\/point-pelee\/<\/loc>/);
  assert.match(atlas,/https:\/\/schema.org/);
+ assert.match(atlas,/MET Norway/);
 });
-test('Shared client uses public CARTO credential endpoint, location opt-in and no invented Canadian scores',()=>{
+test('Shared client uses public CARTO credential endpoint, location opt-in and explicit licensed Canadian forecasts',()=>{
  assert.doesNotThrow(()=>new Function(runtime));
  assert.match(runtime,/fetch\('\/api\/carto-basemap-config'/);
  assert.match(runtime,/basemaps\.cartocdn\.com\/rastertiles\/voyager/);
@@ -49,7 +50,8 @@ test('Shared client uses public CARTO credential endpoint, location opt-in and n
  assert.match(runtime,/navigator\.geolocation\.getCurrentPosition/);
  assert.match(runtime,/Math\.round\(pos\.coords\.latitude\*100\)\/100/);
  assert.match(runtime,/country==='CA'/);
- assert.match(runtime,/Canadian forecast integration unavailable/);
+ assert.ok(runtime.includes('/national-tools/dark-sky/_api/forecast'));
+ assert.match(runtime,/MET Norway/);
  assert.match(runtime,/Access unverified/);
  assert.match(runtime,/nearTerm/);
  assert.doesNotMatch(runtime,/OPENAI_API_KEY|VERCEL_TOKEN|MAPBOX_KEY|CARTO_BASEMAP_PUBLIC_KEY\s*=/);
