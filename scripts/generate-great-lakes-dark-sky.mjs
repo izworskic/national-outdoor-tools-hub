@@ -25,7 +25,7 @@ import path from 'node:path';
  }
  const map=()=>`<section class="panel" aria-labelledby="map-title"><div class="kicker">Where to explore</div><h2 id="map-title">Great Lakes dark-sky destinations</h2><p class="small subtle">Map pins represent park areas, not official entrances, parking areas, safe viewing sites or travel routes. Green = International Dark Sky Places; blue = other designated preserves; purple = certified community; gold = selected site or approximate device position.</p><div id="mapStatus" class="mapstatus" role="status" aria-live="polite">Preparing basemap…</div><div id="darkSkyMap" aria-label="Interactive map of dark-sky parks and preserves"></div><p class="small subtle">CARTO Voyager uses the public Vercel basemap key, with an OpenStreetMap fallback. Always check the actual park operator for safe and lawful entry.</p></section>`;
  function hub(){
- const title='Great Lakes Dark Sky Parks: Tonight’s Viewing Planner | Chris Izworski';
+ const title='Great Lakes Dark Sky Parks Tonight | Viewing Planner';
  const description='Compare certified dark-sky parks and preserves across Michigan, Wisconsin, Minnesota, Ohio and Ontario. Find current U.S. cloud, moonlight and meteor viewing windows.';
  const schema={'@context':'https://schema.org','@graph':[identity,{'@type':'CollectionPage','@id':URL()+'#page',url:URL(),name:'Great Lakes Dark Sky Explorer',description,author:{'@id':ROOT+'/#person'}},crumbs([['Outdoor tools',ROOT+'/national-tools/'],['Great Lakes Dark Sky Explorer',URL()]]),{'@type':'ItemList',numberOfItems:places.length,itemListElement:places.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:URL(p.slug)}))}]};
  return head(title,description,URL(),schema)+`<body>${navbar}${hero('Where is the best dark sky to visit tonight?','Compare officially designated parks and preserves, then look for the best real observing window. Even a remarkably dark park can be cloudy, moonlit or inaccessible.')}
@@ -42,8 +42,9 @@ import path from 'node:path';
  }
  function individual(p){
  const ca=p.country==='CA';
- const title=(p.name.length>41?p.name+' Stargazing Guide':p.name+' Tonight: Stargazing & Meteors')+' | Chris Izworski';
- const desc=(ca?'Plan dark-sky observing at ':'Check the live meteor viewing window at ')+p.name+'. '+(ca?'Operator access information, observing advice, nearby alternatives.':'Hourly NWS clouds, moonlight, 72-hour weather outlook and access notes.');
+ const proposed=ca?p.name+' Stargazing Guide':p.name+' Tonight: Sky Forecast';
+ const title=proposed.length<=60?proposed:p.name+' Stargazing';
+ const desc=(ca?'Plan stargazing at ':'Check tonight’s meteor-viewing window at ')+p.name+'. '+(ca?'Official access guidance, viewing tips and alternatives.':'Hourly clouds, moonlight, 72-hour forecast and access notes.');
  const url=URL(p.slug);
  const schema={'@context':'https://schema.org','@graph':[identity,{'@type':'WebPage','@id':url+'#page',url,name:p.name+' Stargazing Planner',description:desc,author:{'@id':ROOT+'/#person'},about:{'@id':url+'#place'}},{'@type':'Place','@id':url+'#place',name:p.name,geo:{'@type':'GeoCoordinates',latitude:p.lat,longitude:p.lon},url:p.source,additionalType:TYPES[p.type]},crumbs([['Outdoor tools',ROOT+'/national-tools/'],['Great Lakes dark skies',URL()],[p.name,url]])]};
  const src=E(p.source||p.url),weather=ca?`<a href="https://weather.gc.ca/" target="_blank" rel="noopener noreferrer">Environment Canada ↗</a>`:`<a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noopener noreferrer">NWS forecast API ↗</a>`;
