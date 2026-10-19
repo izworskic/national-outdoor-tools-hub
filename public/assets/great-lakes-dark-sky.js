@@ -68,13 +68,12 @@ function initMap(){
  .then(c=>{if(c?.provider!=='CARTO'||typeof c.key!=='string'||!c.key.trim())throw Error('Missing public CARTO key');loadTiles('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(c.key.trim()),true);mapStatus('Connecting to the CARTO Voyager basemap…');})
  .catch(fallbackMap).finally(()=>clearTimeout(timeout));
 }
-function forecastURL(p){return '/national-tools/meteor-shower/_api/live?lat='+encodeURIComponent(p.lat)+'&lon='+encodeURIComponent(p.lon)+'&radius=0';}
+function forecastURL(p){return p.country==='CA'?'/national-tools/dark-sky/_api/forecast?site='+encodeURIComponent(p.id):'/national-tools/meteor-shower/_api/live?lat='+encodeURIComponent(p.lat)+'&lon='+encodeURIComponent(p.lon)+'&radius=0';}
 async function forecast(p){
- if(p.country==='CA')throw Error('Canadian forecast integration unavailable. Refer to Environment Canada; no NWS estimate is assigned.');
- const key=p.lat.toFixed(2)+','+p.lon.toFixed(2);if(cache.has(key))return cache.get(key);
+ const key=(p.country||'US')+':'+(p.id||'device')+':'+p.lat.toFixed(2)+','+p.lon.toFixed(2);if(cache.has(key))return cache.get(key);
  const promise=(async()=>{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),13000);try{
  const response=await fetch(forecastURL(p),{headers:{Accept:'application/json'},signal:controller.signal});
- const body=await response.json();if(!response.ok||body.status!=='ok')throw Error(body.error||'NWS forecast unavailable');
+ const body=await response.json();if(!response.ok||body.status!=='ok')throw Error(body.error||'Verified sky forecast unavailable');
  return body;
  }finally{clearTimeout(timer);}})();
  cache.set(key,promise);
@@ -92,32 +91,33 @@ function showHours(hours,tz){const timeline=$('parkTimeline');if(!timeline)retur
 function verdict(score){if(score>=65)return{label:'A more promising viewing window',klass:'decision'};if(score>=35)return{label:'Possible, with compromises',klass:'decision caution'};return{label:'Limited viewing conditions',klass:'decision muted'};}
 async function parkForecast(){
  if(!here)return;const container=$('parkDecision');if(!container)return;
- if(!accessible(here)){text('parkVerdict','Check local Canadian forecasts and park access');text('parkReason','A verified local Canadian cloud forecast is not connected to this tool. No forecast score or favorable-night claim can be made for this site. Open the official weather service and operator pages before committing to travel.');text('parkForecastStatus','Forecast integration not available for Ontario; this page remains an access and planning guide.');$('parkTimeline').textContent='No model-derived hourly scores available for this park.';return;}
- text('parkForecastStatus','Requesting fresh NWS sky-cover and astronomical conditions…');
+ text('parkForecastStatus','Requesting fresh hourly cloud-cover and astronomical conditions…');
  try{
   const d=await forecast(here),f=d.forecast||{},tz=f.timeZone||'America/Detroit',near=f.nearTerm,best=f.best;
   if(near&&near.score!==null){const v=verdict(near.score);text('parkVerdict',v.label);container.className=v.klass;
    text('parkReason',when(near.time,tz)+' is the best verified dark hour in the next 18 hours: '+near.score+'/100 index with '+near.cloud+'% forecast clouds. '+(near.score>=65?'Sky conditions may justify planning, but access remains unverified.':'A darker park alone cannot overcome adverse cloud or moon conditions.')+' The index is not an expected meteor count.');
-  }else{text('parkVerdict','No verified near-term dark viewing window');text('parkReason','No adequately dark hour with current NWS cloud data could be scored in the next 18 hours. Check the 72-hour outlook.');}
+  }else{text('parkVerdict','No verified near-term dark viewing window');text('parkReason','No adequately dark hour with current cloud forecast data could be scored in the next 18 hours. Check the 72-hour outlook.');}
   text('parkTonight',near?near.score+'/100':'Unavailable');
   text('parkBest',best?when(best.time,tz)+' · '+best.score+'/100':'No scored window');
   text('parkShower',d.primary?d.primary.name+' active · ideal peak ZHR '+d.primary.idealPeakZhr+' (not local counts)':'No major shower active; sporadic meteors remain possible.');
-  text('parkForecastStatus','NWS updated '+(f.updated?when(f.updated,tz):'unknown')+' · model checked '+when(d.generatedAt,tz)+'. Weather does not establish entrance accessibility.');
+  const weatherProvider=here.country==='CA'?'MET Norway Locationforecast global model (CC BY 4.0)':'National Weather Service sky-cover grid';
+  text('parkForecastStatus',weatherProvider+' · updated '+(f.updated?when(f.updated,tz):'unknown')+' · checked '+when(d.generatedAt,tz)+'. This is a modeled relative viewing index; different weather providers are not directly calibrated. Access not verified.');
   showHours(f.hours||[],tz);if(best)text('parkHourDetail','Best 72-hour period: '+explainHour(best,tz));
  }catch(e){text('parkVerdict','Viewing forecast unavailable');text('parkReason','No reliable NWS cloud forecast was returned for this park. Do not infer a clear or safe viewing night.');text('parkForecastStatus','Forecast unavailable. Recheck later or consult the official park and NWS sources.');text('parkBest','Unavailable');text('parkTonight','Unavailable');text('parkShower','Seasonal meteor shower information: see the national tracker.');$('parkTimeline').textContent='No verified hourly score.';}
 }
 async function compareHub(){
  const box=$('compareResults');if(!box)return;if(state.comparing)return;
- const candidates=visibleSites().filter(p=>p.country==='US').slice(0,4);
- if(!candidates.length){box.textContent='Select a U.S. destination to compare NWS viewing forecasts. Ontario requires a Canadian weather source.';return;}
- state.comparing=true;text('compareStatus','Checking up to four selected U.S. park reference coordinates. The best near-term hours may differ.');
+ const candidates=visibleSites().slice(0,4);
+ if(!candidates.length){box.textContent='Select destinations to compare viewing forecasts.';return;}
+ state.comparing=true;text('compareStatus','Checking up to four selected park reference coordinates; U.S. and Canadian forecasts use different weather providers.');
  box.textContent='';const results=await Promise.all(candidates.map(async p=>{try{return {p,d:await forecast(p)};}catch{return{p,d:null};}}));
- results.sort((a,b)=>(b.d?.forecast?.nearTerm?.score??-1)-(a.d?.forecast?.nearTerm?.score??-1));
+ // Do not present cross-model scores as an apples-to-apples ranking.
+ results.sort((a,b)=>a.p.country.localeCompare(b.p.country)||(b.d?.forecast?.nearTerm?.score??-1)-(a.d?.forecast?.nearTerm?.score??-1));
  for(const {p,d} of results){
-  const hour=d?.forecast?.nearTerm,card=element('div','nextsite');const a=createAnchor(p,p.name+' →'),desc=element('p','',hour?hour.score+'/100 near-term index · '+hour.cloud+'% clouds · '+when(hour.time,d.forecast.timeZone):'Current NWS forecast unavailable');
+  const hour=d?.forecast?.nearTerm,card=element('div','nextsite');const a=createAnchor(p,p.name+' →');const provider=p.country==='CA'?'MET Norway model':'NWS grid';const desc=element('p','',provider+' · '+(hour?hour.score+'/100 near-term index · '+hour.cloud+'% clouds · '+when(hour.time,d.forecast.timeZone):'Forecast unavailable'));
   card.append(a,desc,element('p','subtle','Access unverified. Weather index does not rank legal park entry.'));box.append(card);
  }
- text('compareStatus','Comparison complete · 18-hour window, site-specific best hours. Check every destination’s official access conditions.');
+ text('compareStatus','Comparison complete · next 18 hours. Different NWS and MET Norway models must not be treated as a cross-border quality ranking; verify conditions and park access separately.');
  state.comparing=false;
 }
 function useLocation(){
@@ -131,7 +131,9 @@ function useLocation(){
  },()=>text(status,'Location not shared. You can continue using the atlas without it.'),{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
 }
 async function compareMySky(){
- if(!parkMode||!state.user||here.country!=='US')return;
+ if(!parkMode)return;
+ if(!state.user){text('myComparison','Use my location first, then run the comparison.');return;}
+ if(here.country!=='US'){text('myComparison','A park-versus-home numerical comparison is not available across different forecast products. The park forecast and official local weather are available above.');return;}
  const out=$('myComparison');out.textContent='Checking your approximate location…';
  try{
  const [home,away]=await Promise.all([forecast({...state.user,country:'US'}),forecast(here)]);
