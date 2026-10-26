@@ -1,13 +1,6 @@
 name: Meteor & Dark Sky Million Impressions Audit
 on:
   workflow_dispatch:
-  push:
-    # One release-branch bootstrap. Once merged, future runs are manual only.
-    branches:
-      - feature/meteor-dark-sky-million-impressions-gate-20261026
-    paths:
-      - .github/workflows/meteor-dark-sky-growth-audit.yml
-      - scripts/audit-meteor-dark-sky-growth.mjs
 permissions:
   contents: read
 jobs:
