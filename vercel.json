@@ -113,6 +113,14 @@
       "destination": "/national-tools/dark-sky/index.html"
     },
     {
+      "source": "/national-tools/dark-sky/:slug(midwest|michigan|wisconsin|minnesota|illinois|indiana|ohio)",
+      "destination": "/national-tools/dark-sky/:slug/index.html"
+    },
+    {
+      "source": "/national-tools/dark-sky/:slug(midwest|michigan|wisconsin|minnesota|illinois|indiana|ohio)/",
+      "destination": "/national-tools/dark-sky/:slug/index.html"
+    },
+    {
       "source": "/national-tools/dark-sky/:slug(headlands|keweenaw|lawless|beaver|lake-hudson|negwegon|port-crescent|rockport|thompsons-harbor|wilderness|newport|voyageurs|bwca|middlefork|geauga|beverly|cherry|quetico|superior-on|killarney|point-pelee|bruce|fathom|torrance)",
       "destination": "/national-tools/dark-sky/:slug/index.html"
     },
