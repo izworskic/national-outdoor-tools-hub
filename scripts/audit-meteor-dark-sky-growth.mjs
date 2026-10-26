@@ -46,7 +46,7 @@ for(const u of urls){
   add('Readable mobile viewport',/name="viewport"/.test(html)),
   add('Human-visible source/provenance link',isMeteor?html.includes('https://www.imo.net/calendar/')&&html.includes('www.weather.gov'):
      html.includes('https://www.weather.gov')||html.includes('https://darksky.org/')),
-  add('Forecast is not presented as a confirmed meteor count',/not (a meteor count|predicted meteor counts|a meteor-per-hour estimate|the probability|a probability)/i.test(html)),
+  add('Forecast is not presented as a confirmed meteor count',/not (a meteor count|predicted meteor counts|a meteor-per-hour estimate|the probability|a probability|probabilities or meteor counts)/i.test(html)),
   add('Nighttime access limitations are explicit',/access|parking|gate|entrance/i.test(html)&&/not|check|confirm|verify/i.test(html)),
   add('Live decision hook or honest initial unavailable state',isMeteor?html.includes('id="verdict"')&&html.includes('Forecast pending'):
      isHub||isRegion?html.includes('id="compare4"')&&html.includes('darkSkyPayload'):
