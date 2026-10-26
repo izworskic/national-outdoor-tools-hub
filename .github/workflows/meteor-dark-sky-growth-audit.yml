@@ -1,0 +1,36 @@
+name: Meteor & Dark Sky Million Impressions Audit
+on:
+  workflow_dispatch:
+  push:
+    # One release-branch bootstrap. Once merged, future runs are manual only.
+    branches:
+      - feature/meteor-dark-sky-million-impressions-gate-20261026
+    paths:
+      - .github/workflows/meteor-dark-sky-growth-audit.yml
+      - scripts/audit-meteor-dark-sky-growth.mjs
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build existing dark sky and state destination pages
+        run: |
+          node scripts/generate-great-lakes-dark-sky.mjs
+          node scripts/generate-midwest-dark-sky.mjs
+      - name: Execute Million Impressions quality and intent gate
+        run: node scripts/audit-meteor-dark-sky-growth.mjs
+      - name: Run focused meteor and dark-sky regression tests
+        run: node --test tests/meteor-viewing.test.js tests/great-lakes-dark-sky.test.js
+      - name: Archive scored publication quality report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: meteor-dark-sky-million-impressions-audit
+          path: artifacts/meteor-dark-sky-million-impressions.json
+          if-no-files-found: ignore
