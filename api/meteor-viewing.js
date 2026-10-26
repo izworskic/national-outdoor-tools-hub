@@ -16,12 +16,18 @@ const SHOWER=[
  {id:'PER',name:'Perseids',from:[7,17],to:[8,24],peak:[8,12],ra:48,dec:58,zhr:100,window:4},
  {id:'DRA',name:'Draconids',from:[10,6],to:[10,10],peak:[10,9],ra:262,dec:54,zhr:5,window:1}
 ];
+// IMO 2027 calendar explicitly forecasts the Quadrantids maximum near 03:30 UTC on Jan 4.
+// This exact-year override does not turn the seasonal ZHR into a local predicted count.
+const PUBLISHED_PEAKS_UTC={QUA:{2027:'2027-01-04T03:30:00Z'}};
 function dateFor(year,md){return Date.UTC(year,md[0]-1,md[1],12);}
+function publishedPeak(shower,year){const iso=PUBLISHED_PEAKS_UTC[shower.id]?.[year];return iso?Date.parse(iso):null;}
 function instances(shower,year){
  return [year-1,year,year+1].map(y=>{
   let start=dateFor(y,shower.from),end=dateFor(y,shower.to),peak=dateFor(y,shower.peak);
   if(end<start)end=dateFor(y+1,shower.to);
   if(peak<start)peak=dateFor(y+1,shower.peak);
+  const peakYear=new Date(peak).getUTCFullYear();
+  peak=publishedPeak(shower,peakYear)??peak;
   return {start,end,peak,shower};
  });
 }
@@ -161,7 +167,7 @@ async function handler(req,res){
   forecast:{updated:base.updated,office:base.office,timeZone:base.timeZone,hours:base.hours,best:base.best,nearTerm:base.nearTerm},
   nearby:near.map(x=>({label:x.label,lat:x.lat,lon:x.lon,miles:x.miles,available:x.available,updated:x.updated||null,timeZone:x.timeZone||null,best:x.best})),
   sources:{weather:'National Weather Service forecastGridData skyCover',shower:'International Meteor Organization visual meteor shower working list (seasonal reference)',astronomy:'Approximate solar, lunar and radiant geometry'},
-  notes:['Sky score is a relative observing-conditions index, not a chance of seeing a meteor or predicted hourly count.','Nearby compass points sample NWS forecast grids, NOT legal viewing destinations or driving distances.','ZHR refers to ideal dark clear skies with the radiant at the zenith, not a local observation.','After 2026 peak dates represent approximate annual timing; meteor-shower maxima vary by year.']
+  notes:['Sky score is a relative observing-conditions index, not a chance of seeing a meteor or predicted hourly count.','Nearby compass points sample NWS forecast grids, NOT legal viewing destinations or driving distances.','ZHR refers to ideal dark clear skies with the radiant at the zenith, not a local observation.','The 2027 Quadrantids maximum uses the IMO published Jan 4, 03:30 UTC forecast; other future-year maxima use approximate annual timing unless separately confirmed.']
  });
 }
 module.exports=handler;
