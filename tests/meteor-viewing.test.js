@@ -114,3 +114,16 @@ test('NWS fixture emits near-term and nearby timezone fields without guessed clo
   assert.ok(reqs>=10);
  }finally{global.fetch=saved;}
 });
+
+test('published 2027 Quadrantids UTC peak takes precedence over generic seasonal date',()=>{
+ const december=showerContext(Date.parse('2026-12-29T12:00:00Z'));
+ const q=december.active.find(x=>x.id==='QUA');
+ assert.ok(q,'Cross-year Quadrantids should be active');
+ assert.equal(q.peakAt,'2027-01-04T03:30:00.000Z');
+ assert.equal(december.next.id,'QUA');
+ assert.equal(december.next.peakAt,q.peakAt);
+ const january=showerContext(Date.parse('2027-01-03T12:00:00Z'));
+ assert.equal(january.active.find(x=>x.id==='QUA').peakAt,q.peakAt);
+ const other=showerContext(Date.parse('2027-04-21T12:00:00Z'));
+ assert.ok(other.active.some(x=>x.id==='LYR'),'Other shower windows remain available');
+});

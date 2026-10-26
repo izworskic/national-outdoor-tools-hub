@@ -8,7 +8,7 @@
 <meta property="og:type" content="website"><meta property="og:title" content="Meteor Shower Tonight: Best Hours & Clear Sky Finder"><meta property="og:url" content="https://chrisizworski.com/national-tools/meteor-shower/">
 <meta property="og:description" content="Find the best weather window for meteors tonight, then compare clearer skies nearby.">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Meteor Shower Tonight: Best Hours &amp; Clear Sky Finder"><meta name="twitter:description" content="Find the best hours for meteors by combining NWS clouds, darkness, moonlight and nearby forecast comparisons.">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://chrisizworski.com/#person","name":"Chris Izworski","url":"https://chrisizworski.com/"},{"@type":"WebApplication","@id":"https://chrisizworski.com/national-tools/meteor-shower/#app","name":"Meteor Viewing Tonight","url":"https://chrisizworski.com/national-tools/meteor-shower/","applicationCategory":"WeatherApplication","operatingSystem":"Web","isAccessibleForFree":true,"author":{"@id":"https://chrisizworski.com/#person"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"U.S. Outdoor Tools","item":"https://chrisizworski.com/national-tools/"},{"@type":"ListItem","position":2,"name":"Meteor Shower Tonight","item":"https://chrisizworski.com/national-tools/meteor-shower/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://chrisizworski.com/#person","name":"Chris Izworski","url":"https://chrisizworski.com/"},{"@type":"WebSite","@id":"https://chrisizworski.com/#website","name":"Chris Izworski","url":"https://chrisizworski.com/","publisher":{"@id":"https://chrisizworski.com/#person"}},{"@type":"WebApplication","@id":"https://chrisizworski.com/national-tools/meteor-shower/#app","name":"Meteor Viewing Tonight","url":"https://chrisizworski.com/national-tools/meteor-shower/","applicationCategory":"WeatherApplication","operatingSystem":"Web","isAccessibleForFree":true,"author":{"@id":"https://chrisizworski.com/#person"},"creator":{"@id":"https://chrisizworski.com/#person"},"publisher":{"@id":"https://chrisizworski.com/#person"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"U.S. Outdoor Tools","item":"https://chrisizworski.com/national-tools/"},{"@type":"ListItem","position":2,"name":"Meteor Shower Tonight","item":"https://chrisizworski.com/national-tools/meteor-shower/"}]}]}</script>
 <style>
 :root{color-scheme:dark;--bg:#080e20;--panel:#111d33;--line:#273752;--muted:#aabbd0;--gold:#ffd585;--mint:#75efd0;--ink:#eef4ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55}
@@ -112,6 +112,12 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 #map .leaflet-popup-content{min-width:190px;max-width:260px}
 #map .leaflet-popup-close-button{pointer-events:auto}
 #map .leaflet-interactive{pointer-events:auto!important;cursor:pointer}
+
+/* Published event reference is supplementary, readable without forecast JavaScript. */
+.meteor-calendar-scroll{overflow-x:auto;max-width:100%}.meteor-events{border-collapse:collapse;width:100%;min-width:440px;font-size:.9rem;line-height:1.45}
+.meteor-events th,.meteor-events td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.meteor-events thead th{color:var(--gold)}.meteor-events tbody th{font-weight:650}
+@media(max-width:600px){.meteor-events{font-size:.82rem}.meteor-events th,.meteor-events td{padding:8px 9px}}
 </style>
 <link rel="stylesheet" href="/national-tools/dark-sky/assets/dark-sky-map-inspector.css">
 <!-- Keep existing network ad implementation untouched. -->
@@ -147,6 +153,22 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 <div class="panel"><div class="kicker">Meteor activity</div><div class="big" id="shower">Seasonal calendar</div><p id="showerDetail" class="reason">Showers are seasonal; active dates are not a promise of sightings.</p>
 <div class="scard"><div class="kicker">Observed activity vs calendar</div><p class="small">The <a href="https://globalmeteornetwork.org/flux/" target="_blank" rel="noopener noreferrer">Global Meteor Network flux dashboard</a> publishes measured camera activity with its own observation timestamps. This page does not yet ingest those observations into its local verdict.</p><p class="small muted">Peak ZHR means an idealized maximum under a perfectly dark, clear sky with the radiant overhead—not expected meteors per hour here.</p></div></div>
 </section>
+<section class="section panel" aria-labelledby="meteor-calendar-title" id="meteor-calendar">
+<div class="kicker">Meteor shower calendar · 2026–2027</div>
+<h2 id="meteor-calendar-title">When are the next major meteor showers?</h2>
+<p class="small muted">These are published <em>peak nights</em>, not promises of visible meteors at a specific location. For tonight's actual viewing decision, compare your hourly weather, moonlight and darkness above. Check the <a href="https://www.imo.net/calendar/" target="_blank" rel="noopener noreferrer">International Meteor Organization's current 2026–27 calendar</a> for updates.</p>
+<div class="meteor-calendar-scroll"><table class="meteor-events"><thead><tr><th scope="col">Shower</th><th scope="col">Peak night</th><th scope="col">What matters</th></tr></thead><tbody>
+<tr><th scope="row">Southern Taurids</th><td>Nov 4–5, 2026</td><td>Watch for bright fireballs; activity spans weeks.</td></tr>
+<tr><th scope="row">Northern Taurids</th><td>Nov 11–12, 2026</td><td>Fireballs possible; local clouds and moon determine sky quality.</td></tr>
+<tr><th scope="row">Leonids</th><td>Nov 16–17, 2026</td><td>Best viewing typically favors the hours after midnight.</td></tr>
+<tr><th scope="row">Geminids</th><td>Dec 13–14, 2026</td><td>Strong annual shower; some meteors visible before midnight.</td></tr>
+<tr><th scope="row">Ursids</th><td>Dec 21–22, 2026</td><td>Northern-hemisphere shower; moonlight may hide faint meteors.</td></tr>
+<tr><th scope="row">Quadrantids</th><td>Jan 3–4, 2027</td><td>IMO predicts a brief maximum near Jan 4, 03:30 UTC; the optimum local hour varies.</td></tr>
+<tr><th scope="row">Lyrids</th><td>Apr 21–22, 2027</td><td>Strong moonlight expected at peak; monitor conditions closer to the date.</td></tr>
+<tr><th scope="row">Perseids</th><td>Aug 12–13, 2027</td><td>Famous summer shower; expect considerable moonlight at its 2027 maximum.</td></tr>
+</tbody></table></div>
+<p class="small muted">The calendar is static planning information. The live 72-hour forecast above loads only when current NWS data are available; it does not estimate the number of meteors you will see.</p>
+</section>
 <section class="section panel" aria-labelledby="hours-title"><div class="flex-title"><div><div class="kicker">Hourly opportunity · 72-hour window</div><h2 id="hours-title">When should I step outside?</h2><p class="small muted">Bars rank the relative observing conditions of each hour with a fresh NWS cloud forecast, twilight, moonlight and approximate radiant elevation. Not predicted meteor counts.</p></div><div id="freshness" class="small muted">Forecast time: —</div></div>
 <div class="legend"><span>Dark and more promising</span><span>Twilight / lower opportunity</span></div>
 <div id="timeline" class="timeline" aria-label="Hourly meteor viewing conditions">Forecast pending</div><div id="hourExplain" class="callout" role="status">Choose any hour for its forecast details.</div></section>
@@ -154,7 +176,7 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 <section class="section panel" aria-labelledby="method"><h2 id="method">What this tool knows—and what it doesn't</h2>
 <div class="layout">
 <div><h3>Inputs and transparency</h3><ul class="sources"><li><a href="https://www.weather.gov/documentation/services-web-api">NWS sky-cover grid</a>: U.S. forecast data, checked for age and hourly coverage.</li><li><a href="https://imo.net/meteor-activity/meteor-shower-calendar/">International Meteor Organization</a>: annual shower windows, radiant reference and ideal ZHR.</li><li><a href="https://globalmeteornetwork.org/flux/">Global Meteor Network</a>: actual observed meteor flux, linked separately until machine ingestion is validated.</li></ul></div>
-<div><h3>Reading the results</h3><p class="small">The 0–100 observing index compares weather and sky conditions; it is neither the probability of seeing a meteor nor a meteor-per-hour estimate. No forecast means no score. Seasonal peak dates outside 2026 are approximate until refreshed against the current IMO calendar. Nearshore clouds can vary sharply from the NWS grid forecast.</p><p class="small">Watching meteors requires an unobstructed view of the sky. Dress for the weather, avoid unsafe roadside stops, and give your eyes 20–30 minutes to adapt to darkness.</p></div>
+<div><h3>Reading the results</h3><p class="small">The 0–100 observing index compares weather and sky conditions; it is neither the probability of seeing a meteor nor a meteor-per-hour estimate. No forecast means no score. The 2027 Quadrantids maximum uses an IMO-published time; other future-year peak times remain approximate seasonal estimates until verified. Nearshore clouds can vary sharply from the NWS grid forecast.</p><p class="small">Watching meteors requires an unobstructed view of the sky. Dress for the weather, avoid unsafe roadside stops, and give your eyes 20–30 minutes to adapt to darkness.</p></div>
 </div>
 </section>
 </main><footer><div class="wrap">Built by <a href="https://chrisizworski.com/chris-izworski/" rel="author">Chris Izworski</a> · <a href="/national-tools/">Outdoor tools</a> · No key-based weather subscription required.</div></footer>
