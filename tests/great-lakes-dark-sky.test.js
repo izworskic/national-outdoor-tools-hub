@@ -43,7 +43,8 @@ test('Explorer is discoverable, mobile responsive and sitemap URLs match generat
  assert.match(stylesheet,/#darkSkyMap \.leaflet-control-attribution\{/);
  assert.doesNotMatch(stylesheet,/#darkSkyMap\{min-height:410px/);
  const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
- assert.equal((sitemap.match(/<url>/g)||[]).length,25);
+ assert.equal((sitemap.match(/<url>/g)||[]).length,25+7, 'Existing 24 parks + main atlas + seven region/state guides');
+ for(const slug of ['midwest','michigan','wisconsin','minnesota','illinois','indiana','ohio'])assert.match(sitemap,new RegExp('/national-tools/dark-sky/'+slug+'/<\\/loc>'));
  assert.match(sitemap,/\/national-tools\/dark-sky\/headlands\/<\/loc>/);
  assert.match(sitemap,/\/national-tools\/dark-sky\/point-pelee\/<\/loc>/);
  assert.match(atlas,/https:\/\/schema.org/);
