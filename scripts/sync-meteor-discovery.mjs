@@ -19,6 +19,12 @@ if(!html.includes(skyId)){
  html=html.slice(0,end+10)+'\n'+card+html.slice(end+10);
 }
 
+
+const oldDarkSkyAction='<div class="card-actions"><a class="primary-action" href="/national-tools/dark-sky/">Explore dark-sky parks &rarr;</a></div>';
+const expandedDarkSkyAction='<div class="card-actions"><a class="primary-action" href="/national-tools/dark-sky/">Explore dark-sky parks &rarr;</a><a href="/national-tools/dark-sky/michigan/">Michigan parks</a><a href="/national-tools/dark-sky/midwest/">Midwest states</a></div>';
+if(html.includes(oldDarkSkyAction))html=html.replace(oldDarkSkyAction,expandedDarkSkyAction);
+if(!html.includes('href="/national-tools/dark-sky/midwest/"'))throw new Error('State dark-sky discovery missing');
+
 const marker='<script type="application/ld+json">';
 const a=html.indexOf(marker),b=a<0?-1:html.indexOf('</script>',a);
 if(b<0)throw new Error('Missing structured directory ItemList');
