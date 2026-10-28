@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {applyMichiganAfterDark} from './michigan-after-dark.mjs';
 import {applyMidwestAfterDark} from './midwest-after-dark.mjs';
+import {applyWisconsinNight,applyMinnesotaNight} from './northern-field-guides.mjs';
 
 const ROOT = 'https://chrisizworski.com';
 const BASE = '/national-tools/dark-sky/';
@@ -128,6 +129,11 @@ function make(def) {
     fs.mkdirSync(path.join(OUT,'assets'),{recursive:true});
     fs.copyFileSync('public/assets/midwest-after-dark.css',path.join(OUT,'assets','midwest-after-dark.css'));
   }
+  if (def.slug === 'wisconsin' || def.slug === 'minnesota') {
+    html = def.slug === 'wisconsin' ? applyWisconsinNight(html,selected) : applyMinnesotaNight(html,selected);
+    fs.mkdirSync(path.join(OUT,'assets'),{recursive:true});
+    fs.copyFileSync('public/assets/northern-field-guides.css',path.join(OUT,'assets','northern-field-guides.css'));
+  }
   if (def.slug === 'michigan') {
     html = applyMichiganAfterDark(html,selected);
     fs.mkdirSync(path.join(OUT,'assets'),{recursive:true});
@@ -149,7 +155,7 @@ const sitemapPath = path.join(OUT,'sitemap.xml');
 let sitemap = fs.readFileSync(sitemapPath,'utf8');
 for(const url of urls){
  if(sitemap.includes('<loc>'+url+'</loc>'))throw new Error('Duplicate sitemap region: '+url);
- sitemap=sitemap.replace('</urlset>','  <url><loc>'+url+'</loc><lastmod>'+(url.endsWith('/michigan/')||url.endsWith('/midwest/')?'2026-10-28':updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>\n</urlset>');
+ sitemap=sitemap.replace('</urlset>','  <url><loc>'+url+'</loc><lastmod>'+(['/michigan/','/midwest/','/wisconsin/','/minnesota/'].some(x=>url.endsWith(x))?'2026-10-28':updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>\n</urlset>');
 }
 sitemap=sitemap.replace(/(<loc>https:\/\/chrisizworski.com\/national-tools\/dark-sky\/<\/loc><lastmod>)[^<]+/, '$1'+updated);
 fs.writeFileSync(sitemapPath,sitemap);
