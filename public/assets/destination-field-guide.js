@@ -20,7 +20,7 @@
     setText('dgNewportWindows','Verified NWS forecast unavailable. No access-compatible dark-sky window can be recommended. Published park hours are 6 a.m.–11 p.m.; check the operator before visiting.');return;
   }
   const zone='America/Chicago';
-  const valid=detail.hours.filter(h=>h.sky!=='bright'&&Number.isFinite(h.score)&&typeof h.time==='string'&&Number.isFinite(new Date(h.time).valueOf()));
+  const valid=detail.hours.filter(h=>h.sky==='dark'&&Number.isFinite(h.score)&&typeof h.time==='string'&&Number.isFinite(new Date(h.time).valueOf()));
   const during=valid.filter(h=>{const hr=timeZoneHour(h.time,zone);return hr>=6&&hr<23;}).sort((a,b)=>b.score-a.score||Date.parse(a.time)-Date.parse(b.time));
   if(!during.length){
    setText('dgNewportWindows','No scored dark-sky hour in this forecast falls within 6 a.m.–11 p.m. Central Time. That does not mean the sky is clear or that nighttime entry is permitted. Recheck the DNR and a later forecast.');return;
