@@ -32,7 +32,7 @@ Midwest, Wisconsin and Minnesota hubs now explain the experiences. The individua
 
 ## Evidence and image provenance
 
-Use existing location-verified and individually credited catalog `data/northern-dark-sky-field-guide-photos.json`, including Newport Milky Way (Yinan Chen, CC BY 3.0), Newport daytime shoreline (Yinan Chen, public-domain dedication), Voyageurs Rainy Lake (Yinan Chen, public-domain dedication), Voyageurs NPS archive aurora (official NPS public-domain full rights), and BWCA campsite sunset (Crary033, CC BY-SA 4.0). Each rendered image has title/alt, source, author, license and archival date. Photographs show historic scenery, not current forecasts or confirmed safety.
+Use existing location-verified and individually credited catalog `data/northern-dark-sky-field-guide-photos.json`, including Newport Milky Way (Yinan Chen, CC BY 3.0), Newport daytime shoreline (Yinan Chen, public-domain dedication), Voyageurs Rainy Lake (Yinan Chen, public-domain dedication), Voyageurs NPS archive aurora (official NPS public-domain full rights), BWCA campsite sunset (Crary033, CC BY-SA 4.0) and a separate actual Bower Trout Lake approach photo (Tony Webster, CC BY-SA 2.0). The latter is documented at https://commons.wikimedia.org/wiki/File:Boundary_Waters_Canoe_Area_-_BWCA_Sign_and_Portage_Trail_-_Minnesota_(36073219166).jpg. Wikimedia/Flickr license was verified, and the thumbnail loaded as JPEG. Each rendered image has title/alt, source, author, license and archival date. Photographs show historic scenery, not current forecasts or confirmed safety.
 
 ## Implementation contract
 
