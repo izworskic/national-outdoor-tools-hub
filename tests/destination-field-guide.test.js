@@ -51,7 +51,7 @@ test('BWCAW permit guide uses entry date/type, without fake reservation or centr
  assert.match(js,/Quota permit required/);
 });
 test('Photographs are place-verified archival images, with license and attribution',()=>{
- const imageCount={newport:2,voyageurs:2,bwca:1};
+ const imageCount={newport:2,voyageurs:2,bwca:2};
  for(const slug of Object.keys(pages)){
   const html=pages[slug];
   assert.equal((html.match(/<figure class="dg-photo /g)||[]).length,imageCount[slug]);
