@@ -49,6 +49,11 @@
 .northern-field-guide .ng-route-content p{font-size:13px;line-height:1.68;margin:0 0 13px}
 .northern-field-guide .ng-route-content .ng-permit{background:#e5e7d5;border-left:3px solid #c18253;padding:11px 13px;border-radius:4px}
 .northern-field-guide .ng-route-content .ng-fine{margin:14px 0 0;color:#39534b;font-size:12px}
+/* Light editorial cards must retain readable source links, even when shared night-sky defaults are pale. */
+.northern-field-guide .ng-mn-routes .ng-route-content a:not(.ng-primary){color:#205749;text-decoration:underline;text-underline-offset:2px}
+.northern-field-guide .ng-mn-routes .ng-route-content .ng-kicker{color:#624c31}
+.northern-field-guide .ng-wi-note a:not(.ng-primary){color:#205749}
+
 .northern-field-guide .ng-route-links{display:flex;flex-wrap:wrap;gap:9px 13px;align-items:center}
 .northern-field-guide .ng-route-links>a:not(.ng-primary){font-size:12px;font-weight:750;color:#255c4a}
 .northern-field-guide .ng-after-map{margin:22px 0}
