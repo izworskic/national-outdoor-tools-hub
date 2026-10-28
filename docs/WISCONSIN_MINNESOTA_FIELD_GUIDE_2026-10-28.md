@@ -23,6 +23,7 @@ Per-file provenance and rights in `data/northern-dark-sky-field-guide-photos.jso
 - Newport Milky Way / Yinan Chen, CC BY 3.0: https://commons.wikimedia.org/wiki/File:Milky_Way_Above_Lake_Michigan_(157749753).jpeg — explicit original description "Newport State Park" and 2016 capture date. Long exposure, not visible sky expectation.
 - Newport lakeshore / Yinan Chen, public-domain dedication: https://commons.wikimedia.org/wiki/File:Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg — archival daytime image.
 - Voyageurs Rainy Lake / Yinan Chen, public-domain dedication: https://commons.wikimedia.org/wiki/File:Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg — archival landscape.
+- Voyageurs NPS archival aurora / NPS, public domain **Full Granting Rights**, 2014 image (not tonight’s forecast): https://npgallery.nps.gov/AssetDetail/902BED75-1DD8-B71B-0B9F46E49E80A936 . Large 1000x666 JPEG from official NPS asset; Rainy Lake hero uses a separate daytime image.
 - Boundary Waters campsite sunset / Crary033, CC BY-SA 4.0: https://commons.wikimedia.org/wiki/File:Boundary_Waters_sunset.jpg — author's own image, dated 2018; attribution and display-crop notice required. Respect share-alike for any redistributed image derivatives.
 
 ## Architecture and quality
