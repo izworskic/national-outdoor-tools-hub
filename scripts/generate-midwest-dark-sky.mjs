@@ -28,7 +28,7 @@ const definitions = [
    desc:'Compare Michigan dark sky parks and preserves, including Headlands, Keweenaw, Port Crescent and Beaver Island, with hourly cloud and moon forecasts.',
    intro:'Michigan has six state-designated dark-sky preserves, three internationally designated parks and the Beaver Island International Dark Sky Sanctuary. Decide which location is practical tonight.',
    context:'For the Thumb, Port Crescent offers Lake Huron sky; Headlands serves the Straits; the Keweenaw looks toward Lake Superior; and Dr. T.K. Lawless serves southwest Michigan. Beaver Island demands island travel planning, not just a sky forecast.',
-   access:'Michigan DNR says Rockport is plowed in winter, while Negwegon, Port Crescent and Thompson’s Harbor are not. Port Crescent’s preserve may require a walk from parking. Wilderness has plowed access near headquarters only. Confirm operator updates and the actual nighttime entrance. ',
+   access:'Michigan DNR says Thompson’s Harbor and Rockport are plowed in winter. Negwegon and Port Crescent are not winter-plowed; at Port Crescent, visitors can walk from parking to the preserve. Wilderness has no general winter plowing, but the area near park headquarters is plowed. This is not a live road or parking report. Confirm current conditions and the actual nighttime entrance.',
    official:'https://www.michigan.gov/dnr/places/state-parks/dark-sky-events'},
   {slug:'wisconsin',label:'Wisconsin',name:'Wisconsin Dark Sky Parks',codes:['WI'],
    title:'Wisconsin Dark Sky Parks Tonight | Newport',

@@ -36,4 +36,19 @@ for (const slug of slugs) {
 for(const p of data.places)assert.ok(fs.existsSync(path.join(base,p.slug,'index.html')),'Lost original destination '+p.slug);
 const home=fs.readFileSync(path.join(base,'index.html'),'utf8');
 for(const slug of slugs)assert.ok(home.includes('href="/national-tools/dark-sky/'+slug+'/"'),'Main hub link missing '+slug);
+
+const michiganHtml=fs.readFileSync(path.join(base,'michigan','index.html'),'utf8');
+const thompsons=data.places.find(p=>p.id==='thompsons-harbor');
+assert.ok(thompsons,'Thompson’s Harbor registry entry missing');
+assert.match(thompsons.note,/DNR lists winter plowing/,'Thompson’s Harbor summary must match official DNR winter guidance');
+assert.match(thompsons.access,/DNR currently lists winter plowing/,'Thompson’s Harbor detailed access must remain correct');
+assert.doesNotMatch(thompsons.note,/no winter plowing|not winter-plowed/i,'Thompson’s Harbor must not be mislabeled');
+assert.match(michiganHtml,/Thompson’s Harbor and Rockport are plowed in winter/,'Michigan guide must identify both plowed DNR preserves');
+assert.match(michiganHtml,/Negwegon and Port Crescent are not winter-plowed/,'Michigan guide must distinguish unplowed preserves');
+assert.match(michiganHtml,/area near park headquarters is plowed/,'Wilderness plowing exception must be preserved');
+assert.doesNotMatch(michiganHtml,/Thompson’s Harbor are not/,'Outdated Michigan summary must not return');
+const thompsonHtml=fs.readFileSync(path.join(base,'thompsons-harbor','index.html'),'utf8');
+assert.match(thompsonHtml,/DNR lists winter plowing/,'Individual Thompson’s Harbor page must reflect current DNR plowing guidance');
+assert.doesNotMatch(thompsonHtml,/<p>State preserve; no winter plowing\.<\/p>/,'Individual Thompson’s Harbor access copy must not contradict detailed guidance');
+
 console.log('Midwest dark-sky verified: 7 hubs, 24 preserved destination pages, map and forecast payloads, canonical, schema, sitemap, crawlable links.');
