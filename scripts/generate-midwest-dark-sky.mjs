@@ -72,6 +72,29 @@ if (new Set(all.map(x=>x.slug)).size !== all.length) throw new Error('Duplicate 
 if (definitions.some(d => d.codes.some(c => !all.some(p => p.state === c)))) throw new Error('State without verified destination');
 if (definitions.some(d => !d.title || !d.desc || !d.access || !d.context)) throw new Error('Incomplete state detail');
 
+function miHero(def,selected){
+ const photo='https://commons.wikimedia.org/wiki/Special:Redirect/file/Milky_Way_Galaxy_Over_North_Manitou_Village_(02d407c9-8929-4e76-b784-3f161060c0bb).jpg?width=1600';
+ const source='https://commons.wikimedia.org/wiki/File:Milky_Way_Galaxy_Over_North_Manitou_Village_(02d407c9-8929-4e76-b784-3f161060c0bb).jpg';
+ return `<section class="hero mi-hero" aria-labelledby="mi-title"><img class="mi-hero-photo" src="${photo}" width="1600" height="1025" fetchpriority="high" decoding="async" alt="Milky Way above North Manitou Village at Sleeping Bear Dunes National Lakeshore, photographed by the National Park Service"><div class="wrap"><div class="crumb"><a href="/national-tools/">Outdoor tools</a> / <a href="/national-tools/dark-sky/">Great Lakes dark skies</a> / Michigan</div><div class="eyebrow">Michigan After Dark · Field Guide</div><h1 id="mi-title">Michigan dark-sky parks <span>Under a wider sky.</span></h1><p class="lede">There are places in Michigan where the Milky Way still stretches over forests and open water. Explore ${selected.length} designated parks, preserves and a sanctuary, then check hourly clouds, moonlight and winter access before you drive.</p><div class="hero-links"><a href="#sky-finder">Find your dark sky</a><a class="secondary" href="#darkSkyMap">Explore the map</a><a class="secondary" href="/national-tools/meteor-shower/">Meteor showers tonight</a></div><p class="mi-photo-credit">Photographed at North Manitou Island, Sleeping Bear Dunes, September 2013. <a href="${source}" target="_blank" rel="noopener noreferrer">NPS photo · public domain</a>. A historical scene, not tonight’s sky or a photograph of every park listed.</p></div></section><div class="wrap"><ol class="mi-journey" aria-label="Plan a Michigan dark-sky outing"><li><div class="mi-no">01 · Choose a place</div><strong>Follow the darker horizon</strong><span>Search ten named places or explore the map.</span></li><li><div class="mi-no">02 · Check the sky</div><strong>Choose a promising hour</strong><span>Compare predicted cloud cover and moonlight.</span></li><li><div class="mi-no">03 · Check the ground</div><strong>Arrive with a real plan</strong><span>Confirm plowing, entrances and park rules.</span></li></ol></div>`;
+}
+
+function miIntro(){
+ return `<div class="mi-intro"><div class="mi-intro-copy"><div class="kicker">Find your next clear night</div><h2>Choose a place worth staying up for.</h2><p>Start with the map and the named destinations below. A dark-sky designation protects the setting, but clouds and moonlight decide what you might see. A forecast never certifies a gate or a winter road.</p></div><a href="#mi-winter-access">Read winter access guidance ↓</a></div>`;
+}
+
+function miMoments(selected){
+ const cards=[
+ ['headlands','The Straits · Emmet County','Find a sky near the Straits','A recognized dark-sky park near Mackinaw City. Nighttime rules and the weather outlook are both part of the plan.'],
+ ['thompsons-harbor','Lake Huron · Presque Isle County','Explore a quieter shoreline','An undeveloped stretch of Lake Huron country. DNR lists winter plowing, not live road conditions.'],
+ ['keweenaw','Upper Peninsula · Keweenaw','Go north for bigger skies','Lake Superior country and an international dark-sky park. Verify the lodge’s access details before leaving.']
+ ];
+ return `<section class="mi-moments" aria-labelledby="mi-moments-title"><div class="kicker">Three places to begin</div><h2 id="mi-moments-title">Every dark sky has its own sense of place.</h2><div class="mi-moments-grid">`+cards.map(([slug,tag,title,description])=>{let p=selected.find(x=>x.slug===slug);if(!p)throw Error('Michigan featured destination absent: '+slug);return `<a class="mi-moment" href="${link(p.slug)}"><span class="mi-eyebrow">${escapeHTML(tag)}</span><strong>${escapeHTML(title)}</strong><span>${escapeHTML(description)}</span><b>Explore ${escapeHTML(p.name)} →</b></a>`}).join('')+`</div></section>`;
+}
+
+function miAccess(def){
+ return `<section class="panel mi-access-guide" id="mi-winter-access" aria-labelledby="mi-access-heading"><div class="kicker">Before you head out</div><h2 id="mi-access-heading">A clear sky does not mean a clear road.</h2><p class="mi-access-intro">The Michigan DNR specifies different winter plowing policies for its state-designated dark-sky preserves. These are published policies, not live reports of roads, lots, ice or trails.</p><div class="mi-access-grid"><div class="mi-access-unit"><div class="mi-access-label">DNR lists winter plowing</div><p><a href="${link('thompsons-harbor')}">Thompson’s Harbor State Park</a> and <a href="${link('rockport')}">Rockport Recreation Area</a>. Check current conditions before traveling.</p></div><div class="mi-access-unit"><div class="mi-access-label">Not winter-plowed</div><p><a href="${link('negwegon')}">Negwegon State Park</a> and <a href="${link('port-crescent')}">Port Crescent State Park</a>. At Port Crescent, the DNR says visitors can hike from parking to the preserve.</p></div><div class="mi-access-unit"><div class="mi-access-label">Limited plowing</div><p><a href="${link('wilderness')}">Wilderness State Park</a> has no general winter plowing; the area near headquarters is plowed.</p></div></div><p class="mi-access-note">${escapeHTML(def.access)} The DNR summary does not specify plowing at Lake Hudson. County and other managed sites have different access rules. Do not mistake a forecast score for safe arrival conditions.</p><p class="mi-access-source"><a href="${escapeHTML(def.official)}" target="_blank" rel="noopener noreferrer">Official Michigan DNR dark-sky and access guidance →</a></p></section>`;
+}
+
 const link = (slug) => BASE + slug + '/';
 function relatedNav(def) {
   const links = definitions.filter(x=>x.slug!==def.slug).map(x=>'<a href="'+link(x.slug)+'">'+escapeHTML(x.label)+'</a>').join(' · ');
@@ -84,6 +107,7 @@ function staticPlaces(places) {
 }
 function make(def) {
   const selected = all.filter(p => def.codes.includes(p.state));
+  const isMichigan = def.slug === 'michigan';
   if (!selected.length) throw new Error('No sites selected for ' + def.slug);
   const url = ROOT + link(def.slug);
   let html = src;
@@ -97,7 +121,7 @@ function make(def) {
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, '<meta name="twitter:description" content="'+escapeHTML(def.desc)+'">');
   const schema = {'@context':'https://schema.org','@graph':[
    {'@type':'Person','@id':ROOT+'/#person',name:'Chris Izworski',url:ROOT+'/'},
-   {'@type':'CollectionPage','@id':url+'#page',url,name:def.name,description:def.desc,dateModified:updated,author:{'@id':ROOT+'/#person'}},
+   {'@type':'CollectionPage','@id':url+'#page',url,name:def.name,description:def.desc,dateModified:(isMichigan?'2026-10-28':updated),author:{'@id':ROOT+'/#person'}},
    {'@type':'BreadcrumbList',itemListElement:[
     {'@type':'ListItem',position:1,name:'Outdoor tools',item:ROOT+'/national-tools/'},
     {'@type':'ListItem',position:2,name:'Great Lakes dark skies',item:ROOT+BASE},
@@ -119,7 +143,7 @@ function make(def) {
   const regionContext = '<section class="panel"><div class="kicker">What to know before you go</div><h2>'+escapeHTML(def.name)+' night-sky decisions</h2><p>'+escapeHTML(def.context)+'</p><p><strong>Night access:</strong> '+escapeHTML(def.access)+'</p>'+
     (def.official?'<p><a href="'+escapeHTML(def.official)+'" target="_blank" rel="noopener noreferrer">Official park and access information ↗</a></p>':'')+
     '<p class="small subtle">Official designation is not a real-time access or clear-sky report. Forecasts load only after data arrive. A numerical observing index is not a probability of seeing a meteor.</p></section>';
-  html = replaceRequired(html, '<main class="wrap"><section class="panel">', '<main class="wrap">'+relatedNav(def)+regionContext+staticPlaces(selected)+'<section class="panel">');
+  html = replaceRequired(html, '<main class="wrap"><section class="panel">', '<main class="wrap">'+(isMichigan?miIntro():relatedNav(def)+regionContext+staticPlaces(selected))+'<section class="panel">');
   html = html.replace(/<section class="panel"><h2>Method and limits<\/h2>[\s\S]*?<\/section>/,
     '<section class="panel"><h2>Method and limits</h2><p>For U.S. sites, the shared meteor-viewing engine uses hourly National Weather Service sky-cover forecasts, astronomical darkness and moonlight. These are forecasts at representative coordinates, not on-site observations, verified entrances or measured meteor rates. Sites may be inaccessible even during promising sky conditions. Check each operator for current gates, roads, parking and regulations.</p></section>');
   if (def.slug === 'michigan') {
@@ -127,11 +151,36 @@ function make(def) {
     fs.mkdirSync(path.join(OUT,'assets'),{recursive:true});
     fs.copyFileSync('public/assets/michigan-after-dark.css',path.join(OUT,'assets','michigan-after-dark.css'));
   }
+  if(isMichigan){
+    html=replaceRequired(html,'<body>','<body class="mi-darksky">');
+    html=replaceRequired(html,'</head>','<link rel="stylesheet" href="/national-tools/dark-sky/assets/michigan-dark-sky.css?v=20261028"></head>');
+    const heroPattern=/<section class="hero">[\s\S]*?<\/section>(?=\s*<main class="wrap">)/g;
+    if((html.match(heroPattern)||[]).length!==1)throw Error('Michigan original hero not unique');
+    html=html.replace(heroPattern,miHero(def,selected));
+    html=replaceRequired(html,'Choose a dark-sky destination','Find a Michigan dark-sky park');
+    html=replaceRequired(html,'<section class="panel"><div class="kicker">'+escapeHTML(def.name+' · destination finder')+'</div>',
+       '<section class="panel" id="sky-finder"><div class="kicker">Pick your viewing place</div>');
+    const stateSelect=/<label>State<select id="region">[\s\S]*?<\/select><\/label>/;
+    if(!stateSelect.test(html))throw Error('Missing Michigan-only state filter');
+    html=html.replace(stateSelect,'');
+    html=replaceRequired(html,'<div class="two-col"><div><section class="panel" aria-labelledby="map-title">',
+       '<div class="two-col mi-map-layout"><div class="mi-map-col"><section class="panel" aria-labelledby="map-title">');
+    html=replaceRequired(html,'</div><div><section class="panel"><div class="kicker">Forecast comparison</div>',
+       '</div><div class="mi-compare-col"><section class="panel"><div class="kicker">Forecast comparison</div>');
+    html=replaceRequired(html,'Explore '+selected.length+' '+def.name.toLowerCase()+' destinations',
+       'Explore all '+selected.length+' Michigan dark-sky destinations');
+    html=replaceRequired(html,'<section class="panel"><div class="kicker">Individual destination planners</div>',
+       miMoments(selected)+miAccess(def)+'<section class="panel"><div class="kicker">Individual destination planners</div>');
+    html=replaceRequired(html,'<section class="panel"><h2>Method and limits</h2>',
+       '<div class="mi-browse-other">'+relatedNav(def)+'</div><section class="panel"><h2>Method and limits</h2>');
+    if(!html.includes('id="sky-finder"') || !html.includes('id="mi-winter-access"')) throw Error('Michigan page missing redesigned sections');
+  }
   const dir = path.join(OUT,def.slug);fs.mkdirSync(dir,{recursive:true});
   fs.writeFileSync(path.join(dir,'index.html'), html);
   if(!html.includes('href="'+url+'"') || !html.includes('id="darkSkyPayload"')) throw new Error('Generated region missing required signals');
   return url;
 }
+fs.copyFileSync('public/assets/michigan-dark-sky.css',path.join(OUT,'assets','michigan-dark-sky.css'));
 const urls = definitions.map(make);
 let parent = src;
 const choices = '<section class="panel"><div class="kicker">Choose your region</div><h2>Midwest dark sky pages</h2><p>For a state-specific decision, start with a verified destination. No single statewide forecast stands in for its observing sites.</p><div class="site-recommendations">'+definitions.map(d=>'<a class="btn secondary" href="'+link(d.slug)+'">'+escapeHTML(d.label)+' dark skies</a>').join(' ')+'</div></section>';
