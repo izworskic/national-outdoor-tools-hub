@@ -1,0 +1,66 @@
+{
+  "updated": "2026-10-28",
+  "policy": "Photos are archival views of the named locations, not today's sky, access or weather. Wikimedia source and author license verified individually. Public Domain Mark applies as verified by Wikimedia Commons' Flickr review.",
+  "photos": [
+    {
+      "id": "hero-headlands",
+      "placeId": "headlands",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Telescope_and_Milky_Way_at_Headlands_International_Dark_Sky_Park_MI_%2854703999687%29.jpg/960px-Telescope_and_Milky_Way_at_Headlands_International_Dark_Sky_Park_MI_%2854703999687%29.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Telescope_and_Milky_Way_at_Headlands_International_Dark_Sky_Park_MI_(54703999687).jpg",
+      "photographer": "radicalespresso",
+      "licenseName": "Public Domain Mark",
+      "licenseURL": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "alt": "Telescope beneath the Milky Way at Headlands International Dark Sky Park",
+      "cropPosition": "52% 45%",
+      "captureDate": "2025-07-20",
+      "status": "verified-original-and-license",
+      "width": 960,
+      "height": 1275
+    },
+    {
+      "id": "headlands",
+      "placeId": "headlands",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Milky_Way_against_treetops_at_Headlands_International_Dark_Sky_Park_MI_%2854705027488%29.jpg/960px-Milky_Way_against_treetops_at_Headlands_International_Dark_Sky_Park_MI_%2854705027488%29.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Milky_Way_against_treetops_at_Headlands_International_Dark_Sky_Park_MI_(54705027488).jpg",
+      "photographer": "radicalespresso",
+      "licenseName": "Public Domain Mark",
+      "licenseURL": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "alt": "Milky Way glowing above treetops at Headlands Dark Sky Park",
+      "cropPosition": "50% 40%",
+      "captureDate": "2025-07-21",
+      "status": "verified-original-and-license",
+      "width": 960,
+      "height": 1275
+    },
+    {
+      "id": "port-crescent",
+      "placeId": "port-crescent",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Port_Crescent_State_Park_%28Aug_2019%29.jpg/960px-Port_Crescent_State_Park_%28Aug_2019%29.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Port_Crescent_State_Park_(Aug_2019).jpg",
+      "photographer": "Notorious4life",
+      "licenseName": "CC0 1.0",
+      "licenseURL": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "alt": "Lake Huron shoreline landscape at Port Crescent State Park in summer daylight",
+      "cropPosition": "50% 45%",
+      "captureDate": "2019-08-05",
+      "status": "verified-original-and-license",
+      "width": 960,
+      "height": 540
+    },
+    {
+      "id": "keweenaw",
+      "placeId": "keweenaw",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Keweenaw_Mountain_Lodge_and_Golf_Course_Complex_Copper_Harbor_MI_2009.jpg/960px-Keweenaw_Mountain_Lodge_and_Golf_Course_Complex_Copper_Harbor_MI_2009.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Keweenaw_Mountain_Lodge_and_Golf_Course_Complex_Copper_Harbor_MI_2009.jpg",
+      "photographer": "Andrew Jameson",
+      "licenseName": "CC BY-SA 3.0",
+      "licenseURL": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "alt": "Historic Keweenaw Mountain Lodge buildings near Copper Harbor in daylight",
+      "cropPosition": "52% 45%",
+      "captureDate": "2009-08-09",
+      "status": "verified-original-and-license",
+      "width": 960,
+      "height": 402
+    }
+  ]
+}
