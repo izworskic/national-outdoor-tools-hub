@@ -1,0 +1,140 @@
+/* Michigan After Dark · state dark-sky field guide.
+   Scoped to this existing destination page; shared forecast, Leaflet and other states are unchanged. */
+body.mi-darksky{
+  --night:#080f1a;--panel:#101c2a;--edge:#344457;--ink:#f7f4ec;
+  --muted:#c0cbcf;--aqua:#afe1d5;--gold:#edd0a0;
+  color:#f7f4ec;background:linear-gradient(180deg,#08111e,#0b1522 48%,#08111b);
+}
+.mi-darksky .wrap{width:min(1220px,calc(100% - 40px))}
+.mi-darksky header{position:relative;z-index:3;background:#08111b;border-bottom:1px solid #314252}
+.mi-darksky .headrow{padding:15px 0}
+.mi-darksky .headrow strong{font-family:Georgia,serif;font-weight:normal;font-size:17px;letter-spacing:-.02em}
+.mi-darksky .headrow strong a{font-family:inherit;font-size:17px;color:#f4efe2}
+.mi-darksky .headrow nav a{color:#e2ecec}
+.mi-darksky .mi-hero{
+  min-height:445px;padding:0;display:flex;align-items:center;
+  background:#101b29;isolation:isolate;overflow:hidden;position:relative;
+}
+.mi-darksky .mi-hero::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:1;
+  background:linear-gradient(90deg,rgba(7,15,27,.95) 0%,rgba(8,18,31,.86) 38%,rgba(6,14,26,.22) 100%),linear-gradient(0deg,rgba(5,14,25,.78),transparent 58%);
+}
+.mi-darksky .mi-hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 53%;z-index:0}
+.mi-darksky .mi-hero .wrap{z-index:2;padding:48px 0 42px}
+.mi-darksky .mi-hero .crumb{font-size:12px;letter-spacing:.01em;color:#dae3e6}
+.mi-darksky .mi-hero .eyebrow{font-size:12px;letter-spacing:.18em;color:#d5e8dc}
+.mi-darksky .mi-hero h1{font-family:Georgia,"Iowan Old Style",serif;font-weight:400;font-size:clamp(42px,6.3vw,86px);letter-spacing:-.055em;max-width:750px;line-height:1.02;margin:17px 0 16px;text-wrap:balance}
+.mi-darksky .mi-hero h1 span{display:block;color:#d2e9e0;font-style:italic}
+.mi-darksky .mi-hero .lede{font-size:clamp(16px,1.7vw,19px);line-height:1.65;max-width:645px;color:#e5eeed}
+.mi-darksky .hero-links{margin-top:24px;gap:10px}
+.mi-darksky .hero-links a{background:#efead9;color:#11212a;border-color:#efead9;border-radius:4px;font-size:14px;min-height:46px}
+.mi-darksky .hero-links a.secondary{background:rgba(8,21,34,.75);color:#f5f5ed;border:1px solid #b5c8c3}
+.mi-darksky .hero-links a:hover{filter:brightness(1.08)}
+.mi-darksky .mi-photo-credit{font-size:11px;margin:28px 0 0;color:#c8d6d7;line-height:1.45;max-width:610px}
+.mi-darksky .mi-photo-credit a{color:#ddeff0;text-underline-offset:3px}
+.mi-darksky .mi-journey{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  margin:0;padding:0;border-top:1px solid #3c5260;border-bottom:1px solid #3c5260;
+  background:#0b1725;list-style:none;
+}
+.mi-darksky .mi-journey li{padding:20px 22px;border-right:1px solid #304251;min-width:0}
+.mi-darksky .mi-journey li:last-child{border-right:0}
+.mi-darksky .mi-journey .mi-no{font:600 11px/1.3 system-ui,sans-serif;color:#b5d6d1;letter-spacing:.15em;text-transform:uppercase}
+.mi-darksky .mi-journey strong{display:block;font-family:Georgia,serif;font-size:19px;font-weight:normal;color:#f2eee3;margin:5px 0}
+.mi-darksky .mi-journey span{display:block;color:#c6d3d5;font-size:13px;line-height:1.55}
+.mi-darksky main{padding-top:22px}
+.mi-darksky .panel{background:#101d2d;border:1px solid #344457;border-radius:7px;padding:25px 28px;margin:17px 0}
+.mi-darksky .panel h2{font-family:Georgia,"Iowan Old Style",serif;font-weight:400;font-size:clamp(26px,3vw,37px);line-height:1.2;letter-spacing:-.035em;margin:6px 0 12px}
+.mi-darksky .panel h3{font-family:Georgia,serif;font-weight:400;font-size:21px}
+.mi-darksky .panel .kicker{color:#a4dbd3}
+.mi-darksky .panel .subtle{color:#c1cfd6}
+.mi-darksky .mi-intro{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;margin:8px 0 21px}
+.mi-darksky .mi-intro .mi-intro-copy{max-width:770px}
+.mi-darksky .mi-intro h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(29px,3.8vw,44px);letter-spacing:-.04em;line-height:1.15;margin:4px 0 9px}
+.mi-darksky .mi-intro p{font-size:15px;color:#cbd8d9;line-height:1.7;margin:0}
+.mi-darksky .mi-intro a{background:#172f3a;color:#e0f2ed;border:1px solid #759e9f;text-decoration:none;padding:11px 15px;border-radius:5px;font-size:13px;font-weight:750;text-align:center}
+.mi-darksky .mi-intro a:hover{background:#254454}
+.mi-darksky #sky-finder{scroll-margin-top:18px}
+.mi-darksky #sky-finder .fieldgroup{gap:10px}
+.mi-darksky #sky-finder .fieldgroup label{font-size:12px;letter-spacing:.025em;color:#dfe6e4}
+.mi-darksky #sky-finder .fieldgroup input,.mi-darksky #sky-finder .fieldgroup select{
+  min-width:190px;background:#081623;color:#f2f4f2;border-color:#658391;border-radius:5px
+}
+.mi-darksky #sky-finder .fieldgroup button{border-radius:5px;background:#183a48;border-color:#618a99}
+.mi-darksky .mi-map-layout{grid-template-columns:minmax(0,1.33fr) minmax(320px,.67fr);gap:15px;align-items:start}
+.mi-darksky .mi-map-layout>.mi-map-col>.panel,.mi-darksky .mi-map-layout>.mi-compare-col>.panel{margin-top:0}
+.mi-darksky #darkSkyMap{height:485px;background:#0a2435;border-radius:5px;scroll-margin-top:18px}
+.mi-darksky .mapstatus{margin:10px 0;color:#c8d8dc}
+.mi-darksky .mi-map-layout .panel p{line-height:1.65}
+.mi-darksky .mi-map-layout #compare4{background:#e7e8d7;border-color:#e7e8d7;color:#0a2831;border-radius:4px;width:100%;min-height:48px}
+.mi-darksky .mi-map-layout #compareResults .nextsite{padding:14px 0}
+.mi-darksky .mi-map-layout .nextsite a{color:#c6e5e1}
+.mi-darksky .mi-moments{margin:25px 0 22px}
+.mi-darksky .mi-moments h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(27px,3vw,35px);margin:7px 0 15px;letter-spacing:-.035em}
+.mi-darksky .mi-moments-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mi-darksky .mi-moment{display:flex;flex-direction:column;min-width:0;background:linear-gradient(145deg,#1b3040,#112233 70%);border:1px solid #466078;border-radius:6px;padding:21px;text-decoration:none;min-height:188px;transition:border-color .15s,transform .15s}
+.mi-darksky .mi-moment:hover{border-color:#bedad5;transform:translateY(-2px)}
+.mi-darksky .mi-moment .mi-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b9d9d0}
+.mi-darksky .mi-moment strong{font-family:Georgia,serif;font-size:23px;font-weight:400;line-height:1.2;color:#f4f0e8;margin:13px 0 8px}
+.mi-darksky .mi-moment span{font-size:13px;color:#d3dde1;line-height:1.55}
+.mi-darksky .mi-moment b{font-size:13px;color:#aedfcf;margin-top:auto;padding-top:13px}
+.mi-darksky #mi-winter-access{scroll-margin-top:18px}
+.mi-darksky .mi-access-intro{max-width:910px}
+.mi-darksky .mi-access-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.mi-darksky .mi-access-unit{background:#0b1a28;border:1px solid #384e61;border-top:3px solid #b0d4ca;border-radius:4px;padding:17px 18px}
+.mi-darksky .mi-access-unit:nth-child(2){border-top-color:#d9b69e}
+.mi-darksky .mi-access-unit:nth-child(3){border-top-color:#d3caa5}
+.mi-darksky .mi-access-unit .mi-access-label{font-weight:750;font-size:12px;letter-spacing:.055em;text-transform:uppercase;color:#d4e6de}
+.mi-darksky .mi-access-unit p{font-size:13px;color:#d4dcde;line-height:1.6}
+.mi-darksky .mi-access-unit a{font-size:13px;line-height:1.6}
+.mi-darksky .mi-access-unit a:focus-visible{outline-color:#f5d89b}
+.mi-darksky .mi-access-note{color:#bbc9d2;font-size:13px;line-height:1.65}
+.mi-darksky .mi-access-note a{color:#c8e2e7}
+.mi-darksky .mi-access-source{border-top:1px solid #3c4b5b;margin-top:14px;padding-top:11px}
+.mi-darksky #siteCards{scroll-margin-top:12px}
+.mi-darksky .site{border-radius:5px;background:#0c1b2a;border-color:#3c5368;padding:19px}
+.mi-darksky .site h3{font-size:21px}
+.mi-darksky .site h3 a{color:#f6f3ea}
+.mi-darksky .site .tag{color:#a4d6d2}
+.mi-darksky .site .actions a,.mi-darksky .site .actions button{border-radius:4px}
+.mi-darksky .mi-browse-other{margin-top:22px}
+.mi-darksky .mi-browse-other .panel{background:#0b1725}
+.mi-darksky .mi-browse-other h2{font-size:26px}
+.mi-darksky footer{background:#07111c}
+@media(max-width:920px){
+ .mi-darksky .mi-map-layout{grid-template-columns:1fr}
+ .mi-darksky .mi-access-grid{grid-template-columns:1fr}
+ .mi-darksky .mi-moments-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .mi-darksky .mi-hero{min-height:410px}
+ .mi-darksky .mi-hero::before{background:linear-gradient(90deg,rgba(6,14,25,.96),rgba(6,14,25,.68) 66%,rgba(6,14,25,.35))}
+}
+@media(max-width:650px){
+ .mi-darksky .wrap{width:min(100% - 28px,1220px)}
+ .mi-darksky .headrow{padding:12px 0}
+ .mi-darksky .headrow nav{gap:10px}
+ .mi-darksky .headrow nav a{font-size:12px}
+ .mi-darksky .mi-hero{min-height:0;align-items:end}
+ .mi-darksky .mi-hero-photo{object-position:60% center}
+ .mi-darksky .mi-hero::before{background:linear-gradient(0deg,rgba(6,15,27,.96) 0%,rgba(7,17,30,.82) 58%,rgba(7,17,30,.47) 100%)}
+ .mi-darksky .mi-hero .wrap{padding:34px 0 24px}
+ .mi-darksky .mi-hero h1{font-size:clamp(40px,11vw,62px);letter-spacing:-.05em}
+ .mi-darksky .mi-hero .lede{font-size:15px;line-height:1.62}
+ .mi-darksky .mi-photo-credit{margin-top:23px;font-size:10px}
+ .mi-darksky .hero-links{gap:8px}
+ .mi-darksky .hero-links a{flex:1 1 180px;text-align:center}
+ .mi-darksky .mi-journey{grid-template-columns:1fr}
+ .mi-darksky .mi-journey li{padding:12px 3px;border-right:0;border-bottom:1px solid #314755}
+ .mi-darksky .mi-journey li:last-child{border:0}
+ .mi-darksky .mi-journey strong{font-size:18px}
+ .mi-darksky .mi-intro{grid-template-columns:1fr}
+ .mi-darksky .mi-intro a{justify-self:start}
+ .mi-darksky .panel{padding:19px 16px}
+ .mi-darksky #darkSkyMap{height:375px}
+ .mi-darksky .mi-moments-grid{grid-template-columns:1fr}
+ .mi-darksky .mi-moment{min-height:160px}
+ .mi-darksky .mi-map-layout #compare4{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ .mi-darksky .mi-moment{transition:none}
+ .mi-darksky .mi-moment:hover{transform:none}
+}
