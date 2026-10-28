@@ -1,0 +1,68 @@
+{
+  "updated": "2026-10-28",
+  "policy": "Location-specific archival imagery. Each photo has independently identified subject and original commercial reuse permissions with visible photographer and license links. Archival photos never represent live clouds, aurora, meteor activity or access. Display crops are disclosed.",
+  "photos": [
+    {
+      "id": "newport-night",
+      "placeId": "newport",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Milky_Way_Above_Lake_Michigan_%28157749753%29.jpeg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Milky_Way_Above_Lake_Michigan_(157749753).jpeg",
+      "photographer": "Yinan Chen",
+      "licenseName": "CC BY 3.0",
+      "licenseURL": "https://creativecommons.org/licenses/by/3.0/",
+      "alt": "Milky Way above the Lake Michigan shoreline at Newport State Park, Wisconsin, in a long-exposure photograph",
+      "cropPosition": "50% 45%",
+      "captureDate": "2016-06-02",
+      "status": "source-and-license-verified",
+      "width": 2048,
+      "height": 1367
+    },
+    {
+      "id": "newport",
+      "placeId": "newport",
+      "filename": "Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg/960px-Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg",
+      "photographer": "Yinan Chen",
+      "licenseName": "Public domain dedication",
+      "licenseURL": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "alt": "Lake Michigan bay and forested shoreline at Newport State Park, Wisconsin, by day",
+      "cropPosition": "48% 44%",
+      "captureDate": "2013-08-23",
+      "status": "source-and-license-verified",
+      "width": 960,
+      "height": 640
+    },
+    {
+      "id": "voyageurs",
+      "placeId": "voyageurs",
+      "filename": "Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg/960px-Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg",
+      "photographer": "Yinan Chen",
+      "licenseName": "Public domain dedication",
+      "licenseURL": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "alt": "Rainy Lake Bay shoreline at Voyageurs National Park at sunset",
+      "cropPosition": "50% 44%",
+      "captureDate": "2013-07-07",
+      "status": "source-and-license-verified",
+      "width": 960,
+      "height": 640
+    },
+    {
+      "id": "bwca-sunset",
+      "placeId": "bwca",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Boundary_Waters_sunset.jpg/960px-Boundary_Waters_sunset.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Boundary_Waters_sunset.jpg",
+      "photographer": "Crary033",
+      "licenseName": "CC BY-SA 4.0",
+      "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "alt": "Sunset viewed from a Boundary Waters Canoe Area Wilderness campsite on a Minnesota lake in August 2018",
+      "cropPosition": "50% 50%",
+      "captureDate": "2018-08-03",
+      "status": "source-and-license-verified",
+      "width": 960,
+      "height": 960
+    }
+  ]
+}
