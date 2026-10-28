@@ -19,7 +19,7 @@ function figure(id,extra='',eager=false){
  const p=getPhoto(id);
  return '<figure class="ad-photo '+E(extra)+'" style="--ad-position:'+E(p.cropPosition)+'">'+
  '<img src="'+E(p.imageURL)+'" alt="'+E(p.alt)+'" width="'+p.width+'" height="'+p.height+'" loading="'+(eager?'eager':'lazy')+'" decoding="async"'+(eager?' fetchpriority="high"':'')+'>'+
- '<figcaption>Photo: <a href="'+E(p.sourceURL)+'" target="_blank" rel="noopener noreferrer">'+E(p.photographer)+'</a> · <a href="'+E(p.licenseURL)+'" target="_blank" rel="noopener noreferrer">'+E(p.licenseName)+'</a> · '+E(p.captureDate.slice(0,4))+'</figcaption></figure>';
+ '<figcaption>Photo: <a href="'+E(p.sourceURL)+'" target="_blank" rel="noopener noreferrer">'+E(p.photographer)+'</a> · <a href="'+E(p.licenseURL)+'" target="_blank" rel="noopener noreferrer">'+E(p.licenseName)+'</a> · '+E(p.captureDate.slice(0,4))+(p.licenseName.includes('BY-SA')?' · CSS crop for display':'')+'</figcaption></figure>';
 }
 function storyCard({slug,title,kicker,description,move,operator,image}){
  return '<article class="ad-story" id="ad-'+E(slug)+'">'+figure(image,'ad-story-photo')+
@@ -33,6 +33,7 @@ export function applyMichiganAfterDark(html,sites){
  for(const id of ['headlands','port-crescent','keweenaw'])if(!allIds.has(id))throw new Error('Missing featured Michigan site '+id);
  if(!html.includes('Michigan Dark Sky Parks: is tonight worth the trip?'))throw new Error('Expected Michigan page H1 missing');
  html=html.replace('<body>','<body class="afterdark-mi">');
+ html=html.replace('"dateModified":"2026-10-25"','"dateModified":"2026-10-28"');
  html=html.replace('</head>','<link rel="stylesheet" href="/national-tools/dark-sky/assets/michigan-after-dark.css"></head>');
  html=html.replace('Michigan Dark Sky Parks: is tonight worth the trip?','Michigan after dark: where should you watch the stars?');
  html=html.replace('A living calendar of the night sky','A field guide to Michigan dark sky parks');
