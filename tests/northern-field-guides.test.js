@@ -59,6 +59,8 @@ test('Photographic provenance: original location, commercial licenses, credits a
 test('Field Guide styling is scoped, responsive, accessible and unrelated states stay intact',()=>{
  const css=fs.readFileSync(dir+'assets/northern-field-guides.css','utf8');
  for(const key of ['.northern-field-guide .hero','@media(max-width:850px)','@media(max-width:480px)','prefers-reduced-motion','focus-visible','object-position:var(--ng-crop'])assert.ok(css.includes(key));
+ assert.match(css,/\.ng-mn-routes \.ng-route-content a:not\(\.ng-primary\)\{color:#205749/,'Light cards require dark source-link text');
+ assert.match(css,/\.ng-mn-routes \.ng-route-content \.ng-kicker\{color:#624c31/,'Editorial labels require strong contrast');
  assert.doesNotMatch(css,/adsbygoogle|display:none!important|data-ad-client|CARTO_BASEMAP_PUBLIC_KEY/);
  for(const state of ['midwest','michigan','illinois','indiana','ohio']){
   const html=read(state);
