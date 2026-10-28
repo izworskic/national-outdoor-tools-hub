@@ -39,11 +39,11 @@ export function applyMichiganAfterDark(html,sites){
  html=html.replace('A living calendar of the night sky','A field guide to Michigan dark sky parks');
  html=html.replace('Michigan has six state-designated dark-sky preserves, three internationally designated parks and the Beaver Island International Dark Sky Sanctuary. Decide which location is practical tonight.',
  'A hush on the Lake Huron shore. A telescope beneath the Straits sky. An evening deep in the Keweenaw woods. Find a place worth the drive, then check tonight’s clouds, moon and lawful access.');
- html=html.replace('href="#siteCards">Explore destination planners ↓','href="#ad-stories">Find your night-sky place ↓');
+ html=html.replace('href="#siteCards">Explore destination planners ↓','href="#darkSkyMap">Explore Michigan dark-sky map ↓');
  const heroPhoto='<div class="ad-hero-media">'+figure('hero-headlands','ad-hero-photo',true)+'</div>';
  const heroEnd=/(<div class="hero-links">[\s\S]*?<\/div>)(<\/div><\/section>)/;
  if(!heroEnd.test(html))throw new Error('Hero structure changed');
- html=html.replace(heroEnd,(_m,links,close)=>links+heroPhoto+close);
+ html=html.replace(heroEnd,(_m,links,close)=>links.replace('</div>','<a class="secondary" href="#ad-stories">Read Michigan field stories ↓</a></div>')+heroPhoto+close);
  // The old generator duplicated all ten links ahead of another dynamic list.
  // Keep a compact index of ten genuine destination links for crawlers and no-JS visitors.
  const nav=html.match(/<section class="panel" aria-label="Midwest dark-sky state guides">[\s\S]*?<\/section>/)?.[0];
@@ -74,7 +74,11 @@ export function applyMichiganAfterDark(html,sites){
  '</nav><p class="ad-note">Ten verified protected locations; each link leads to its own sky forecast and access caveats. These are not all guaranteed nighttime parking locations.</p></section>';
  if(!other.length)throw new Error('Other Michigan parks missing');
  if(!html.includes('<main class="wrap">'))throw new Error('Missing main wrapper');
- html=html.replace('<main class="wrap">','<main class="wrap">'+start+stories+all);
+ // Lead with the working finder and map. Keep archival imagery, narratives and all
+ // ten crawlable park links below the forecast interface rather than before it.
+ const staticDirectoryAnchor='<section class="panel"><div class="kicker">Individual destination planners</div>';
+ if(!html.includes(staticDirectoryAnchor))throw new Error('Map-first editorial anchor changed');
+ html=html.replace(staticDirectoryAnchor,start+stories+all+staticDirectoryAnchor);
  html=html.replace('<section class="panel"><h2>Method and limits</h2>',context+'<div class="ad-state-nav">'+nav+'</div><section class="panel"><h2>Method and limits</h2>');
  // Preserve original canonical, own forecasts, filtering, map, backend and all old data hooks.
  for(const token of ['id="darkSkyPayload"','id="darkSkyMap"','id="region"','id="siteCards"','id="compare4"','id="myLocation"','id="designation"'])
