@@ -123,7 +123,10 @@ async function parkForecast(){
   const weatherProvider=here.country==='CA'?'MET Norway Locationforecast global model (CC BY 4.0)':'National Weather Service sky-cover grid';
   text('parkForecastStatus',weatherProvider+' · updated '+(f.updated?when(f.updated,tz):'unknown')+' · checked '+when(d.generatedAt,tz)+'. This is a modeled relative viewing index; different weather providers are not directly calibrated. Access not verified.');
   showHours(f.hours||[],tz);if(best)text('parkHourDetail','Best 72-hour period: '+explainHour(best,tz));
- }catch(e){text('parkVerdict','Viewing forecast unavailable');text('parkReason','No fresh and complete cloud-cover forecast was returned for this park. Do not infer a clear or safe viewing night.');text('parkForecastStatus','Forecast unavailable. Recheck later or consult the park operator and '+(here.country==='CA'?'Environment Canada':'NWS')+' for local weather.');text('parkBest','Unavailable');text('parkTonight','Unavailable');text('parkShower','Seasonal meteor shower information: see the national tracker.');$('parkTimeline').textContent='No verified hourly score.';}
+  // Optional read-only modeled-hour event for destination field guides. No park access inference.
+  if(here&&['newport','voyageurs','bwca'].includes(here.slug))window.dispatchEvent(new CustomEvent('darksky:forecast',{detail:{slug:here.slug,hours:f.hours||[],timeZone:tz,generatedAt:d.generatedAt}}));
+ }catch(e){text('parkVerdict','Viewing forecast unavailable');text('parkReason','No fresh and complete cloud-cover forecast was returned for this park. Do not infer a clear or safe viewing night.');text('parkForecastStatus','Forecast unavailable. Recheck later or consult the park operator and '+(here.country==='CA'?'Environment Canada':'NWS')+' for local weather.');text('parkBest','Unavailable');text('parkTonight','Unavailable');text('parkShower','Seasonal meteor shower information: see the national tracker.');$('parkTimeline').textContent='No verified hourly score.';
+  if(here&&['newport','voyageurs','bwca'].includes(here.slug))window.dispatchEvent(new CustomEvent('darksky:forecast-error',{detail:{slug:here.slug}}));}
 }
 async function compareHub(){
  const box=$('compareResults');if(!box)return;if(state.comparing)return;
