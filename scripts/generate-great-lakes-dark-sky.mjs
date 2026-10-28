@@ -74,7 +74,7 @@ import {applyDestinationGuide,copyDestinationAssets} from './destination-field-g
  for(const p of places){const dir=path.join(out,p.slug);fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),applyDestinationGuide(individual(p),p));}
  fs.writeFileSync(path.join(out,'destinations.json'),JSON.stringify({updated:input.updated,places},null,2));
  const urls=[URL(),...places.map(p=>URL(p.slug))];
- const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(u=>'  <url><loc>'+E(u)+'</loc><lastmod>'+input.updated+'</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>').join('\n')+'\n</urlset>\n';
+ const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(u=>'  <url><loc>'+E(u)+'</loc><lastmod>'+(['newport','voyageurs','bwca'].some(slug=>u.endsWith('/'+slug+'/'))?'2026-10-28':input.updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>').join('\n')+'\n</urlset>\n';
  fs.writeFileSync(path.join(out,'sitemap.xml'),xml);
  console.log('Great Lakes dark-sky explorer generated: '+places.length+' destination pages + index + sitemap.');
 })();
