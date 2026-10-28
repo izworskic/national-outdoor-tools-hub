@@ -38,8 +38,8 @@ test('Minnesota distinguishes mainland Voyageurs and permitted BWCAW with source
  assert.doesNotMatch(minnesota,/destination=Boundary Waters/, 'BWCA must not get invented parking route');
 });
 test('Photographic provenance: original location, commercial licenses, credits and archival warning',()=>{
- assert.equal(photo.length,5);
- assert.equal(new Set(photo.map(x=>x.imageURL)).size,5);
+ assert.equal(photo.length,6);
+ assert.equal(new Set(photo.map(x=>x.imageURL)).size,6);
  for(const p of photo){
   assert.equal(p.status,'source-and-license-verified');
   assert.ok(/^https:\/\/commons.wikimedia.org\/wiki\/File:/.test(p.sourceURL)||/^https:\/\/npgallery.nps.gov\/AssetDetail\//.test(p.sourceURL),p.id);

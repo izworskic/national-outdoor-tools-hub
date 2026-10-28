@@ -1,0 +1,102 @@
+{
+  "reviewed": "2026-10-28",
+  "policy": "Documented visitor rules and map search names are planning references, not live permits, gates, road status, or verified GPS parking pins. Existing forecast engine remains source of truth for modeled sky conditions. Night images are archival, licenses in northern-dark-sky-field-guide-photos.json.",
+  "places": {
+    "newport": {
+      "slug": "newport",
+      "title": "Newport at night",
+      "state": "WI",
+      "photo": [
+        "newport-night",
+        "newport"
+      ],
+      "hours": {
+        "open": 6,
+        "close": 23,
+        "timeZone": "America/Chicago",
+        "source": "https://dnr.wisconsin.gov/topic/parks/newport",
+        "coverage": "Non-camper visiting hours. Registered camping governed by separate camping rules."
+      },
+      "arrival": {
+        "place": "Newport State Park Dark Sky Viewing Area near Parking Lot 3, Wisconsin",
+        "label": "Lot 3 area / Newport State Park",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Newport%20State%20Park%20Parking%20Lot%203%20Wisconsin",
+        "type": "named parking area; search result not georeferenced verified parking pin"
+      },
+      "official": [
+        "https://dnr.wisconsin.gov/topic/parks/newport",
+        "https://dnr.wisconsin.gov/topic/parks/newport/darksky",
+        "https://dnr.wisconsin.gov/topic/parks/newport/recreation",
+        "https://dnr.wisconsin.gov/topic/parks/camping/rules"
+      ],
+      "alerts": [
+        {
+          "date": "2026-06-22",
+          "message": "Construction near Lot 3; official notice says Dark Sky Viewing Area remains open; check for newer notices.",
+          "source": "https://dnr.wisconsin.gov/topic/parks/newport"
+        },
+        {
+          "date": "2026-07-17",
+          "message": "All trails and sites reopened following 2025 storm damage; condition may change.",
+          "source": "https://dnr.wisconsin.gov/topic/parks/newport"
+        }
+      ]
+    },
+    "voyageurs": {
+      "slug": "voyageurs",
+      "title": "Voyageurs after dark",
+      "state": "MN",
+      "photo": [
+        "voyageurs",
+        "voyageurs-nps-aurora"
+      ],
+      "source": "https://www.nps.gov/voya/planyourvisit/stargazing.htm",
+      "arrival": [
+        {
+          "id": "rainy",
+          "name": "Rainy Lake Visitor Center upper parking lot",
+          "official": "https://www.nps.gov/voya/planyourvisit/stargazing.htm",
+          "maps": "https://www.google.com/maps/search/?api=1&query=Rainy%20Lake%20Visitor%20Center%201797%20Township%20Road%20342%20International%20Falls%20MN",
+          "qualification": "NPS designates the upper parking lot, not the general lake pin. Visitor center itself has seasonal hours and may be closed when outdoors remains accessible.",
+          "address": "1797 Township Road 342, International Falls, MN 56649"
+        },
+        {
+          "id": "meadwood",
+          "name": "Meadwood Road Day Use Area",
+          "official": "https://www.nps.gov/voya/planyourvisit/stargazing.htm",
+          "maps": "https://www.google.com/maps/search/?api=1&query=Meadwood%20Road%20Day%20Use%20Area%20Ash%20River%20Minnesota",
+          "qualification": "NPS names this area along Ash River Visitor Center Road. Search result is not a verified parking coordinate. The nearby Ash River Visitor Center closes seasonally.",
+          "address": "Along Ash River Visitor Center Road; do not confuse with visitor center building"
+        }
+      ],
+      "hours": "Voyageurs National Park generally open 24 hours; visitor centers have limited and seasonal operating hours. No live access status."
+    },
+    "bwca": {
+      "slug": "bwca",
+      "title": "Boundary Waters under the stars",
+      "state": "MN",
+      "photo": [
+        "bwca-sunset"
+      ],
+      "source": "https://www.recreation.gov/permits/233396",
+      "season": {
+        "quotaStart": "05-01",
+        "quotaEnd": "09-30",
+        "quotaTypes": [
+          "overnight-paddle",
+          "overnight-hike",
+          "motorized-day"
+        ],
+        "selfTypes": [
+          "nonmotorized-day"
+        ]
+      },
+      "limits": "Maximum group nine people and four watercraft, one permit per group; ensure specific entry point and date are on quota permit.",
+      "map": "Wilderness area reference only; no Google Maps navigation to centroid or fabricated parking pin.",
+      "links": [
+        "https://www.recreation.gov/permits/233396",
+        "https://www.fs.usda.gov/sites/nfs/files/r09/superior/publication/USFS%20BWCAW%20Trip%20Planning%20Guide%202023.pdf"
+      ]
+    }
+  }
+}

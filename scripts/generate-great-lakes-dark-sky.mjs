@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {applyDestinationGuide,copyDestinationAssets} from './destination-field-guide.mjs';
 (function buildDarkSkyPages(){
  const ROOT='https://chrisizworski.com', BASE='/national-tools/dark-sky/';
  const input=JSON.parse(fs.readFileSync('data/great-lakes-dark-sky.json','utf8'));
@@ -68,11 +69,12 @@ import path from 'node:path';
  if(places.length<20||new Set(places.map(x=>x.slug)).size!==places.length)throw Error('Dark sky source missing sites or duplicate slugs');
  for(const p of places)if(!/^[a-z0-9-]+$/.test(p.slug)||!TYPES[p.type]||!p.access||!p.source||!p.intro||!p.whatToWatch||!Number.isFinite(p.lat)||!Number.isFinite(p.lon))throw Error('Incomplete dark sky metadata: '+p.id);
  const out='public/national-tools/dark-sky';fs.mkdirSync(out,{recursive:true});fs.mkdirSync(path.join(out,'assets'),{recursive:true});for(const base of ['great-lakes-dark-sky','dark-sky-map-inspector'])for(const ext of ['css','js'])fs.copyFileSync('public/assets/'+base+'.'+ext,path.join(out,'assets',base+'.'+ext));
+ copyDestinationAssets();
  fs.writeFileSync(path.join(out,'index.html'),hub());
- for(const p of places){const dir=path.join(out,p.slug);fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),individual(p));}
+ for(const p of places){const dir=path.join(out,p.slug);fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),applyDestinationGuide(individual(p),p));}
  fs.writeFileSync(path.join(out,'destinations.json'),JSON.stringify({updated:input.updated,places},null,2));
  const urls=[URL(),...places.map(p=>URL(p.slug))];
- const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(u=>'  <url><loc>'+E(u)+'</loc><lastmod>'+input.updated+'</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>').join('\n')+'\n</urlset>\n';
+ const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(u=>'  <url><loc>'+E(u)+'</loc><lastmod>'+(['newport','voyageurs','bwca'].some(slug=>u.endsWith('/'+slug+'/'))?'2026-10-28':input.updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>').join('\n')+'\n</urlset>\n';
  fs.writeFileSync(path.join(out,'sitemap.xml'),xml);
  console.log('Great Lakes dark-sky explorer generated: '+places.length+' destination pages + index + sitemap.');
 })();
