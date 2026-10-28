@@ -39,6 +39,18 @@ test('Shared dynamic meteor, map, compare and optional location engines are inta
  assert.match(html,/michigan-after-dark\.css/);
  assert.match(html,/NWS sky-cover|National Weather Service sky-cover/);
 });
+test('Map and live sky decision appear before the story magazine without losing jump links',()=>{
+ const mapAt=html.indexOf('id="darkSkyMap"');
+ const storiesAt=html.indexOf('id="ad-stories"');
+ const directoryAt=html.indexOf('class="ad-directory"');
+ const plannerAt=html.indexOf('id="siteCards"');
+ assert.ok(mapAt>0 && storiesAt>mapAt && directoryAt>storiesAt && plannerAt>directoryAt,
+  'Map and forecast must come first; stories and crawlable index follow');
+ assert.match(html,/href="#darkSkyMap">Explore Michigan dark-sky map/);
+ assert.match(html,/href="#ad-stories">Read Michigan field stories/);
+ assert.equal((html.match(/id="darkSkyMap"/g)||[]).length,1,'Do not duplicate interactive map');
+ assert.equal((html.match(/class="ad-directory"/g)||[]).length,1,'Do not duplicate crawlable directory');
+});
 test('Every illustrated story uses a distinct site-specific verified image and linked license',()=>{
  assert.equal(pictures.length,4);
  assert.equal(new Set(pictures.map(p=>p.imageURL)).size,4);
