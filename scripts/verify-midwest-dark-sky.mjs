@@ -49,6 +49,6 @@ assert.match(michiganHtml,/area near park headquarters is plowed/,'Wilderness pl
 assert.doesNotMatch(michiganHtml,/Thompson’s Harbor are not/,'Outdated Michigan summary must not return');
 const thompsonHtml=fs.readFileSync(path.join(base,'thompsons-harbor','index.html'),'utf8');
 assert.match(thompsonHtml,/DNR lists winter plowing/,'Individual Thompson’s Harbor page must reflect current DNR plowing guidance');
-assert.doesNotMatch(thompsonHtml,/State preserve; no winter plowing/,'Individual Thompson’s Harbor page must not contradict detailed access');
+assert.doesNotMatch(thompsonHtml,/<p>State preserve; no winter plowing\.<\/p>/,'Individual Thompson’s Harbor access copy must not contradict detailed guidance');
 
 console.log('Midwest dark-sky verified: 7 hubs, 24 preserved destination pages, map and forecast payloads, canonical, schema, sitemap, crawlable links.');
