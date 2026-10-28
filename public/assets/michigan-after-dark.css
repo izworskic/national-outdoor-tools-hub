@@ -1,0 +1,72 @@
+/* Michigan After Dark · FIELD_GUIDE_V1 editorial adaptation.
+   Scoped to one canonical page. No changes to provider, ads, forecasts or other dark-sky routes. */
+.afterdark-mi{--ad-paper:#f6f2e8;--ad-ink:#1a302f;--ad-aqua:#b7eee5;--ad-midnight:#08182c;--ad-soft:#d2dfe8}
+.afterdark-mi .hero{padding:32px 0 34px;background:radial-gradient(ellipse at 87% 9%,#29465a 0,transparent 49%),linear-gradient(120deg,#091527,#172b43 65%,#091727)}
+.afterdark-mi .hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(315px,.85fr);gap:0 33px;align-content:center}
+.afterdark-mi .hero .wrap > :not(.ad-hero-media){grid-column:1;min-width:0}
+.afterdark-mi .hero h1{font-family:Georgia,'Times New Roman',serif;font-weight:500;font-size:clamp(36px,4vw,61px);line-height:1.06;letter-spacing:-.035em;max-width:670px;margin:11px 0 13px;text-wrap:balance}
+.afterdark-mi .hero .lede{font-size:clamp(14px,1.4vw,17px);line-height:1.65;max-width:645px;color:#e2e9ee}
+.afterdark-mi .hero .hero-links{margin-top:19px;gap:9px}
+.afterdark-mi .hero .hero-links a{font-size:14px}
+.afterdark-mi .ad-hero-media{grid-column:2;grid-row:1 / span 5;min-height:295px;align-self:stretch;display:flex}
+.afterdark-mi .ad-photo{margin:0;position:relative;min-width:0;overflow:hidden;background:#18314a}
+.afterdark-mi .ad-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:var(--ad-position,50% 50%);color:#f4fcff}
+.afterdark-mi .ad-photo figcaption{position:absolute;left:7px;bottom:7px;max-width:calc(100% - 14px);padding:3px 6px;border-radius:4px;background:rgba(7,20,33,.84);color:#fff;font:10px/1.4 system-ui,sans-serif;z-index:2}
+.afterdark-mi .ad-photo figcaption a{color:#e0f9fa}
+.afterdark-mi .ad-hero-photo{border-radius:9px;width:100%;aspect-ratio:12/8;min-height:295px}
+.afterdark-mi main.wrap{padding-top:0}
+.afterdark-mi .ad-kicker{margin:0 0 9px;color:var(--ad-aqua);text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800}
+.afterdark-mi .ad-intro{display:flex;justify-content:space-between;align-items:end;gap:32px;margin:30px 0 20px}
+.afterdark-mi .ad-intro h2{font-family:Georgia,'Times New Roman',serif;font-weight:500;line-height:1.12;letter-spacing:-.025em;font-size:clamp(26px,2.9vw,38px);margin:0;max-width:520px;text-wrap:balance}
+.afterdark-mi .ad-intro > p{max-width:455px;color:var(--ad-soft);font-size:14px;line-height:1.6;margin:0 0 3px}
+.afterdark-mi .ad-stories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch;margin-bottom:24px;scroll-margin-top:20px}
+.afterdark-mi .ad-story{background:var(--ad-paper);color:var(--ad-ink);border-radius:9px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:0 6px 24px rgba(0,0,0,.11)}
+.afterdark-mi .ad-story .ad-story-photo{height:190px;flex-shrink:0}
+.afterdark-mi .ad-story-body{padding:19px 21px 22px;display:flex;flex-direction:column;flex:1}
+.afterdark-mi .ad-story .ad-kicker{color:#6b5637}
+.afterdark-mi .ad-story h3{font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,2.2vw,29px);line-height:1.14;font-weight:500;letter-spacing:-.02em;margin:0 0 12px}
+.afterdark-mi .ad-story-body p{font-size:13px;line-height:1.62;margin:0 0 12px}
+.afterdark-mi .ad-story-body .ad-move{border-top:1px solid #d5d8ce;padding-top:12px;color:#314744;margin-top:auto}
+.afterdark-mi .ad-move strong{display:block;text-transform:uppercase;font-size:10px;letter-spacing:.12em;margin-bottom:4px}
+.afterdark-mi .ad-story-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px}
+.afterdark-mi .ad-story-actions a{font-size:12px;font-weight:800}
+.afterdark-mi .ad-go{display:inline-flex;text-decoration:none;align-items:center;justify-content:space-between;gap:10px;color:#fff;background:#21574f;padding:11px 12px;border-radius:5px;min-height:44px}
+.afterdark-mi .ad-source{color:#315950;text-underline-offset:3px}
+.afterdark-mi .ad-directory{padding:19px 23px;margin:22px 0 26px;background:#102239;border:1px solid #3d5469;border-radius:12px}
+.afterdark-mi .ad-directory-heading{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+.afterdark-mi .ad-directory h2{font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:500;margin:0}
+.afterdark-mi .ad-directory-heading p,.afterdark-mi .ad-note{font-size:12px;color:var(--ad-soft);line-height:1.6;margin:5px 0 12px}
+.afterdark-mi .ad-directory nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0 10px}
+.afterdark-mi .ad-directory nav a{border:1px solid #455d71;border-radius:7px;text-decoration:none;padding:8px 10px;background:#172e46;display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;font-weight:650;color:#e4f5f3}
+.afterdark-mi .ad-directory nav a:hover,.afterdark-mi .ad-directory nav a:focus-visible{background:#2d5461}
+.afterdark-mi .ad-state-nav{margin-top:25px}
+.afterdark-mi .ad-state-nav .panel{padding:18px}
+.afterdark-mi .ad-state-nav .panel h2{font-size:19px}
+.afterdark-mi .ad-state-nav .panel p{font-size:13px}
+.afterdark-mi .panel{scroll-margin-top:22px}
+.afterdark-mi #darkSkyMap{scroll-margin-top:30px}
+.afterdark-mi .ad-story a:focus-visible,.afterdark-mi .ad-directory a:focus-visible,.afterdark-mi .ad-photo a:focus-visible{outline:3px solid #f0b567;outline-offset:2px}
+@media(max-width:800px){
+ .afterdark-mi .hero{padding:26px 0 27px}
+ .afterdark-mi .hero .wrap{display:flex;flex-direction:column}
+ .afterdark-mi .ad-hero-media{min-height:0;margin-top:19px}
+ .afterdark-mi .ad-hero-photo{height:175px;min-height:0;aspect-ratio:auto}
+ .afterdark-mi .hero h1{font-size:clamp(33px,7vw,43px)}
+ .afterdark-mi .hero .lede{font-size:15px}
+ .afterdark-mi .ad-intro{display:block;margin:25px 0 15px}
+ .afterdark-mi .ad-intro > p{margin-top:12px}
+ .afterdark-mi .ad-stories{grid-template-columns:1fr;gap:17px}
+ .afterdark-mi .ad-story .ad-story-photo{height:188px}
+ .afterdark-mi .ad-story-body{padding:17px 19px 20px}
+ .afterdark-mi .ad-directory{padding:17px 15px}
+ .afterdark-mi .ad-directory nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:420px){
+ .afterdark-mi .hero h1{font-size:35px}
+ .afterdark-mi .hero .hero-links a{font-size:13px;padding:9px 11px}
+ .afterdark-mi .ad-hero-photo{height:150px}
+ .afterdark-mi .ad-directory nav{grid-template-columns:1fr}
+ .afterdark-mi .ad-story h3{font-size:26px}
+ .afterdark-mi .ad-intro h2{font-size:29px}
+}
+@media(prefers-reduced-motion:reduce){.afterdark-mi *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
