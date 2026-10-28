@@ -1,6 +1,6 @@
 {
   "updated": "2026-10-28",
-  "policy": "Location-specific archival imagery. Each photo has independently identified subject and original commercial reuse permissions with visible photographer and license links. Archival photos never represent live clouds, aurora, meteor activity or access. Display crops are disclosed.",
+  "policy": "Location-specific archival imagery. Each photo has independently identified subject and original commercial reuse permissions with visible photographer and license links. Archival photos never represent live clouds, aurora, meteor activity or access. Display crops are disclosed. NPS Gallery northern-lights asset is explicitly marked public domain (Full Granting Rights) and is used as historical proof of place, not a predicted aurora occurrence.",
   "photos": [
     {
       "id": "newport-night",
@@ -63,6 +63,21 @@
       "status": "source-and-license-verified",
       "width": 960,
       "height": 960
+    },
+    {
+      "id": "voyageurs-nps-aurora",
+      "placeId": "voyageurs",
+      "imageURL": "https://npgallery.nps.gov/GetAsset/902BED75-1DD8-B71B-0B9F46E49E80A936/proxyhires.jpg",
+      "sourceURL": "https://npgallery.nps.gov/AssetDetail/902BED75-1DD8-B71B-0B9F46E49E80A936",
+      "photographer": "National Park Service",
+      "licenseName": "NPS public domain · Full Granting Rights",
+      "licenseURL": "https://npgallery.nps.gov/AssetDetail/902BED75-1DD8-B71B-0B9F46E49E80A936",
+      "alt": "Archival aurora borealis reflected across dark lake water in Voyageurs National Park, Minnesota",
+      "cropPosition": "50% 42%",
+      "captureDate": "2014-09-24",
+      "status": "source-and-license-verified",
+      "width": 1000,
+      "height": 666
     }
   ]
 }

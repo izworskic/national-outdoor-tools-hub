@@ -38,20 +38,23 @@ test('Minnesota distinguishes mainland Voyageurs and permitted BWCAW with source
  assert.doesNotMatch(minnesota,/destination=Boundary Waters/, 'BWCA must not get invented parking route');
 });
 test('Photographic provenance: original location, commercial licenses, credits and archival warning',()=>{
- assert.equal(photo.length,4);
- assert.equal(new Set(photo.map(x=>x.imageURL)).size,4);
+ assert.equal(photo.length,5);
+ assert.equal(new Set(photo.map(x=>x.imageURL)).size,5);
  for(const p of photo){
   assert.equal(p.status,'source-and-license-verified');
-  assert.match(p.sourceURL,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);
-  assert.match(p.imageURL,/^https:\/\/upload.wikimedia.org\/wikipedia\/commons\//);
+  assert.ok(/^https:\/\/commons.wikimedia.org\/wiki\/File:/.test(p.sourceURL)||/^https:\/\/npgallery.nps.gov\/AssetDetail\//.test(p.sourceURL),p.id);
+  assert.ok(/^https:\/\/upload.wikimedia.org\/wikipedia\/commons\//.test(p.imageURL)||/^https:\/\/npgallery.nps.gov\/GetAsset\//.test(p.imageURL),p.id);
   for(const key of ['placeId','alt','licenseURL','licenseName','captureDate','photographer','cropPosition'])assert.ok(p[key],p.id+': '+key);
  }
  assert.equal((wisconsin.match(/<figure class="ng-photo /g)||[]).length,2);
  assert.equal((minnesota.match(/<figure class="ng-photo /g)||[]).length,3);
  for(const x of ['newport-night','newport'])assert.ok(wisconsin.includes(photo.find(p=>p.id===x).imageURL));
- for(const x of ['voyageurs','bwca-sunset'])assert.ok(minnesota.includes(photo.find(p=>p.id===x).imageURL));
+ for(const x of ['voyageurs','voyageurs-nps-aurora','bwca-sunset'])assert.ok(minnesota.includes(photo.find(p=>p.id===x).imageURL));
  assert.match(wisconsin,/long exposure, not tonight/);
  assert.match(minnesota,/Archival image:/);
+ assert.match(minnesota,/archival aurora photograph is not a prediction for tonight/i);
+ const minnesotaImages=[...minnesota.matchAll(/<figure class="ng-photo [\s\S]*?<img src="([^"]+)/g)].map(x=>x[1]);
+ assert.equal(new Set(minnesotaImages).size,3,'Minnesota must use three distinct photos');
 });
 test('Field Guide styling is scoped, responsive, accessible and unrelated states stay intact',()=>{
  const css=fs.readFileSync(dir+'assets/northern-field-guides.css','utf8');

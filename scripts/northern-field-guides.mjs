@@ -10,9 +10,9 @@ const findPhoto=id=>{
  if(!p||p.status!=='source-and-license-verified')throw Error('Missing reviewed photograph '+id);
  for(const key of ['placeId','imageURL','sourceURL','photographer','licenseURL','licenseName','alt','cropPosition','captureDate','width','height'])
   if(!p[key])throw Error('Incomplete photo '+id+': '+key);
- if(!p.imageURL.startsWith('https://upload.wikimedia.org/wikipedia/commons/')||
-    !p.sourceURL.startsWith('https://commons.wikimedia.org/wiki/File:')||
-    !p.licenseURL.startsWith('https://creativecommons.org/'))throw Error('Invalid photo rights URL '+id);
+ const commons=p.imageURL.startsWith('https://upload.wikimedia.org/wikipedia/commons/')&&p.sourceURL.startsWith('https://commons.wikimedia.org/wiki/File:')&&p.licenseURL.startsWith('https://creativecommons.org/');
+ const nps=p.imageURL.startsWith('https://npgallery.nps.gov/GetAsset/')&&p.sourceURL.startsWith('https://npgallery.nps.gov/AssetDetail/')&&p.licenseURL===p.sourceURL&&p.licenseName.includes('NPS public domain');
+ if(!commons&&!nps)throw Error('Invalid photo source/rights URL '+id);
  return p;
 };
 function picture(id,klass,eager=false){
@@ -108,9 +108,9 @@ export function applyMinnesotaNight(html,sites){
  html=putHeroImage(html,picture('voyageurs','ng-primary-photo',true),'Rainy Lake, Voyageurs National Park. Archival landscape; the sky forecast is separate.');
  const panel='<section class="ng-mn-choice" id="ng-minnesota-choice"><div class="ng-heading"><p class="ng-kicker">Two ways into the North</p><h2>A roadside vantage point, or a wilderness expedition?</h2><p>Both are International Dark Sky destinations, but do not mistake a forecast-point marker for a trailhead or a park entrance. Choose the type of trip before you choose the night.</p></div>'+
  '<div class="ng-mn-routes"><article class="ng-mn-main">'+
- '<div class="ng-mn-route-image">'+picture('voyageurs','ng-route-photo')+'</div>'+
+ '<div class="ng-mn-route-image">'+picture('voyageurs-nps-aurora','ng-route-photo')+'</div>'+
  '<div class="ng-mn-route-content"><p class="ng-kicker">Voyageurs National Park · Mainland-accessible choices</p><h3>Start with Rainy Lake or the Ash River road.</h3>'+
- '<p>National Park Service lists the <strong>upper parking lot at Rainy Lake Visitor Center</strong> and the <strong>Meadwood Road Day Use Area</strong> off Ash River Visitor Center Road as two designated dark-sky viewing areas. Use an identified land access rather than a lakewide marker. Park services may be limited outside visitor-center hours.</p>'+
+ '<p>National Park Service lists the <strong>upper parking lot at Rainy Lake Visitor Center</strong> and the <strong>Meadwood Road Day Use Area</strong> off Ash River Visitor Center Road as two designated dark-sky viewing areas. Use an identified land access rather than a lakewide marker. The archival aurora photograph is not a prediction for tonight. Park services may be limited outside visitor-center hours.</p>'+
  '<div class="ng-route-links"><a class="ng-primary" href="'+ROOT+'voyageurs/">Check Voyageurs viewing conditions →</a>'+L(sources.mn,'NPS designated viewing areas ↗')+
  L(directions('Rainy Lake Visitor Center 1797 Township Road 342 International Falls MN'),'Find Rainy Lake Visitor Center ↗')+
  L(directions('Meadwood Road Day Use Area Ash River Minnesota'),'Find Meadwood Road viewing area ↗')+'</div>'+
