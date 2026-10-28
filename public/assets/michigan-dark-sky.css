@@ -78,6 +78,11 @@ body.mi-darksky{
 .mi-darksky .mi-moment strong{font-family:Georgia,serif;font-size:23px;font-weight:400;line-height:1.2;color:#f4f0e8;margin:13px 0 8px}
 .mi-darksky .mi-moment span{font-size:13px;color:#d3dde1;line-height:1.55}
 .mi-darksky .mi-moment b{font-size:13px;color:#aedfcf;margin-top:auto;padding-top:13px}
+.mi-darksky .mi-index{border:1px solid #415568;background:#0c1b2c;border-radius:6px;padding:17px 18px;margin:20px 0 22px}
+.mi-darksky .mi-index>span{font:600 11px/1.5 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.13em;color:#b7d7d4;display:block;margin-bottom:11px}
+.mi-darksky .mi-index-links{display:flex;flex-wrap:wrap;gap:8px}
+.mi-darksky .mi-index-links a{display:inline-block;padding:7px 11px;border:1px solid #3f5b6b;border-radius:4px;color:#dbece9;background:#14283a;text-decoration:none;font-size:12px;line-height:1.45}
+.mi-darksky .mi-index-links a:hover{background:#234353}
 .mi-darksky #mi-winter-access{scroll-margin-top:18px}
 .mi-darksky .mi-access-intro{max-width:910px}
 .mi-darksky .mi-access-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
