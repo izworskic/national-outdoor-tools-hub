@@ -51,4 +51,27 @@ const thompsonHtml=fs.readFileSync(path.join(base,'thompsons-harbor','index.html
 assert.match(thompsonHtml,/DNR lists winter plowing/,'Individual Thompson’s Harbor page must reflect current DNR plowing guidance');
 assert.doesNotMatch(thompsonHtml,/<p>State preserve; no winter plowing\.<\/p>/,'Individual Thompson’s Harbor access copy must not contradict detailed guidance');
 
+
+assert.match(michiganHtml,/<body class="mi-darksky">/,'Michigan design must be isolated to the state guide');
+assert.match(michiganHtml,/<h1 id="mi-title">Michigan dark-sky parks/,'Michigan heading must retain search intent');
+assert.match(michiganHtml,/mi-hero-photo[^>]+North_Manitou_Village_/,'Photo-led Michigan hero must retain real Michigan NPS location');
+assert.match(michiganHtml,/NPS photo · public domain/,'Visible historic image provenance must remain');
+assert.match(michiganHtml,/michigan-dark-sky\.css\?v=20261028/,'Michigan state stylesheet must be loaded');
+assert.ok(fs.existsSync(path.join(base,'assets','michigan-dark-sky.css')),'Generated Michigan CSS asset missing');
+const miCss=fs.readFileSync(path.join(base,'assets','michigan-dark-sky.css'),'utf8');
+assert.match(miCss,/\.mi-darksky \.mi-hero/,'Styles must remain page-scoped');
+assert.match(miCss,/@media\(max-width:650px\)/,'Mobile design override missing');
+assert.match(miCss, /prefers-reduced-motion/,'Reduced motion support missing');
+for(const id of ['sky-finder','darkSkyMap','compare4','compareResults','siteCards','myLocation','designation','searchSites','mi-winter-access']){
+ assert.ok(michiganHtml.includes('id="'+id+'"'),'Michigan redesign lost interactive element '+id);
+}
+assert.equal((michiganHtml.match(/id="darkSkyMap"/g)||[]).length,1,'Duplicate Michigan map container');
+assert.ok(!michiganHtml.includes('id="region"'),'Redundant single-state filter should not take space');
+assert.match(michiganHtml,/The DNR summary does not specify plowing at Lake Hudson/,'Unverified Lake Hudson plowing must not be inferred');
+assert.match(michiganHtml,/Thompson’s Harbor State Park/,'Thompson’s Harbor winter status must remain visible');
+assert.match(michiganHtml,/Rockport Recreation Area/,'Rockport winter status must remain visible');
+const miEntries=data.places.filter(p=>p.state==='MI');
+for(const p of miEntries)assert.ok(michiganHtml.includes('href="/national-tools/dark-sky/'+p.slug+'/"'),'Michigan site must remain linked without JavaScript: '+p.slug);
+assert.match(michiganHtml,/not tonight’s sky/,'Historic photography must never imply a live view');
+
 console.log('Midwest dark-sky verified: 7 hubs, 24 preserved destination pages, map and forecast payloads, canonical, schema, sitemap, crawlable links.');
