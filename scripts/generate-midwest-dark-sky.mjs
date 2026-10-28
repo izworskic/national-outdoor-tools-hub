@@ -143,7 +143,7 @@ const sitemapPath = path.join(OUT,'sitemap.xml');
 let sitemap = fs.readFileSync(sitemapPath,'utf8');
 for(const url of urls){
  if(sitemap.includes('<loc>'+url+'</loc>'))throw new Error('Duplicate sitemap region: '+url);
- sitemap=sitemap.replace('</urlset>','  <url><loc>'+url+'</loc><lastmod>'+updated+'</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>\n</urlset>');
+ sitemap=sitemap.replace('</urlset>','  <url><loc>'+url+'</loc><lastmod>'+(url.endsWith('/michigan/')?'2026-10-28':updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>\n</urlset>');
 }
 sitemap=sitemap.replace(/(<loc>https:\/\/chrisizworski.com\/national-tools\/dark-sky\/<\/loc><lastmod>)[^<]+/, '$1'+updated);
 fs.writeFileSync(sitemapPath,sitemap);
