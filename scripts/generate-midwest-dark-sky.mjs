@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {applyMichiganAfterDark} from './michigan-after-dark.mjs';
+import {applyMidwestAfterDark} from './midwest-after-dark.mjs';
 
 const ROOT = 'https://chrisizworski.com';
 const BASE = '/national-tools/dark-sky/';
@@ -122,6 +123,11 @@ function make(def) {
   html = replaceRequired(html, '<main class="wrap"><section class="panel">', '<main class="wrap">'+relatedNav(def)+regionContext+staticPlaces(selected)+'<section class="panel">');
   html = html.replace(/<section class="panel"><h2>Method and limits<\/h2>[\s\S]*?<\/section>/,
     '<section class="panel"><h2>Method and limits</h2><p>For U.S. sites, the shared meteor-viewing engine uses hourly National Weather Service sky-cover forecasts, astronomical darkness and moonlight. These are forecasts at representative coordinates, not on-site observations, verified entrances or measured meteor rates. Sites may be inaccessible even during promising sky conditions. Check each operator for current gates, roads, parking and regulations.</p></section>');
+  if (def.slug === 'midwest') {
+    html = applyMidwestAfterDark(html,selected);
+    fs.mkdirSync(path.join(OUT,'assets'),{recursive:true});
+    fs.copyFileSync('public/assets/midwest-after-dark.css',path.join(OUT,'assets','midwest-after-dark.css'));
+  }
   if (def.slug === 'michigan') {
     html = applyMichiganAfterDark(html,selected);
     fs.mkdirSync(path.join(OUT,'assets'),{recursive:true});
@@ -143,7 +149,7 @@ const sitemapPath = path.join(OUT,'sitemap.xml');
 let sitemap = fs.readFileSync(sitemapPath,'utf8');
 for(const url of urls){
  if(sitemap.includes('<loc>'+url+'</loc>'))throw new Error('Duplicate sitemap region: '+url);
- sitemap=sitemap.replace('</urlset>','  <url><loc>'+url+'</loc><lastmod>'+(url.endsWith('/michigan/')?'2026-10-28':updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>\n</urlset>');
+ sitemap=sitemap.replace('</urlset>','  <url><loc>'+url+'</loc><lastmod>'+(url.endsWith('/michigan/')||url.endsWith('/midwest/')?'2026-10-28':updated)+'</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>\n</urlset>');
 }
 sitemap=sitemap.replace(/(<loc>https:\/\/chrisizworski.com\/national-tools\/dark-sky\/<\/loc><lastmod>)[^<]+/, '$1'+updated);
 fs.writeFileSync(sitemapPath,sitemap);
