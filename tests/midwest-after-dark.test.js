@@ -1,6 +1,7 @@
 'use strict';
 const test=require('node:test'), assert=require('node:assert/strict'), fs=require('node:fs');
 const base='public/national-tools/dark-sky/';
+const route='/national-tools/dark-sky/';
 const html=fs.readFileSync(base+'midwest/index.html','utf8');
 const css=fs.readFileSync(base+'assets/midwest-after-dark.css','utf8');
 const pictures=JSON.parse(fs.readFileSync('data/midwest-after-dark-photos.json','utf8')).photos;
