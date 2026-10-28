@@ -78,8 +78,8 @@ function voyageurs(){
 }
 function bwca(){
  const pub=data.bwca;
- const body='<div class="dg-bwca-story"><div>'+figure('bwca-sunset','bwca','dg-side-photo')+
- '<p class="dg-picture-note">A campsite sunset from 2018. The wilderness’s best skies are reached by a planned journey, not a direct car trip to a map marker.</p></div>'+
+ const body='<div class="dg-bwca-story"><div>'+figure('bwca-portage','bwca','dg-side-photo')+
+ '<p class="dg-picture-note">An actual BWCA portage approach photographed in 2017. It illustrates the need for legal entry-point and route planning, not a currently open trail.</p></div>'+
  '<div><p class="dg-large-quote">A night-sky trip is a wilderness trip first.</p><p>Choose a real U.S. Forest Service entry point, select the correct permit category, and plan the route and campsite before optimizing for darkness. The weather engine below scores a representative wilderness coordinate, not a campsite or travel corridor.</p>'+
  '<div class="dg-warning"><strong>There is no safe driving link to the BWCA centroid.</strong> Check the official permit’s entry-point description for navigation and any current closures. Travel conditions, ice, water and campsites are not checked by this page.</div></div></div>';
  const permit='<div class="dg-permit-helper" id="dg-bwca-permit" aria-labelledby="dg-bwca-permit-title">'+
