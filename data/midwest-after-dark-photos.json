@@ -1,0 +1,54 @@
+{
+  "updated": "2026-10-28",
+  "policy": "Each Wikimedia Commons image depicts the identified place, is an archival landscape, not current weather/night conditions. Licensing confirmed on image description pages; in-page photographer and license links required. Thumbnail URL verified by published filename and Wikimedia hashing; live render must still be visually inspected.",
+  "photos": [
+    {
+      "id": "voyageurs",
+      "placeId": "voyageurs",
+      "filename": "Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg/960px-Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Gfp-minnesota-voyaguers-national-park-rainy-lake-bay.jpg",
+      "photographer": "Yinan Chen",
+      "licenseName": "Public domain dedication",
+      "licenseURL": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "alt": "Rainy Lake Bay shoreline at Voyageurs National Park at sunset",
+      "cropPosition": "50% 44%",
+      "captureDate": "2013-07-07",
+      "status": "verified-source-and-license",
+      "width": 960,
+      "height": 640
+    },
+    {
+      "id": "newport",
+      "placeId": "newport",
+      "filename": "Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg/960px-Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Gfp-wisconsin-newport-state-park-bay-and-shoreline.jpg",
+      "photographer": "Yinan Chen",
+      "licenseName": "Public domain dedication",
+      "licenseURL": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "alt": "Lake Michigan bay and forested shoreline at Newport State Park, Wisconsin, by day",
+      "cropPosition": "48% 44%",
+      "captureDate": "2013-08-23",
+      "status": "verified-source-and-license",
+      "width": 960,
+      "height": 640
+    },
+    {
+      "id": "middlefork",
+      "placeId": "middlefork",
+      "filename": "Middle_Fork_of_the_Vermilion_River_within_the_Middle_Fork_River_Forest_Preserve_1.jpg",
+      "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Middle_Fork_of_the_Vermilion_River_within_the_Middle_Fork_River_Forest_Preserve_1.jpg/960px-Middle_Fork_of_the_Vermilion_River_within_the_Middle_Fork_River_Forest_Preserve_1.jpg",
+      "sourceURL": "https://commons.wikimedia.org/wiki/File:Middle_Fork_of_the_Vermilion_River_within_the_Middle_Fork_River_Forest_Preserve_1.jpg",
+      "photographer": "Pngdeity",
+      "licenseName": "CC BY 4.0",
+      "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+      "alt": "Middle Fork of the Vermilion River winding through Middle Fork River Forest Preserve, Illinois, in daylight",
+      "cropPosition": "49% 48%",
+      "captureDate": "2024-02-24",
+      "status": "verified-source-and-license",
+      "width": 960,
+      "height": 723
+    }
+  ]
+}
