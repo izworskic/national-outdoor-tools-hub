@@ -40,8 +40,8 @@ export function applyMidwestAfterDark(html,sites){
  html=html.replace('Start with a protected night sky, then decide whether tonight is actually worth the trip. The Midwest has distinct lake, forest, prairie and urban-fringe observing challenges.',
  'A lake falls quiet in Minnesota. The Door County shore turns dark. An Illinois river slips through the prairie. Choose a landscape, then let real clouds, moonlight and access rules decide the night.');
  html=html.replace('href="#siteCards">Explore destination planners ↓','href="#mw-states">Choose a state ↓');
- const hero='<a class="mw-hero-image" href="'+base+'voyageurs/" aria-label="Explore the Voyageurs National Park stargazing planner">'+photo('voyageurs','mw-hero-photo',true)+
- '<span class="mw-hero-label">Northern Minnesota · Voyageurs National Park<br><strong>Follow the last light across Rainy Lake</strong></span></a>';
+ const hero='<div class="mw-hero-image">'+photo('voyageurs','mw-hero-photo',true)+
+ '<a class="mw-hero-label" href="'+base+'voyageurs/">Northern Minnesota · Voyageurs National Park<br><strong>Follow the last light across Rainy Lake →</strong></a></div>';
  const heroPattern=/(<div class="hero-links">[\s\S]*?<\/div>)(<\/div><\/section>)/;
  if(!heroPattern.test(html))throw Error('Midwest hero layout changed');
  html=html.replace(heroPattern,(_m,links,close)=>links+hero+close);
