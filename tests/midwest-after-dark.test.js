@@ -13,7 +13,7 @@ test('existing Midwest canonical, unique H1, original sky decisions and all sixt
  assert.equal((html.match(/<h1/g)||[]).length,1);
  assert.match(html,/<h1>Midwest dark sky parks:/);
  assert.equal(sites.length,16);
- for(const p of sites)assert.ok(html.includes('href="'+base+p.slug+'/"'),p.slug);
+ for(const p of sites)assert.ok(html.includes('href="'+route+p.slug+'/"'),p.slug);
  for(const hook of ['id="darkSkyPayload"','id="darkSkyMap"','id="siteCards"','id="compare4"','id="region"','id="designation"','id="myLocation"','id="mapStatus"','id="searchSites"'])
   assert.ok(html.includes(hook),'Missing shared contract '+hook);
  const data=JSON.parse(html.match(/<script type="application\/json" id="darkSkyPayload">([\s\S]*?)<\/script>/)[1]);
@@ -25,7 +25,7 @@ test('existing Midwest canonical, unique H1, original sky decisions and all sixt
 });
 test('Six state choices are explicit unique links rather than clone region cards',()=>{
  for(const state of ['michigan','wisconsin','minnesota','illinois','indiana','ohio'])
-  assert.ok(html.includes('href="'+base+state+'/"'),state);
+  assert.ok(html.includes('href="'+route+state+'/"'),state);
  assert.match(html,/id="mw-states"/);
  assert.match(html,/id="mw-forecast"/);
  assert.match(html,/class="mw-index"/);
