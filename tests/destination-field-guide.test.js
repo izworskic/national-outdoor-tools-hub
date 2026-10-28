@@ -55,6 +55,8 @@ test('Photographs are place-verified archival images, with license and attributi
  for(const slug of Object.keys(pages)){
   const html=pages[slug];
   assert.equal((html.match(/<figure class="dg-photo /g)||[]).length,imageCount[slug]);
+  const images=[...html.matchAll(/<figure class="dg-photo [\s\S]*?<img src="([^"]+)"/g)].map(x=>x[1]);
+  assert.equal(new Set(images).size,imageCount[slug],slug+' has repeated lead photograph');
   for(const p of gallery.filter(p=>p.placeId===slug)){
    if(html.includes(p.imageURL.replaceAll('&','&amp;'))){
     assert.ok(html.includes(p.sourceURL.replaceAll('&','&amp;')),p.id);
