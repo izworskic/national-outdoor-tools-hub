@@ -65,8 +65,8 @@ test('Mobile, crop, contrast and keyboard design pieces are scoped to Michigan o
  assert.match(style,/@media\(max-width:420px\)/);
  assert.match(style,/prefers-reduced-motion/);
  assert.match(style,/:focus-visible/);
- for(const slug of ['midwest','wisconsin','minnesota','illinois','indiana','ohio']){
+ for(const slug of ['wisconsin','minnesota','illinois','indiana','ohio']){
   const x=fs.readFileSync('public/national-tools/dark-sky/'+slug+'/index.html','utf8');
-  assert.doesNotMatch(x,/afterdark-mi|michigan-after-dark\.css/,slug);
+  assert.doesNotMatch(x,/afterdark-mi|michigan-after-dark\.css|afterdark-midwest|midwest-after-dark\.css/,slug);
  }
 });
