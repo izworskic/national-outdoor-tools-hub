@@ -6,7 +6,7 @@ const host=document.getElementById('gmnObservedNetwork');if(!host)return;
 const status=host.querySelector('[data-gmn-status]'),items=host.querySelector('[data-gmn-items]');
 const endpoint='https://national-outdoor-tools-hub.vercel.app/api/';
 const UNIT='meteors/1000 km2/hour (+6.5 mag)',FRESH_MS=48*3600000;
-function isoLocal(s){const d=new Date(s);return Number.isFinite(d.getTime())?new Intl.DateTimeFormat('en-US',{dateStyle:'medium',timeStyle:'short',timeZoneName:'short'}).format(d):'time unavailable';}
+function isoLocal(s){const d=new Date(s);return Number.isFinite(d.getTime())?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(d):'time unavailable';}
 function recordValid(x,now){
  const when=Date.parse(x?.observedAt||'');return x&&/^[A-Z0-9]{3,8}$/.test(x.iauCode||'')&&
  x.unit===UNIT&&Number.isFinite(x.flux)&&x.flux>=0&&Number.isFinite(when)&&now-when>=-600000&&now-when<=FRESH_MS;
