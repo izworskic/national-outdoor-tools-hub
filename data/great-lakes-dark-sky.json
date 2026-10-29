@@ -19,7 +19,15 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Follow the posted signs to the dark-sky viewing area; the county park has separate trailhead and event-center parking. Grounds are available for observing 24 hours a day; no camping. Confirm any facility or event hours separately.",
+        "source": "https://landtrust.org/explore/headlands-international-dark-sky-park/",
+        "place": "Headlands International Dark Sky Park, Mackinaw City, Michigan",
+        "navigation": "park-name",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "keweenaw",
@@ -38,7 +46,15 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Public stargazing is on the Keweenaw Mountain Lodge outdoor grounds from 7 p.m. to 7 a.m., with no camping or access to lodge buildings. The operator lists the dark-sky park CLOSED throughout April and November 15–December 14. Check the park's current calendar before travel.",
+        "source": "https://keweenawdarksky.com/",
+        "place": "14252 US Highway 41, Copper Harbor, Michigan 49918",
+        "navigation": "operator-address",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "lawless",
@@ -57,7 +73,15 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Cass County publishes scheduled Dark Sky Viewing dates and closing times and asks visitors to verify weather-dependent openings. Do not assume an unscheduled late-night arrival is permitted. Follow the county's posted viewing calendar.",
+        "source": "https://casscountymi.org/Calendar.aspx?EID=1999",
+        "place": "15122 Monkey Run Street, Vandalia, Michigan 49095",
+        "navigation": "operator-address",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "beaver",
@@ -76,7 +100,14 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": true,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "DarkSky International identifies the sanctuary lands as open 24/7, but this is an island wildlife area, not a guaranteed drive-up lookout. Arrange ferry or air travel and lodging, and obtain the sanctuary's current public-access rules before deciding on an observing point.",
+        "source": "https://darksky.org/places/beaver-island-state-wildlife-research-area/",
+        "navigation": "operator-only",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "lake-hudson",
@@ -95,7 +126,15 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Michigan DNR identifies the viewing preserve beside the park picnic shelter and says it is open 24 hours a day year-round. The park address is published, but the parking lot and any winter route are not verified live.",
+        "source": "https://www.michigan.gov/recsearch/parks/lakehudson",
+        "place": "5505 Morey Highway, Clayton, Michigan 49235",
+        "navigation": "operator-address",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "negwegon",
@@ -114,7 +153,14 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Michigan DNR identifies the main parking area off Sand Hill Trail; campsites are hike-in and not substitutes for a drive-up observing area. The park road is NOT plowed in winter; check the approach and legal access before traveling.",
+        "source": "https://www.michigan.gov/recsearch/parks/negwegon",
+        "navigation": "operator-only",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "port-crescent",
@@ -133,7 +179,15 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Michigan DNR identifies the viewing platform near Parking Lot D as its best dark-sky viewing location. The day-use area and campground have SEPARATE entrances about two miles apart. The dark-sky preserve is NOT winter-plowed; walking from parking may be necessary.",
+        "source": "https://www.michigan.gov/recsearch/parks/portcrescent",
+        "place": "Port Crescent State Park Parking Lot D, Michigan",
+        "navigation": "search-named-location",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "rockport",
@@ -152,7 +206,14 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Michigan DNR lists winter plowing for Rockport. Its rugged quarry landscape and Besser Natural Area have different trail and parking approaches; the current registry does not establish a verified night-observing parking lot. Check the official park map and roads.",
+        "source": "https://www.michigan.gov/recsearch/parks/rockport",
+        "navigation": "operator-only",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "thompsons-harbor",
@@ -171,7 +232,14 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Michigan DNR explicitly lists winter plowing at Thompson's Harbor, but the park is remote and undeveloped; no individual overnight parking lot has been verified. Follow posted park access and check local conditions before arrival.",
+        "source": "https://www.michigan.gov/recsearch/parks/thompsonsharbor",
+        "navigation": "operator-only",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "wilderness",
@@ -190,7 +258,14 @@
       "country": "US",
       "weatherSource": "NWS",
       "approximateLocation": false,
-      "accessVerifiedLive": false
+      "accessVerifiedLive": false,
+      "arrival": {
+        "arrival": "Michigan DNR says Wilderness State Park is NOT generally plowed during winter except near park headquarters. An observing area elsewhere in the park is not automatically reachable. Confirm the actual open parking area and route.",
+        "source": "https://www.michigan.gov/dnr/places/state-parks/dark-sky-events",
+        "navigation": "operator-only",
+        "reviewed": "2026-10-29",
+        "accessLive": false
+      }
     },
     {
       "id": "newport",
