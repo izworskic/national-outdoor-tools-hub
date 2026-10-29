@@ -24,7 +24,7 @@
         "arrival": "Follow the posted signs to the dark-sky viewing area; the county park has separate trailhead and event-center parking. Grounds are available for observing 24 hours a day; no camping. Confirm any facility or event hours separately.",
         "source": "https://landtrust.org/explore/headlands-international-dark-sky-park/",
         "place": "Headlands International Dark Sky Park, Mackinaw City, Michigan",
-        "navigation": "park-name",
+        "navigation": "search-named-location",
         "reviewed": "2026-10-29",
         "accessLive": false
       }
