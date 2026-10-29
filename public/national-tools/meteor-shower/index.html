@@ -149,9 +149,9 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 </section>
 <section class="layout" aria-label="Viewing outlook">
 <div class="panel"><div class="kicker">Your meteor-watching verdict</div><div class="big" id="verdict">Checking the night sky…</div><p class="reason" id="why">Current forecast is being requested. No viewing conditions are assumed until weather returns.</p>
-<div class="meta" id="metrics"></div><div class="scard"><div class="kicker">Best viewing hour in the next 72 hours</div><div class="num" id="bestHour">—</div><p class="small muted" id="bestDetail">Waiting for the NWS hourly cloud grid.</p></div></div>
+<div class="meta" id="metrics"></div><div class="scard small" id="observedSignal" role="status">Observed flux · checking cached network camera data…</div><div class="scard"><div class="kicker">Best viewing hour in the next 72 hours</div><div class="num" id="bestHour">—</div><p class="small muted" id="bestDetail">Waiting for the NWS hourly cloud grid.</p></div></div>
 <div class="panel"><div class="kicker">Meteor activity</div><div class="big" id="shower">Seasonal calendar</div><p id="showerDetail" class="reason">Showers are seasonal; active dates are not a promise of sightings.</p>
-<div class="scard"><div class="kicker">Observed activity vs calendar</div><p class="small">The <a href="https://globalmeteornetwork.org/flux/" target="_blank" rel="noopener noreferrer">Global Meteor Network flux dashboard</a> publishes measured camera activity with its own observation timestamps. This page does not yet ingest those observations into its local verdict.</p><p class="small muted">Peak ZHR means an idealized maximum under a perfectly dark, clear sky with the radiant overhead—not expected meteors per hour here.</p></div></div>
+<div class="scard"><div class="kicker">Observed activity · network cameras</div><div id="observedActivity" class="small" role="status" aria-live="polite">Checking cached network measurements…</div><p class="small muted">Calibrated GMN network meteor flux is separate from the 0–100 local viewing index. It is not meteors per hour at your location or a probability of a sighting. Peak ZHR is an idealized calendar reference, not an observed local count.</p><p class="small muted">Source: <a href="https://globalmeteornetwork.org/flux/" target="_blank" rel="noopener noreferrer">Global Meteor Network flux dashboard</a> · <a href="https://globalmeteornetwork.org/data/" target="_blank" rel="noopener noreferrer">GMN published data</a> (CC BY 4.0).</p></div></div>
 </section>
 <section class="section panel" aria-labelledby="meteor-calendar-title" id="meteor-calendar">
 <div class="kicker">Meteor shower calendar · 2026–2027</div>
@@ -175,7 +175,7 @@ footer{padding:25px 0;color:#9cabbe;border-top:1px solid #2d3a52;font-size:12px}
 <section class="section panel" aria-labelledby="chase-title"><div class="kicker">Meteor Chase · NWS grid comparison</div><h2 id="chase-title">Could the sky be clearer nearby?</h2><p class="small muted">Compare compass directions around your location. Each sample has its own NWS weather lookup and best hour. These points may be over water, private property or inaccessible terrain; check legal nighttime access before travelling.</p><div id="spots" class="compass"><p class="muted">Load a location to compare weather.</p></div><p class="small muted">Forecast samples are plotted on the Great Lakes dark-sky destination map above, with a different marker from verified park locations.</p></section>
 <section class="section panel" aria-labelledby="method"><h2 id="method">What this tool knows—and what it doesn't</h2>
 <div class="layout">
-<div><h3>Inputs and transparency</h3><ul class="sources"><li><a href="https://www.weather.gov/documentation/services-web-api">NWS sky-cover grid</a>: U.S. forecast data, checked for age and hourly coverage.</li><li><a href="https://imo.net/meteor-activity/meteor-shower-calendar/">International Meteor Organization</a>: annual shower windows, radiant reference and ideal ZHR.</li><li><a href="https://globalmeteornetwork.org/flux/">Global Meteor Network</a>: actual observed meteor flux, linked separately until machine ingestion is validated.</li></ul></div>
+<div><h3>Inputs and transparency</h3><ul class="sources"><li><a href="https://www.weather.gov/documentation/services-web-api">NWS sky-cover grid</a>: U.S. forecast data, checked for age and hourly coverage.</li><li><a href="https://imo.net/meteor-activity/meteor-shower-calendar/">International Meteor Organization</a>: annual shower windows, radiant reference and ideal ZHR.</li><li><a href="https://globalmeteornetwork.org/flux/">Global Meteor Network</a>: a separately labeled measured-flux signal only when a verified published flux feed and fresh network observations are available; no measured value is inferred from camera tallies.</li></ul></div>
 <div><h3>Reading the results</h3><p class="small">The 0–100 observing index compares weather and sky conditions; it is neither the probability of seeing a meteor nor a meteor-per-hour estimate. No forecast means no score. The 2027 Quadrantids maximum uses an IMO-published time; other future-year peak times remain approximate seasonal estimates until verified. Nearshore clouds can vary sharply from the NWS grid forecast.</p><p class="small">Watching meteors requires an unobstructed view of the sky. Dress for the weather, avoid unsafe roadside stops, and give your eyes 20–30 minutes to adapt to darkness.</p></div>
 </div>
 </section>
@@ -190,6 +190,42 @@ const $=id=>document.getElementById(id);
 const f=$('locationForm'),state={lat:43.594,lon:-83.889,label:'Bay City, MI (example)',map:null,deviceLocation:null};
 const DEVICE_LOCATION_LABEL='Your approximate location';
 const api='/national-tools/meteor-shower/_api/live';
+
+const fluxApi='https://national-outdoor-tools-hub.vercel.app/api/meteor-flux';
+let fluxSnapshot=null,fluxUnavailable=false,activeShowerWindows=null;
+function visitorTime(t){return datefmt(t,Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});}
+function observedUnavailableTime(){
+ const t=fluxSnapshot?.lastGoodAt;
+ return typeof t==='string'&&Number.isFinite(Date.parse(t))&&Date.parse(t)<=Date.now()+600000
+  ?' Last good network observation: '+visitorTime(t)+'.':' No last good observation verified.';
+}
+function displayObservedActivity(){
+ if(activeShowerWindows===null){set('observedActivity','Waiting for current shower windows from the calendar…');set('observedSignal','Observed flux · awaiting active-shower calendar');return;}
+ if(!activeShowerWindows.length){set('observedActivity','No shower is currently active in the IMO calendar windows. No observed-flux number is assigned.');set('observedSignal','Observed flux · no active shower (calendar only)');return;}
+ const now=Date.now();
+ const valid=(fluxSnapshot?.status==='ok'&&Array.isArray(fluxSnapshot.observations))?
+  fluxSnapshot.observations.filter(x=>x&&typeof x.iauCode==='string'&&typeof x.flux==='number'&&Number.isFinite(x.flux)&&x.flux>=0&&x.unit==='meteors/km2/hour (M+6.5 equivalent)'&&typeof x.observedAt==='string'&&Number.isFinite(Date.parse(x.observedAt))&&now-Date.parse(x.observedAt)>=-600000&&now-Date.parse(x.observedAt)<=48*3600000):[];
+ const data=activeShowerWindows.map(s=>({name:s.name,record:valid.find(x=>x.iauCode===s.id)}));
+ const current=data.filter(x=>x.record);
+ if(!current.length){set('observedActivity','Observed data temporarily unavailable for active showers.'+observedUnavailableTime());set('observedSignal','Observed flux · temporarily unavailable (calendar only)');return;}
+ const box=$('observedActivity');box.replaceChildren();
+ for(const x of data){
+  const p=document.createElement('p');p.className='small';
+  p.textContent=x.record?x.name+': '+x.record.flux.toPrecision(3)+' meteors/km²/hour (M+6.5 equivalent), GMN network cameras · observed '+visitorTime(x.record.observedAt)+'.':x.name+': no recent calibrated network flux available.';
+  box.appendChild(p);
+ }
+ if(fluxUnavailable){const p=document.createElement('p');p.className='small muted';p.textContent='Latest cache request failed. Displaying only still-fresh, previously verified observations.';box.appendChild(p);}
+ set('observedSignal','Observed flux · '+current.map(x=>x.name+': '+x.record.flux.toPrecision(3)+' meteors/km²/hour, network cameras ('+visitorTime(x.record.observedAt)+')').join(' · ')+'. Separate from viewing index.');
+}
+async function loadObservedActivity(){
+ try{
+  const r=await fetch(fluxApi,{headers:{Accept:'application/json'},cache:'no-cache',signal:AbortSignal.timeout(8000)});
+  if(!r.ok)throw Error('GMN cache unavailable');
+  fluxSnapshot=await r.json();fluxUnavailable=false;
+ }catch{fluxUnavailable=true;fluxSnapshot=null;}
+ displayObservedActivity();
+}
+
 function set(id,value){$(id).textContent=value;}
 function datefmt(t,tz,options){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz,...options}).format(new Date(t));}catch{return new Date(t).toLocaleString();}}
 function hourLabel(t,tz){return datefmt(t,tz,{weekday:'short',hour:'numeric',minute:'2-digit'});}
@@ -351,6 +387,7 @@ $('mapLocate').addEventListener('click',()=>$('locate').click());
 
 function render(data){
  const tz=data.forecast.timeZone||'UTC',hours=data.forecast.hours||[],best=data.forecast.best,soon=data.forecast.nearTerm,lead=data.primary;
+ activeShowerWindows=Array.isArray(data.active)?data.active:[];displayObservedActivity();
  set('status','Forecast for '+state.label+' · updated '+datefmt(data.generatedAt,tz,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}));
  set('shower',lead?lead.name+' active':'No major shower currently active');
  set('showerDetail',lead?'Listed peak '+datefmt(lead.peakAt,'UTC',{month:'short',day:'numeric',year:'numeric'})+' (date is a seasonal reference). Ideal peak ZHR '+lead.idealPeakZhr+', not a local count.':data.upcoming?'Next listed peak: '+data.upcoming.name+' around '+datefmt(data.upcoming.peakAt,'UTC',{month:'short',day:'numeric'})+'. Background sporadic meteors are possible year-round.':'Meteors can appear outside named showers.');
@@ -392,6 +429,7 @@ $('radius').addEventListener('change',refresh);
 $('place').addEventListener('input',()=>{if($('place').value.trim()!==DEVICE_LOCATION_LABEL)state.deviceLocation=null;});
 $('locate').addEventListener('click',()=>{const request=++lookupSeq;++seq;if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{if(request!==lookupSeq)return;const lat=p?.coords?.latitude,lon=p?.coords?.longitude;if(typeof lat!=='number'||typeof lon!=='number'||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){failure('Device coordinates unavailable. Enter a city or ZIP instead.');return;}state.deviceLocation={lat:Math.round(lat*100)/100,lon:Math.round(lon*100)/100};state.lat=state.deviceLocation.lat;state.lon=state.deviceLocation.lon;state.label=DEVICE_LOCATION_LABEL;$('place').value=DEVICE_LOCATION_LABEL;refresh();},()=>{if(request===lookupSeq)set('status','Device location was not shared. You can use a city or ZIP instead.');},{enableHighAccuracy:false,timeout:10000});});
 initSkyMap();
+loadObservedActivity();
 const url=new URLSearchParams(location.search);if(url.get('q')){$('place').value=url.get('q');f.requestSubmit();}else refresh();
 })();
 </script>
