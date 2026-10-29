@@ -66,7 +66,11 @@ function mount(opts){
   actions.appendChild(planner);
   appendExternal('Official park information ↗',p.source||p.url);
   if(typeof opts.getMapsUrl==='function'){
-   appendExternal(isRegional?'Find legal access on Google Maps ↗':'Google Maps directions ↗',opts.getMapsUrl(p));
+   appendExternal(p.arrival
+    ?p.arrival.navigation==='operator-address'?'Directions to published operator address (verify entry) ↗'
+     :p.arrival.navigation==='search-named-location'?'Search named viewing area (verify map pin) ↗'
+     :'Find park on Google Maps (parking not verified) ↗'
+    :isRegional?'Find legal access on Google Maps ↗':'Google Maps directions ↗',opts.getMapsUrl(p));
   }
   if(typeof opts.onForecast==='function'&&p.country!=='CA'&&p.state!=='ON'){
    const b=make('button','sky-inspector-action sky-inspector-secondary','Use this park for my meteor forecast');
