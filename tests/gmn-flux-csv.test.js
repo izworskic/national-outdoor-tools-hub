@@ -13,6 +13,7 @@ test('official GMN optical flux CSV is parsed without misreading ZHR/count and i
  assert.equal(o.unit,UNIT);
  assert.equal(o.confidenceLow,0.491);
  assert.equal(o.confidenceHigh,0.658);
+ assert.equal(o.meteorCount,180);
  assert.match(o.timeBasis,/approximate bin center/);
  assert.equal(o.sourceFile,fileUrl('STA',2026));
 });
