@@ -83,7 +83,7 @@ export function applyMichiganAfterDark(html,sites){
  // Michigan only: remove the redundant state dropdown but retain the existing
  // filtering hook. Offer an optional explicit four-park selection right next to
  // the forecast decision, never a misleading statewide automatic ranking.
- const stateFilter=/<label>State<select id="region">[\\s\\S]*?<\\/select><\\/label>/;
+ const stateFilter=/<label>State<select id="region">[\s\S]*?<\/select><\/label>/;
  if(!stateFilter.test(html))throw new Error('Michigan state filter changed');
  html=html.replace(stateFilter,'<input type="hidden" id="region" value="all">');
  const comparisonText='On demand, compare up to four filtered U.S. or Ontario park references by their best available dark hour in the next 18 hours. U.S. NWS grids and Canadian MET Norway models are different products, not an exact cross-border ranking. Access and local light pollution are not verified.';
