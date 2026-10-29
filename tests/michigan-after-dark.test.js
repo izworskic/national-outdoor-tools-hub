@@ -130,3 +130,23 @@ test('Comparison and navigation measurement never includes a device location pay
  assert.match(js,/site_slug/);
  assert.doesNotMatch(js,/gtag\([^;]*\.lat|gtag\([^;]*\.lon/);
 });
+
+
+test('Map directions distinguish operator address, named-place search and unknown parking',()=>{
+ const js=fs.readFileSync('public/assets/great-lakes-dark-sky.js','utf8');
+ const inspector=fs.readFileSync('public/assets/dark-sky-map-inspector.js','utf8');
+ assert.match(js,/p\.arrival\.navigation|a\.navigation/);
+ assert.match(js,/operator-address/);
+ assert.match(js,/search-named-location/);
+ assert.match(js,/parking not verified|access unverified/i);
+ assert.match(inspector,/parking not verified/);
+ const port=fs.readFileSync('public/national-tools/dark-sky/port-crescent/index.html','utf8');
+ assert.match(port,/Search named area on Maps \(verify result\)/);
+ assert.match(port,/maps\/search\/\?api=1/);
+ const keweenaw=fs.readFileSync('public/national-tools/dark-sky/keweenaw/index.html','utf8');
+ assert.match(keweenaw,/Directions to published operator address \(verify entry\)/);
+ assert.match(keweenaw,/14252%20US%20Highway%2041/);
+ const thompson=fs.readFileSync('public/national-tools/dark-sky/thompsons-harbor/index.html','utf8');
+ assert.match(thompson,/Find named park on Maps \(not verified parking\)/);
+ assert.match(thompson,/maps\/search\/\?api=1/);
+});
