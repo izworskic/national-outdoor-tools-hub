@@ -72,3 +72,15 @@ test('scheduled ingest: quiet season does not poll GMN or invent observations',a
   assert.deepEqual(JSON.parse(await fs.readFile(cachePath,'utf8')).observations,[]);
  });
 });
+
+test('scheduled ingest: seasonally unpublished shower CSV is not called a network outage',async()=>{
+ const {refresh}=await import('../scripts/refresh-gmn-flux.mjs');
+ await tempCache(async cachePath=>{
+  const response={ok:false,status:404,headers:{get:()=>null},text:async()=>''};
+  const r=await refresh({now,cachePath,fetcher:async()=>response});
+  assert.equal(r.good,0);
+  assert.equal(r.sourceHealth,'not-published');
+  assert.equal(view(JSON.parse(await fs.readFile(cachePath,'utf8')),now).sourceHealth,'not-published');
+  assert.deepEqual(view(JSON.parse(await fs.readFile(cachePath,'utf8')),now).observations,[]);
+ });
+});
