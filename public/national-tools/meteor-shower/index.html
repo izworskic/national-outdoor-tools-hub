@@ -192,7 +192,8 @@ const DEVICE_LOCATION_LABEL='Your approximate location';
 const api='/national-tools/meteor-shower/_api/live';
 
 const fluxApi='https://national-outdoor-tools-hub.vercel.app/api/meteor-flux';
-let fluxSnapshot=null,fluxUnavailable=false,activeShowerWindows=null;
+const calendarApi='https://national-outdoor-tools-hub.vercel.app/api/meteor-calendar';
+let fluxSnapshot=null,fluxUnavailable=false,activeShowerWindows=null,calendarUnavailable=false;
 function visitorTime(t){return datefmt(t,Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});}
 function observedUnavailableTime(){
  const t=fluxSnapshot?.lastGoodAt;
@@ -200,7 +201,7 @@ function observedUnavailableTime(){
   ?' Last good network observation: '+visitorTime(t)+'.':' No last good observation verified.';
 }
 function displayObservedActivity(){
- if(activeShowerWindows===null){set('observedActivity','Waiting for current shower windows from the calendar…');set('observedSignal','Observed flux · awaiting active-shower calendar');return;}
+ if(activeShowerWindows===null){set('observedActivity',calendarUnavailable?'Shower calendar temporarily unavailable. Cannot safely identify currently active showers.':'Checking the independent shower calendar…');set('observedSignal',calendarUnavailable?'Observed flux · active shower calendar unavailable':'Observed flux · checking active showers');return;}
  if(!activeShowerWindows.length){set('observedActivity','No shower is currently active in the IMO calendar windows. No observed-flux number is assigned.');set('observedSignal','Observed flux · no active shower (calendar only)');return;}
  const now=Date.now();
  const valid=(fluxSnapshot?.status==='ok'&&Array.isArray(fluxSnapshot.observations))?
@@ -216,6 +217,16 @@ function displayObservedActivity(){
  }
  if(fluxUnavailable){const p=document.createElement('p');p.className='small muted';p.textContent='Latest cache request failed. Displaying only still-fresh, previously verified observations.';box.appendChild(p);}
  set('observedSignal','Observed flux · '+current.map(x=>x.name+': '+x.record.flux.toFixed(3)+' meteors/1,000 km²/h (+6.5 mag), GMN camera observations (bin center approximately '+visitorTime(x.record.observedAt)+')').join(' · ')+'. Separate from viewing index.');
+}
+async function loadShowerCalendar(){
+ try{
+  const r=await fetch(calendarApi,{headers:{Accept:'application/json'},cache:'no-cache',signal:AbortSignal.timeout(8000)});
+  if(!r.ok)throw Error('Calendar unavailable');
+  const data=await r.json();
+  if(data?.status!=='ok'||!Array.isArray(data.active))throw Error('Calendar response invalid');
+  activeShowerWindows=data.active;calendarUnavailable=false;
+ }catch{calendarUnavailable=true;}
+ displayObservedActivity();
 }
 async function loadObservedActivity(){
  try{
@@ -387,7 +398,7 @@ $('mapLocate').addEventListener('click',()=>$('locate').click());
 
 function render(data){
  const tz=data.forecast.timeZone||'UTC',hours=data.forecast.hours||[],best=data.forecast.best,soon=data.forecast.nearTerm,lead=data.primary;
- activeShowerWindows=Array.isArray(data.active)?data.active:[];displayObservedActivity();
+ activeShowerWindows=Array.isArray(data.active)?data.active:activeShowerWindows;calendarUnavailable=false;displayObservedActivity();
  set('status','Forecast for '+state.label+' · updated '+datefmt(data.generatedAt,tz,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}));
  set('shower',lead?lead.name+' active':'No major shower currently active');
  set('showerDetail',lead?'Listed peak '+datefmt(lead.peakAt,'UTC',{month:'short',day:'numeric',year:'numeric'})+' (date is a seasonal reference). Ideal peak ZHR '+lead.idealPeakZhr+', not a local count.':data.upcoming?'Next listed peak: '+data.upcoming.name+' around '+datefmt(data.upcoming.peakAt,'UTC',{month:'short',day:'numeric'})+'. Background sporadic meteors are possible year-round.':'Meteors can appear outside named showers.');
@@ -429,6 +440,7 @@ $('radius').addEventListener('change',refresh);
 $('place').addEventListener('input',()=>{if($('place').value.trim()!==DEVICE_LOCATION_LABEL)state.deviceLocation=null;});
 $('locate').addEventListener('click',()=>{const request=++lookupSeq;++seq;if(!navigator.geolocation){failure('Device location is not supported. Enter a ZIP or city.');return;}set('status','Requesting device location…');navigator.geolocation.getCurrentPosition(p=>{if(request!==lookupSeq)return;const lat=p?.coords?.latitude,lon=p?.coords?.longitude;if(typeof lat!=='number'||typeof lon!=='number'||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){failure('Device coordinates unavailable. Enter a city or ZIP instead.');return;}state.deviceLocation={lat:Math.round(lat*100)/100,lon:Math.round(lon*100)/100};state.lat=state.deviceLocation.lat;state.lon=state.deviceLocation.lon;state.label=DEVICE_LOCATION_LABEL;$('place').value=DEVICE_LOCATION_LABEL;refresh();},()=>{if(request===lookupSeq)set('status','Device location was not shared. You can use a city or ZIP instead.');},{enableHighAccuracy:false,timeout:10000});});
 initSkyMap();
+loadShowerCalendar();
 loadObservedActivity();
 const url=new URLSearchParams(location.search);if(url.get('q')){$('place').value=url.get('q');f.requestSubmit();}else refresh();
 })();
