@@ -26,6 +26,6 @@ test('bad GMN feed and no-data cache degrade without interfering with independen
 });
 test('source must be an explicitly verified GMN flux file and unit must be calibrated',()=>{
  assert.throws(()=>publishedCache([row('2026-11-04T08:00:00Z')],'https://globalmeteornetwork.org/data/traj_summary_data/daily/',new Date(now).toISOString()));
- assert.equal(publishedCache([row('2026-11-04T08:00:00Z')],'https://globalmeteornetwork.org/flux/published.json',new Date(now).toISOString()).observations.length,1);
+ assert.equal(publishedCache([row('2026-11-04T08:00:00Z')],'https://globalmeteornetwork.org/flux/csv/',new Date(now).toISOString()).observations.length,1);
  assert.throws(()=>normalize({observations:[{...row('2026-11-04T08:00:00Z'),unit:'counts'}]}));
 });
