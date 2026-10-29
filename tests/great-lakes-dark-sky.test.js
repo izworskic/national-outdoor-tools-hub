@@ -95,7 +95,7 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
  assert.match(stylesheet,/#darkSkyMap \.leaflet-marker-pane \.sky-destination-pin\{pointer-events:auto!important/);
  assert.match(stylesheet,/#darkSkyMap \.leaflet-interactive\{pointer-events:auto!important/);
  const generated=fs.readFileSync('public/national-tools/dark-sky/headlands/index.html','utf8');
- assert.match(generated,/Search named area on Maps \\(verify result\\)/);
+ assert.match(generated,/Search named area on Maps \(verify result\)/);
  const remote=fs.readFileSync('public/national-tools/dark-sky/bwca/index.html','utf8');
  assert.match(remote,/Find a legal access point on Google Maps/);
 });
