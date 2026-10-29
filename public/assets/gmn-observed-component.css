@@ -1,0 +1,5 @@
+/* Shared GMN optical-flux card; a measured network signal, not a local sky score. */
+.gmn-panel{border-color:#3b526a}
+.gmn-panel [data-gmn-status]{color:#d6e8f4}
+.gmn-panel [data-gmn-items] p{margin:9px 0;padding:8px 10px;border-left:2px solid #607f93;background:rgba(10,25,43,.36)}
+.gmn-panel .gmn-method{color:#b7c8dc;font-size:12px}

@@ -12,7 +12,8 @@
       "confidenceLow": 0.491,
       "confidenceHigh": 0.658,
       "sourceFile": "https://globalmeteornetwork.org/flux/csv/flux_STA_sol=190.00-230.00_year_2026.csv",
-      "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)"
+      "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)",
+      "meteorCount": 180
     },
     {
       "iauCode": "ORI",
@@ -22,8 +23,10 @@
       "confidenceLow": 3.381,
       "confidenceHigh": 4.344,
       "sourceFile": "https://globalmeteornetwork.org/flux/csv/flux_ORI_sol=198.00-225.00_year_2026.csv",
-      "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)"
+      "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)",
+      "meteorCount": 235
     }
   ],
-  "status": "ok"
+  "status": "ok",
+  "sourceHealth": "observed"
 }

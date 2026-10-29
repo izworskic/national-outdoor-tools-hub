@@ -1,0 +1,53 @@
+name: Monitor GMN meteor data and scheduled refresh
+on:
+  schedule:
+    - cron: '43 10 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+  issues: write
+concurrency:
+  group: gmn-flux-health-audit
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check scheduled refresh and calibrated-flux health
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/check-gmn-health.mjs
+      - name: Open one actionable issue or close it on recovery
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const audit = JSON.parse(fs.readFileSync('gmn-health-audit.json','utf8'));
+            const marker = '<!-- GMN_FLUX_HEALTH_MONITOR -->';
+            const title = 'GMN meteor-flux automated data-health alert';
+            const {owner,repo} = context.repo;
+            const all = await github.paginate(github.rest.issues.listForRepo,{owner,repo,state:'all',per_page:100});
+            const existing = all.find(issue => !issue.pull_request &&
+              issue.title===title && (issue.body||'').includes(marker));
+            if (audit.status==='alert') {
+              const body = marker+'\nAutomated health check detected problems with the scheduled GMN pipeline.\n\n'+
+                audit.findings.map(s=>'- '+s).join('\n')+'\n\n'+
+                'Last successful refresh: '+(audit.latestRun||'none')+'\n'+
+                'Current source status: '+audit.sourceHealth+'\n'+
+                'Active showers: '+(audit.active.join(', ')||'none')+'\n\n'+
+                'Investigate [refresh workflow](https://github.com/'+owner+'/'+repo+
+                '/actions/workflows/refresh-gmn-flux.yml) and official [GMN calibrated files](https://globalmeteornetwork.org/flux/csv/).\n';
+              if(!existing) await github.rest.issues.create({owner,repo,title,body});
+              else if(existing.state!=='open') await github.rest.issues.update({owner,repo,issue_number:existing.number,state:'open',body});
+              core.warning('GMN pipeline alert: '+audit.findings.join('; '));
+            } else if(existing && existing.state==='open') {
+              await github.rest.issues.createComment({owner,repo,issue_number:existing.number,
+                body:'GMN source and scheduled-refresh health recovered. Closing automated alert.'});
+              await github.rest.issues.update({owner,repo,issue_number:existing.number,state:'closed'});
+            }
