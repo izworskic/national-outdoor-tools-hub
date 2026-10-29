@@ -222,7 +222,7 @@ async function loadObservedActivity(){
   const r=await fetch(fluxApi,{headers:{Accept:'application/json'},cache:'no-cache',signal:AbortSignal.timeout(8000)});
   if(!r.ok)throw Error('GMN cache unavailable');
   fluxSnapshot=await r.json();fluxUnavailable=false;
- }catch{fluxUnavailable=true;fluxSnapshot=null;}
+ }catch{fluxUnavailable=true;fluxSnapshot={status:'unavailable',observations:[],lastGoodAt:fluxSnapshot?.lastGoodAt||null};}
  displayObservedActivity();
 }
 
