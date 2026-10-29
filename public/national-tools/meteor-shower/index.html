@@ -204,18 +204,18 @@ function displayObservedActivity(){
  if(!activeShowerWindows.length){set('observedActivity','No shower is currently active in the IMO calendar windows. No observed-flux number is assigned.');set('observedSignal','Observed flux · no active shower (calendar only)');return;}
  const now=Date.now();
  const valid=(fluxSnapshot?.status==='ok'&&Array.isArray(fluxSnapshot.observations))?
-  fluxSnapshot.observations.filter(x=>x&&typeof x.iauCode==='string'&&typeof x.flux==='number'&&Number.isFinite(x.flux)&&x.flux>=0&&x.unit==='meteors/km2/hour (M+6.5 equivalent)'&&typeof x.observedAt==='string'&&Number.isFinite(Date.parse(x.observedAt))&&now-Date.parse(x.observedAt)>=-600000&&now-Date.parse(x.observedAt)<=48*3600000):[];
+  fluxSnapshot.observations.filter(x=>x&&typeof x.iauCode==='string'&&typeof x.flux==='number'&&Number.isFinite(x.flux)&&x.flux>=0&&x.unit==='meteors/1000 km2/hour (+6.5 mag)'&&typeof x.observedAt==='string'&&Number.isFinite(Date.parse(x.observedAt))&&now-Date.parse(x.observedAt)>=-600000&&now-Date.parse(x.observedAt)<=48*3600000):[];
  const data=activeShowerWindows.map(s=>({name:s.name,record:valid.find(x=>x.iauCode===s.id)}));
  const current=data.filter(x=>x.record);
  if(!current.length){set('observedActivity','Observed data temporarily unavailable for active showers.'+observedUnavailableTime());set('observedSignal','Observed flux · temporarily unavailable (calendar only)');return;}
  const box=$('observedActivity');box.replaceChildren();
  for(const x of data){
   const p=document.createElement('p');p.className='small';
-  p.textContent=x.record?x.name+': '+x.record.flux.toPrecision(3)+' meteors/km²/hour (M+6.5 equivalent), GMN network cameras · observed '+visitorTime(x.record.observedAt)+'.':x.name+': no recent calibrated network flux available.';
+  p.textContent=x.record?x.name+': '+x.record.flux.toFixed(3)+' meteors per 1,000 km² per hour (+6.5 mag), GMN network camera observations · bin centered approximately '+visitorTime(x.record.observedAt)+'.':x.name+': no recent calibrated network flux available.';
   box.appendChild(p);
  }
  if(fluxUnavailable){const p=document.createElement('p');p.className='small muted';p.textContent='Latest cache request failed. Displaying only still-fresh, previously verified observations.';box.appendChild(p);}
- set('observedSignal','Observed flux · '+current.map(x=>x.name+': '+x.record.flux.toPrecision(3)+' meteors/km²/hour, network cameras ('+visitorTime(x.record.observedAt)+')').join(' · ')+'. Separate from viewing index.');
+ set('observedSignal','Observed flux · '+current.map(x=>x.name+': '+x.record.flux.toFixed(3)+' meteors/1,000 km²/h (+6.5 mag), GMN camera observations (bin center approximately '+visitorTime(x.record.observedAt)+')').join(' · ')+'. Separate from viewing index.');
 }
 async function loadObservedActivity(){
  try{
