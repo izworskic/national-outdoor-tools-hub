@@ -15,7 +15,7 @@ test('House Reality Check is a distinct Everyday Decisions family member',()=>{
   assert.match(html,/https:\/\/chrisizworski\.com\/can-i-afford-this-house\//);
   assert.match(html,/Reality Gap above the mortgage payment/);
   assert.match(html,/data-filter="everyday"/);
-  assert.match(html,/Home decisions<span>Buying and ownership cost<\/span>/);
+  assert.match(html,/Everyday &amp; developer<span>Homes, flights &amp; open tools<\/span>/);
   assert.doesNotMatch(html,/data-tool-id="house-fit" data-personas="(?:trip|conditions|event|garden)/);
 });
 
@@ -27,14 +27,14 @@ test('Everyday Decisions stays separate from outdoor national and regional taxon
   assert.ok(everydayStart>nationalStart);
   assert.ok(regionalStart>everydayStart);
   const everydaySlice=html.slice(everydayStart,regionalStart);
-  assert.match(everydaySlice,/data-tool-id="house-fit"/);
+  for (const id of ['house-fit', 'flight-tracker', 'agentbase']) assert.match(everydaySlice, new RegExp(`data-tool-id="${id}"`));
   assert.doesNotMatch(everydaySlice,/data-tool-id="rivers"/);
   assert.doesNotMatch(everydaySlice,/class="catalog-group region-cluster"/);
   assert.match(html,/Outdoor remains the core\. Everyday Decisions stays separate\./);
 });
 
 test('directory build pipeline preserves the new family',()=>{
-  assert.match(organizer,/const everydayIds=\['house-fit'\]/);
+  assert.match(organizer,/const everydayIds=\['house-fit','flight-tracker','agentbase'\]/);
   assert.match(organizer,/\.\.\.everydayIds/);
   assert.match(organizer,/const everyday=`<section class="catalog-group everyday-decisions"/);
   assert.match(organizer,/html\.slice\(0,start\)\+national\+'\\n\\n'\+everyday\+'\\n\\n'\+regional/);
