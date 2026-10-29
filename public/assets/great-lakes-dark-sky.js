@@ -7,6 +7,23 @@ const $=id=>document.getElementById(id),cache=new Map();
 const typeNames={international:'International Dark Sky Park',sanctuary:'International Dark Sky Sanctuary',state:'Michigan state-designated preserve',canadian:'Canadian Dark Sky Preserve',community:'International Dark Sky Community'};
 const URL_BASE='/national-tools/dark-sky/';
 const state={user:null,map:null,sitesLayer:null,focusLayer:null,tiles:null,ready:false,visible:sites,comparing:false,siteMarkers:new Map(),inspector:null};
+function track(action,attrs={}){
+ // Sanitized, consent-respecting analytics: no precise coordinates, device IDs,
+ // user-entered search terms, weather values or location payloads are sent.
+ if(typeof window.gtag==='function'){
+  window.gtag('event','dark_sky_'+action,{page_type:parkMode?'park':'atlas',...attrs});
+ }
+}
+function chosenSites(){return [...document.querySelectorAll('.compare-choice:checked')].map(x=>sites.find(p=>p.id===x.value)).filter(Boolean);}
+function updateCompareChoices(){
+ const boxes=[...document.querySelectorAll('.compare-choice')];if(!boxes.length)return;
+ const selected=boxes.filter(x=>x.checked);
+ for(const box of boxes)box.disabled=!box.checked&&selected.length>=4;
+ const status=$('compareSelectionStatus');
+ if(status)status.textContent=selected.length
+   ?'Selected '+selected.length+' of 4: '+selected.map(x=>sites.find(p=>p.id===x.value)?.name||'Unknown').join(', ')+'.'
+   :'No parks selected. Comparison defaults to the four nearest visible parks'+(state.user?' to your approximate location.':' to Bay City, Michigan.') ;
+}
 function text(id,value){const target=$(id);if(target)target.textContent=String(value);}
 function element(tag,cl,value){const e=document.createElement(tag);if(cl)e.className=cl;if(value!==undefined)e.textContent=String(value);return e;}
 function formatted(iso,tz,opts){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz||'America/Detroit',...opts}).format(new Date(iso));}catch{return 'Time unavailable';}}
@@ -130,9 +147,9 @@ async function parkForecast(){
 }
 async function compareHub(){
  const box=$('compareResults');if(!box)return;if(state.comparing)return;
- const candidates=visibleSites().slice(0,4);
+ const selected=chosenSites();const candidates=selected.length?selected:visibleSites().slice(0,4);
  if(!candidates.length){box.textContent='Select destinations to compare viewing forecasts.';return;}
- state.comparing=true;text('compareStatus','Checking up to four selected park reference coordinates; U.S. and Canadian forecasts use different weather providers.');
+ state.comparing=true;track('compare',{selection_mode:selected.length?'chosen':'nearest',park_count:candidates.length});text('compareStatus',(selected.length?'Checking '+selected.length+' explicitly selected parks.':'Checking the four nearest filtered park references.')+' The 0–100 value measures modeled sky conditions, not park opening.');
  box.textContent='';const results=await Promise.all(candidates.map(async p=>{try{return {p,d:await forecast(p)};}catch{return{p,d:null};}}));
  // Do not present cross-model scores as an apples-to-apples ranking.
  results.sort((a,b)=>a.p.country.localeCompare(b.p.country)||(b.d?.forecast?.nearTerm?.score??-1)-(a.d?.forecast?.nearTerm?.score??-1));
@@ -140,7 +157,7 @@ async function compareHub(){
   const hour=d?.forecast?.nearTerm,card=element('div','nextsite');const a=createAnchor(p,p.name+' →');const provider=p.country==='CA'?'MET Norway model':'NWS grid';const desc=element('p','',provider+' · '+(hour?hour.score+'/100 near-term index · '+hour.cloud+'% clouds · '+when(hour.time,d.forecast.timeZone):'Forecast unavailable'));
   card.append(a,desc,element('p','subtle','Access unverified. Weather index does not rank legal park entry.'));box.append(card);
  }
- text('compareStatus','Comparison complete · next 18 hours. Different NWS and MET Norway models must not be treated as a cross-border quality ranking; verify conditions and park access separately.');
+ text('compareStatus','Comparison complete for '+candidates.map(p=>p.name).join(', ')+' · next 18 hours. Only the named parks were checked; weather scores cannot verify legal arrival. U.S. and Canadian forecast products are not cross-border calibrated.');
  state.comparing=false;
 }
 function useLocation(){
@@ -150,7 +167,7 @@ function useLocation(){
   const a={lat:Math.round(pos.coords.latitude*100)/100,lon:Math.round(pos.coords.longitude*100)/100};
   if(!Number.isFinite(a.lat)||!Number.isFinite(a.lon)){text(status,'Location coordinates unavailable.');return;}
   state.user=a;text(status,'Approximate location enabled. Distances are straight-line; coordinates are not stored.');
-  if(parkMode){text('tripDistance',distanceNote(here)+' (not driving distance)');updatePins();}else{renderSiteCards();}
+  if(parkMode){text('tripDistance',distanceNote(here)+' (not driving distance)');updatePins();}else{renderSiteCards();updateCompareChoices();}
  },()=>text(status,'Location not shared. You can continue using the atlas without it.'),{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
 }
 async function compareMySky(){
@@ -171,6 +188,18 @@ function wire(){
  $('resetDarkSkyMap')?.addEventListener('click',resetDarkSkyViewport);
  $('compareMySky')?.addEventListener('click',compareMySky);
  $('compare4')?.addEventListener('click',compareHub);
+ document.querySelectorAll('.compare-choice').forEach(box=>box.addEventListener('change',updateCompareChoices));
+ updateCompareChoices();
+ // Track only destination slug and intent; never transmit latitude, longitude,
+ // search input or any personal/device location information.
+ document.addEventListener('click',event=>{
+  const anchor=event.target.closest('a[href]');if(!anchor)return;
+  let dest;try{dest=new URL(anchor.href,location.origin);}catch{return;}
+  const siteMatch=dest.pathname.match(/^\/national-tools\/dark-sky\/([a-z0-9-]+)\/$/);
+  if(siteMatch&&dest.origin===location.origin)track('park_open',{site_slug:siteMatch[1]});
+  else if(dest.hostname==='www.google.com'&&dest.pathname.startsWith('/maps/'))track('directions',{site_slug:here?.slug||'atlas'});
+ });
+
  for(const id of ['region','designation','searchSites'])$(id)?.addEventListener(id==='searchSites'?'input':'change',renderSiteCards);
  $('showAll')?.addEventListener('click',()=>{if($('region'))$('region').value='all';if($('designation'))$('designation').value='all';if($('searchSites'))$('searchSites').value='';renderSiteCards();resetDarkSkyViewport();});
 }

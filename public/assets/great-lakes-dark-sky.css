@@ -56,3 +56,18 @@ main{padding:21px 0 55px}.panel{border:1px solid var(--edge);background:var(--pa
 .site-map-actions a:focus-visible{outline:3px solid #ffdf80}
 .site .actions button.secondary{font:inherit;font-size:12px;font-weight:750;border:1px solid #59718b;border-radius:9px;padding:7px 11px;background:#172d43;color:#d2eafd;min-height:35px}
 @media(max-width:800px){#darkSkyMap .leaflet-popup-content-wrapper{max-height:280px;overflow-y:auto}#darkSkyMap .leaflet-popup-content{max-width:min(250px,calc(100vw - 110px))}}
+
+/* Site-specific verified arrival guidance; never styled as a live open/closed signal. */
+.arrival-detail{background:#132b3b;border:1px solid #517582;border-left:4px solid #83e1da;border-radius:9px;padding:16px;margin:16px 0}
+.arrival-detail h3{color:#eff9f5;margin:0 0 8px;font-size:19px}
+.arrival-detail p{margin:7px 0;color:#e0ecee;line-height:1.6}
+.arrival-detail a{color:#c2f4ea;font-weight:650}
+.tripline a.signal{color:#c2f4ea;text-decoration:underline;text-underline-offset:2px}
+.darksky-compare-choices{border:1px solid #456074;border-radius:9px;margin:12px 0;padding:10px;background:#0c1c2d}
+.darksky-compare-choices legend{color:#d4e7e4;padding:0 6px;font-size:12px;font-weight:700}
+.darksky-compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.darksky-compare-grid label{display:flex;align-items:flex-start;gap:7px;border:1px solid #3e566e;border-radius:5px;padding:8px;color:#e3eef1;font-size:12px;line-height:1.45;cursor:pointer}
+.darksky-compare-grid input{accent-color:#9de7d5;min-width:17px;min-height:17px;margin:1px}
+.darksky-compare-grid label:has(input:disabled){opacity:.55;cursor:not-allowed}
+.darksky-compare-choices p{font-size:12px}
+@media(max-width:510px){.darksky-compare-grid{grid-template-columns:1fr}}

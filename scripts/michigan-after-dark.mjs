@@ -80,6 +80,23 @@ export function applyMichiganAfterDark(html,sites){
  if(!html.includes(staticDirectoryAnchor))throw new Error('Map-first editorial anchor changed');
  html=html.replace(staticDirectoryAnchor,start+stories+all+staticDirectoryAnchor);
  html=html.replace('<section class="panel"><h2>Method and limits</h2>',context+'<div class="ad-state-nav">'+nav+'</div><section class="panel"><h2>Method and limits</h2>');
+ // Michigan only: remove the redundant state dropdown but retain the existing
+ // filtering hook. Offer an optional explicit four-park selection right next to
+ // the forecast decision, never a misleading statewide automatic ranking.
+ const stateFilter=/<label>State<select id="region">[\s\S]*?<\/select><\/label>/;
+ if(!stateFilter.test(html))throw new Error('Michigan state filter changed');
+ html=html.replace(stateFilter,'<input type="hidden" id="region" value="all">');
+ const comparisonText='On demand, compare up to four filtered U.S. or Ontario park references by their best available dark hour in the next 18 hours. U.S. NWS grids and Canadian MET Norway models are different products, not an exact cross-border ranking. Access and local light pollution are not verified.';
+ if(!html.includes(comparisonText))throw new Error('Comparison explanation changed');
+ html=html.replace(comparisonText,'Compare up to four Michigan park weather references. Select destinations below, or use the four nearest to your selected location (Bay City is the default). Scores describe modeled sky conditions only; they do not confirm that parks are open or reachable.');
+ const picker='<details class="darksky-compare-choices"><summary>Choose up to four Michigan parks (optional)</summary><fieldset class="darksky-compare-choices"><legend>Compare these parks</legend><div class="darksky-compare-grid">'+
+  sites.map(p=>'<label><input type="checkbox" class="compare-choice" value="'+E(p.id)+'"><span>'+E(p.name)+'</span></label>').join('')+
+ '</div></fieldset></details><p class="small subtle" id="compareSelectionStatus" role="status">Default: four nearest parks to Bay City. Select up to four above to choose exactly which parks are compared.</p>';
+ const compareButton='<button id="compare4" class="btn" type="button">Compare up to four park skies</button>';
+ if(!html.includes(compareButton))throw new Error('Compare button changed');
+ html=html.replace(compareButton,picker+'<button id="compare4" class="btn" type="button">Compare chosen parks or nearest four</button>');
+ html=html.replace('Select a state or use your location before comparison.','Default: four nearest parks to Bay City. Pick named parks above to compare others.');
+
  // Preserve original canonical, own forecasts, filtering, map, backend and all old data hooks.
  for(const token of ['id="darkSkyPayload"','id="darkSkyMap"','id="region"','id="siteCards"','id="compare4"','id="myLocation"','id="designation"'])
   if(!html.includes(token))throw new Error('Michigan After Dark lost critical existing hook '+token);

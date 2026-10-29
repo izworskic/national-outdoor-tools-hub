@@ -82,3 +82,51 @@ test('Mobile, crop, contrast and keyboard design pieces are scoped to Michigan o
   assert.doesNotMatch(x,/afterdark-mi|michigan-after-dark\.css|afterdark-midwest|midwest-after-dark\.css/,slug);
  }
 });
+
+
+test('Michigan guide offers named park selection without a redundant state selector',()=>{
+ assert.match(html,/class="compare-choice"/,'Named comparison checkboxes must render without JavaScript');
+ assert.equal((html.match(/class="compare-choice"/g)||[]).length,10);
+ assert.match(html,/Compare chosen parks or nearest four/);
+ assert.match(html,/id="compareSelectionStatus"/);
+ assert.match(html,/id="region" value="all"/);
+ assert.doesNotMatch(html,/<select id="region"/,'Do not ask visitors to select Michigan when viewing Michigan');
+ assert.match(html,/only; they do not confirm that parks are open or reachable/);
+});
+test('Ten operator-sourced arrivals distinguish known destinations from unverifiable pins',()=>{
+ const all=JSON.parse(fs.readFileSync('data/great-lakes-dark-sky.json','utf8')).places;
+ for(const p of all.filter(p=>p.state==='MI')){
+  const a=p.arrival;
+  assert.ok(a&&a.arrival&&a.source&&a.reviewed,'Arrival guidance missing: '+p.slug);
+  assert.equal(a.accessLive,false,'Do not portray published policy as live access: '+p.slug);
+  assert.match(a.source,/^https:\/\//);
+  assert.ok(['operator-address','search-named-location','operator-only'].includes(a.navigation),'Unknown arrival policy: '+p.slug);
+  if(a.navigation==='operator-only')assert.equal(a.place,undefined,'Unverified site must not invent navigable point: '+p.slug);
+  else assert.ok(a.place,'Named park needs source-backed destination query: '+p.slug);
+  const detail=fs.readFileSync('public/national-tools/dark-sky/'+p.slug+'/index.html','utf8');
+  assert.match(detail,/Plan the actual arrival/);
+  assert.ok(detail.includes(a.arrival.replace(/&/g,'&amp;').replace(/'/g,'&#39;')) || detail.includes(a.arrival),'Published guidance missing from '+p.slug);
+  assert.match(detail,/Compare Michigan dark-sky parks/,'Must navigate from park back to Michigan index');
+ }
+ const k=all.find(p=>p.slug==='keweenaw');
+ assert.match(k.arrival.arrival,/November 15–December 14/);
+ assert.match(k.arrival.arrival,/April/);
+ const keweenaw=fs.readFileSync('public/national-tools/dark-sky/keweenaw/index.html','utf8');
+ assert.match(keweenaw,/Seasonal access warning/);
+ const port=all.find(p=>p.slug==='port-crescent');
+ assert.match(port.arrival.arrival,/Parking Lot D/);
+ assert.match(port.arrival.arrival,/SEPARATE entrances/);
+ const rock=all.find(p=>p.slug==='rockport');
+ assert.equal(rock.arrival.navigation,'operator-only','Do not route to imagined overnight parking');
+ const thompson=all.find(p=>p.slug==='thompsons-harbor');
+ assert.match(thompson.arrival.arrival,/winter plowing/);
+});
+test('Comparison and navigation measurement never includes a device location payload',()=>{
+ const js=fs.readFileSync('public/assets/great-lakes-dark-sky.js','utf8');
+ assert.match(js,/\.compare-choice:checked/);
+ assert.match(js,/selected\.length\?selected:visibleSites\(\)\.slice\(0,4\)/);
+ assert.match(js,/selected\.length>=4/);
+ assert.match(js,/dark_sky_/);
+ assert.match(js,/site_slug/);
+ assert.doesNotMatch(js,/gtag\([^;]*\.lat|gtag\([^;]*\.lon/);
+});
