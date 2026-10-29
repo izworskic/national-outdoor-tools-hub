@@ -25,7 +25,7 @@ export async function refresh({now=Date.now(),fetcher=fetch,cachePath=cacheFile}
  const previous=JSON.parse(await fs.readFile(cachePath,'utf8'));
  const active=showerContext(now).active; // SAME IMO windows as meteor viewing engine.
  const good=[],errors=[];
- let sourceResponses=0;
+ let sourceResponses=0,notPublished=0;
  for(const s of active){
   const year=new Date(s.peakAt).getUTCFullYear(); // cross-year Quadrantids.
   try{
@@ -34,7 +34,7 @@ export async function refresh({now=Date.now(),fetcher=fetch,cachePath=cacheFile}
    const recent=records.find(r=>now-Date.parse(r.observedAt)>=-10*60*1000&&now-Date.parse(r.observedAt)<=FRESH_MS);
    if(recent)good.push(recent);
    else errors.push(s.id+': no complete flux bin inside 48-hour freshness window');
-  }catch(e){errors.push(s.id+': '+e.message);}
+  }catch(e){if(/^GMN HTTP 404\b/.test(e.message))notPublished++;errors.push(s.id+': '+e.message);}
  }
  let next;
  if(good.length){
@@ -47,7 +47,7 @@ export async function refresh({now=Date.now(),fetcher=fetch,cachePath=cacheFile}
    lastGoodAt:maxIso(previous.lastGoodAt,...(previous.observations||[]).map(x=>x.observedAt)),observations:[]};
  }
  // Source availability and measurement freshness are separate properties.
- next.sourceHealth=!active.length?'no-active':good.length?'observed':sourceResponses?'no-current-bin':'source-unavailable';
+ next.sourceHealth=!active.length?'no-active':good.length?'observed':sourceResponses?'no-current-bin':notPublished===active.length?'not-published':'source-unavailable';
  const safeView=view(next,now);
  if(!good.length&&safeView.observations.length)throw Error('Fail-closed invariant: unavailable data exposed');
  const before=JSON.stringify({...previous,refreshedAt:null});
@@ -59,7 +59,7 @@ export async function refresh({now=Date.now(),fetcher=fetch,cachePath=cacheFile}
   const line='GMN flux: **'+next.sourceHealth+'**; active '+(active.map(s=>s.id).join(', ')||'none')+'; fresh '+good.length+'; last measured '+(safeView.lastGoodAt||'none')+'; source notices: '+(errors.join(' | ')||'none')+'\n';
   await fs.appendFile(process.env.GITHUB_STEP_SUMMARY,line);
  }
- if(active.length&&!good.length)console.warn('::warning::GMN flux unavailable for currently active showers: '+next.sourceHealth);
+ if(next.sourceHealth==='source-unavailable')console.warn('::warning::GMN network/format failure: no verified flux available for active showers');
  return {active:active.map(s=>s.id),good:good.length,sourceHealth:next.sourceHealth,errors,latest:safeView.lastGoodAt};
 }
 if(process.argv[1]&&import.meta.url===new URL('file://'+process.argv[1]).href){
