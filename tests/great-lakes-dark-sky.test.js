@@ -76,8 +76,13 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
  const maps=new Function(fn+';return googleMapsUrl;')();
  const headlands=data.places.find(p=>p.id==='headlands');
  const bwca=data.places.find(p=>p.id==='bwca');
- assert.match(maps(headlands),/^https:\/\/www\.google\.com\/maps\/dir\/\?api=1&destination=/);
- assert.ok(maps(headlands).includes(encodeURIComponent('Headlands Dark Sky Park, MI, USA')));
+ assert.match(maps(headlands),/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
+ assert.ok(maps(headlands).includes(encodeURIComponent('Headlands International Dark Sky Park, Mackinaw City, Michigan')),'Headlands parking is not pinpoint verified');
+ const keweenaw=data.places.find(p=>p.id==='keweenaw');
+ assert.match(maps(keweenaw),/^https:\/\/www\.google\.com\/maps\/dir\/\?api=1&destination=/);
+ assert.ok(maps(keweenaw).includes(encodeURIComponent('14252 US Highway 41')));
+ const thompson=data.places.find(p=>p.id==='thompsons-harbor');
+ assert.match(maps(thompson),/maps\/search\/\?api=1&query=/,'Unknown parking must be a park search, not routing');
  assert.match(maps(bwca),/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
  assert.ok(!maps(bwca).includes('47.95'),'Never route drivers to a wilderness-center pin');
  assert.match(runtime,/L\.divIcon\(\{className:'sky-destination-pin/);
@@ -90,7 +95,7 @@ test('Explorer map markers open details, show Google Maps safely, and are touch 
  assert.match(stylesheet,/#darkSkyMap \.leaflet-marker-pane \.sky-destination-pin\{pointer-events:auto!important/);
  assert.match(stylesheet,/#darkSkyMap \.leaflet-interactive\{pointer-events:auto!important/);
  const generated=fs.readFileSync('public/national-tools/dark-sky/headlands/index.html','utf8');
- assert.match(generated,/Google Maps directions to named park/);
+ assert.match(generated,/Search named area on Maps \(verify result\)/);
  const remote=fs.readFileSync('public/national-tools/dark-sky/bwca/index.html','utf8');
  assert.match(remote,/Find a legal access point on Google Maps/);
 });

@@ -35,10 +35,25 @@ function distanceNote(p){return '~'+miles(origin(),p)+' mi straight line'+(state
 function path(p){return URL_BASE+encodeURIComponent(p.slug)+'/';}
 function createAnchor(p,label){const a=element('a','',label);a.href=path(p);return a;}
 function googleMapsUrl(p){
+ if(p.arrival){
+  const a=p.arrival;
+  if(a.navigation==='operator-address'&&a.place)return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(a.place)+'&travelmode=driving';
+  // Search is deliberately not turn-by-turn navigation: no exact legal parking
+  // coordinate or safe nocturnal approach is verified for the remaining sites.
+  const query=a.navigation==='search-named-location'&&a.place?a.place:p.name+', '+p.state+', USA';
+  return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query);
+ }
  const query=p.name+', '+p.state+', '+(p.country==='CA'?'Canada':'USA');
  return p.approximateLocation||p.type==='community'?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query):'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(query)+'&travelmode=driving';
 }
-function mapsLabel(p){return p.approximateLocation||p.type==='community'?'Find access on Google Maps ↗':'Google Maps directions ↗';}
+function mapsLabel(p){
+ if(p.arrival){
+  if(p.arrival.navigation==='operator-address')return 'Directions to published address (verify entry) ↗';
+  if(p.arrival.navigation==='search-named-location')return 'Search named location (verify pin) ↗';
+  return 'Find park on Google Maps (access unverified) ↗';
+ }
+ return p.approximateLocation||p.type==='community'?'Find access on Google Maps ↗':'Google Maps directions ↗';
+}
 function mapLink(p){const a=element('a','secondary',mapsLabel(p));a.href=googleMapsUrl(p);a.target='_blank';a.rel='noopener noreferrer';return a;}
 function showSiteOnMap(p){
  const marker=state.siteMarkers.get(p.id);
