@@ -20,14 +20,17 @@ async function retrieveCsv(code,year,fetcher=fetch){
  if(text.length>LIMIT)throw Error('GMN flux CSV exceeds 2 MB');
  return parseFluxCsv(text,code,year);
 }
-export async function refresh({now=Date.now(),fetcher=fetch}={}){
- const previous=JSON.parse(await fs.readFile(cacheFile,'utf8'));
+export async function refresh({now=Date.now(),fetcher=fetch,cachePath=cacheFile}={}){
+ // cachePath is injectable so the scheduled import can be regression-tested without editing production data.
+ const previous=JSON.parse(await fs.readFile(cachePath,'utf8'));
  const active=showerContext(now).active; // SAME IMO windows as meteor viewing engine.
  const good=[],errors=[];
+ let sourceResponses=0;
  for(const s of active){
   const year=new Date(s.peakAt).getUTCFullYear(); // cross-year Quadrantids.
   try{
    const records=await retrieveCsv(s.id,year,fetcher);
+   sourceResponses++;
    const recent=records.find(r=>now-Date.parse(r.observedAt)>=-10*60*1000&&now-Date.parse(r.observedAt)<=FRESH_MS);
    if(recent)good.push(recent);
    else errors.push(s.id+': no complete flux bin inside 48-hour freshness window');
@@ -43,13 +46,21 @@ export async function refresh({now=Date.now(),fetcher=fetch}={}){
    status:active.length?'unavailable':'no-active',
    lastGoodAt:maxIso(previous.lastGoodAt,...(previous.observations||[]).map(x=>x.observedAt)),observations:[]};
  }
+ // Source availability and measurement freshness are separate properties.
+ next.sourceHealth=!active.length?'no-active':good.length?'observed':sourceResponses?'no-current-bin':'source-unavailable';
  const safeView=view(next,now);
  if(!good.length&&safeView.observations.length)throw Error('Fail-closed invariant: unavailable data exposed');
  const before=JSON.stringify({...previous,refreshedAt:null});
  const after=JSON.stringify({...next,refreshedAt:null});
- if(before!==after)await fs.writeFile(cacheFile,JSON.stringify(next,null,2)+'\n');
+ if(before!==after)await fs.writeFile(cachePath,JSON.stringify(next,null,2)+'\n');
  console.log('GMN CSV ingest:',active.map(s=>s.id).join(',')||'no active showers',good.length+' fresh flux bins',errors.join('; ')||'no source errors', 'newest '+(safeView.lastGoodAt||'none'));
- return {active:active.map(s=>s.id),good:good.length,errors,latest:safeView.lastGoodAt};
+ // GitHub Actions annotations + summary distinguish GMN downtime from legitimate unpublished shower files.
+ if(process.env.GITHUB_STEP_SUMMARY){
+  const line='GMN flux: **'+next.sourceHealth+'**; active '+(active.map(s=>s.id).join(', ')||'none')+'; fresh '+good.length+'; last measured '+(safeView.lastGoodAt||'none')+'; source notices: '+(errors.join(' | ')||'none')+'\n';
+  await fs.appendFile(process.env.GITHUB_STEP_SUMMARY,line);
+ }
+ if(active.length&&!good.length)console.warn('::warning::GMN flux unavailable for currently active showers: '+next.sourceHealth);
+ return {active:active.map(s=>s.id),good:good.length,sourceHealth:next.sourceHealth,errors,latest:safeView.lastGoodAt};
 }
 if(process.argv[1]&&import.meta.url===new URL('file://'+process.argv[1]).href){
  refresh().catch(e=>{console.error('GMN CSV ingest failed safely:',e.message);process.exitCode=1;});
