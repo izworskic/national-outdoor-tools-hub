@@ -1,40 +1,29 @@
 {
   "version": 1,
   "source": "https://globalmeteornetwork.org/flux/csv/",
-  "refreshedAt": "2026-11-09T22:25:57.518Z",
-  "lastGoodAt": "2026-11-08T11:35:09.030Z",
+  "refreshedAt": "2026-11-10T19:47:53.951Z",
+  "lastGoodAt": "2026-11-09T15:52:53.942Z",
   "observations": [
     {
       "iauCode": "NTA",
-      "observedAt": "2026-11-08T11:35:09.030Z",
-      "flux": 0.849,
+      "observedAt": "2026-11-09T15:52:53.942Z",
+      "flux": 0.664,
       "unit": "meteors/1000 km2/hour (+6.5 mag)",
-      "confidenceLow": 0.764,
-      "confidenceHigh": 0.942,
+      "confidenceLow": 0.582,
+      "confidenceHigh": 0.755,
       "sourceFile": "https://globalmeteornetwork.org/flux/csv/flux_NTA_sol=217.00-241.00_year_2026.csv",
-      "meteorCount": 348,
+      "meteorCount": 211,
       "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)"
     },
     {
       "iauCode": "STA",
-      "observedAt": "2026-11-08T11:02:00.698Z",
-      "flux": 0.566,
+      "observedAt": "2026-11-09T15:23:26.167Z",
+      "flux": 0.471,
       "unit": "meteors/1000 km2/hour (+6.5 mag)",
-      "confidenceLow": 0.502,
-      "confidenceHigh": 0.637,
+      "confidenceLow": 0.401,
+      "confidenceHigh": 0.549,
       "sourceFile": "https://globalmeteornetwork.org/flux/csv/flux_STA_sol=190.00-230.00_year_2026.csv",
-      "meteorCount": 271,
-      "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)"
-    },
-    {
-      "iauCode": "LEO",
-      "observedAt": "2026-11-08T09:57:00.801Z",
-      "flux": 3.444,
-      "unit": "meteors/1000 km2/hour (+6.5 mag)",
-      "confidenceLow": 2.964,
-      "confidenceHigh": 3.98,
-      "sourceFile": "https://globalmeteornetwork.org/flux/csv/flux_LEO_sol=224.00-245.00_year_2026.csv",
-      "meteorCount": 181,
+      "meteorCount": 149,
       "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)"
     }
   ],
