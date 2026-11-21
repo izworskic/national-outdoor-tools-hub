@@ -69,4 +69,17 @@
  .afterdark-mi .ad-story h3{font-size:26px}
  .afterdark-mi .ad-intro h2{font-size:29px}
 }
+/* Decision-first navigation: a useful first action without adding another ad slot. */
+.afterdark-mi .ad-decision-desk{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,2fr);gap:22px;align-items:center;margin:16px 0 22px;padding:18px 20px;background:#10243a;border-radius:12px;color:#f1f7f8}
+.afterdark-mi .ad-desk-heading h2{font:500 clamp(22px,2.4vw,30px)/1.15 Georgia,serif;margin:0 0 7px}
+.afterdark-mi .ad-desk-heading p:last-child{font-size:13px;line-height:1.55;color:#d2dfe8;margin:0}
+.afterdark-mi .ad-desk-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.afterdark-mi .ad-desk-actions a{display:flex;flex-direction:column;gap:6px;padding:14px 13px;min-height:124px;border:1px solid #52697c;border-radius:8px;color:#f4f8f8;text-decoration:none;background:#1c3449}
+.afterdark-mi .ad-desk-actions a.ad-desk-primary{background:#205b56;border-color:#72aaa1}
+.afterdark-mi .ad-desk-actions a:hover,.afterdark-mi .ad-desk-actions a:focus-visible{background:#2e5860;outline:3px solid #f0b567;outline-offset:2px}
+.afterdark-mi .ad-desk-step{color:#c8e5e0;font-size:11px;font-weight:750;letter-spacing:.04em}
+.afterdark-mi .ad-desk-actions strong{font-size:16px;line-height:1.25}
+.afterdark-mi .ad-desk-actions a>span:last-child{font-size:12px;line-height:1.45;color:#e0e9ed}
+@media(max-width:900px){.afterdark-mi .ad-decision-desk{grid-template-columns:1fr;gap:14px}}
+@media(max-width:560px){.afterdark-mi .ad-decision-desk{padding:15px;margin:12px 0 17px}.afterdark-mi .ad-desk-actions{grid-template-columns:1fr}.afterdark-mi .ad-desk-actions a{min-height:0;padding:12px 14px}.afterdark-mi .ad-desk-heading p:last-child{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.afterdark-mi *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
