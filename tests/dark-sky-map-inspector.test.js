@@ -104,3 +104,17 @@ test('Mobile inspect panels meet structural clipping and target-size contracts',
  assert.match(inspectorJS,/actions\.replaceChildren\(\)/);
  assert.match(inspectorJS,/close\.addEventListener\('click',clear\)/);
 });
+
+
+test('Optional map comparison action is isolated and calls the supplied park handler',()=>{
+ const {window,document}=fixture();
+ const calls=[];
+ const inspector=window.DarkSkyMapInspector.mount({mapId:'darkSkyMap',onCompare:(p,b)=>{calls.push(p.id);b.textContent='Added to comparison';}});
+ const park={id:'headlands',slug:'headlands',name:'Headlands',state:'MI',type:'international',source:'https://example.org'};
+ inspector.selectPark(park);
+ const button=actions(document.getElementById('darkSkyMap-inspector')).find(a=>a.textContent==='Add park to sky comparison');
+ assert.ok(button,'Map selection should offer a comparison action');
+ button.click();
+ assert.deepEqual(calls,['headlands']);
+ assert.equal(button.textContent,'Added to comparison');
+});
