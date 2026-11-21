@@ -74,25 +74,15 @@ export function applyMichiganAfterDark(html,sites){
  '</nav><p class="ad-note">Ten verified protected locations; each link leads to its own sky forecast and access caveats. These are not all guaranteed nighttime parking locations.</p></section>';
  if(!other.length)throw new Error('Other Michigan parks missing');
  if(!html.includes('<main class="wrap">'))throw new Error('Missing main wrapper');
- // The first visitor decision is a choice between the live sky finder, a named
- // park, and a practical arrival check. These are links to existing owned tools,
- // not synthetic condition scores or duplicate destination pages.
- const desk='<nav class="ad-decision-desk" aria-label="Plan a Michigan night-sky visit">'+
- '<div class="ad-desk-heading"><p class="ad-kicker">Plan your night outside</p><h2>Choose the next step</h2><p>Dark skies do not guarantee clear weather or an open gate. Check the sky, then the place you plan to stand.</p></div>'+
- '<div class="ad-desk-actions">'+
- '<a class="ad-desk-primary" href="#darkSkyMap"><span class="ad-desk-step">01 · Find a place</span><strong>Explore the park map</strong><span>Compare Michigan locations and open their forecasts.</span></a>'+
- '<a href="#compare4"><span class="ad-desk-step">02 · Check the sky</span><strong>Compare four parks</strong><span>Use modeled clouds and moonlight, not a promise of visibility.</span></a>'+
- '<a href="#ad-stories"><span class="ad-desk-step">03 · Prepare to go</span><strong>Know the landscape</strong><span>Read park-specific arrival guidance before leaving.</span></a></div>'+
- '<div class="ad-park-shortcuts" aria-label="Open a park planner directly"><span>Start with a destination:</span>'+
- ['headlands','port-crescent','keweenaw'].map(id=>{const p=sites.find(x=>x.slug===id);return '<a href="'+ROOT+E(id)+'/">'+E(p.name)+' <span aria-hidden="true">↗</span></a>';}).join('')+
- '</div></nav>';
- if(!html.includes('<main class="wrap">'))throw new Error('Missing main wrapper for decision desk');
- html=html.replace('<main class="wrap">','<main class="wrap">'+desk);
+ // Let the existing interactive map and live sky comparison lead. Avoid
+ // repeating a second three-step menu above the actual decision tools.
+ const shortcuts='<nav class="ad-park-shortcuts" aria-label="Featured Michigan park planners"><span>Explore a park:</span>'+
+ ['headlands','port-crescent','keweenaw'].map(id=>{const p=sites.find(x=>x.slug===id);return '<a href="'+ROOT+E(id)+'/">'+E(p.name)+'</a>';}).join('')+'</nav>';
  // Lead with the working finder and map. Keep archival imagery, narratives and all
  // ten crawlable park links below the forecast interface rather than before it.
  const staticDirectoryAnchor='<section class="panel"><div class="kicker">Individual destination planners</div>';
  if(!html.includes(staticDirectoryAnchor))throw new Error('Map-first editorial anchor changed');
- html=html.replace(staticDirectoryAnchor,start+stories+all+staticDirectoryAnchor);
+ html=html.replace(staticDirectoryAnchor,shortcuts+start+stories+all+staticDirectoryAnchor);
  html=html.replace('<section class="panel"><h2>Method and limits</h2>',context+'<div class="ad-state-nav">'+nav+'</div><section class="panel"><h2>Method and limits</h2>');
  // Michigan only: remove the redundant state dropdown but retain the existing
  // filtering hook. Offer an optional explicit four-park selection right next to
