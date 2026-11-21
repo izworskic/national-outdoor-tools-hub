@@ -171,3 +171,14 @@ test('Featured first-screen park shortcuts use existing canonical park planners'
  }
  assert.ok(style.includes('.afterdark-mi .ad-park-shortcuts'));
 });
+
+
+test('Michigan map can add a named park to existing four-park comparison without changing forecast ownership',()=>{
+ const js=fs.readFileSync('public/assets/great-lakes-dark-sky.js','utf8');
+ const inspector=fs.readFileSync('public/assets/dark-sky-map-inspector.js','utf8');
+ assert.ok(js.includes('onCompare:addParkFromMap'));
+ assert.ok(js.includes("document.body.classList.contains('afterdark-mi')"));
+ assert.ok(js.includes('box.checked=true;updateCompareChoices()'));
+ assert.ok(js.includes('length>=4'));
+ assert.ok(inspector.includes('Add park to sky comparison'));
+});
