@@ -24,6 +24,20 @@ function updateCompareChoices(){
    ?'Selected '+selected.length+' of 4: '+selected.map(x=>sites.find(p=>p.id===x.value)?.name||'Unknown').join(', ')+'.'
    :'No parks selected. Comparison defaults to the four nearest visible parks'+(state.user?' to your approximate location.':' to Bay City, Michigan.') ;
 }
+function addParkFromMap(p,button){
+ const boxes=[...document.querySelectorAll('.compare-choice')];
+ if(!boxes.length)return;
+ const box=boxes.find(x=>x.value===p.id);
+ if(!box)return;
+ if(box.checked){button.textContent='Already in comparison';return;}
+ if(boxes.filter(x=>x.checked).length>=4){
+  button.textContent='Four parks selected. Uncheck one to add another.';
+  return;
+ }
+ box.checked=true;updateCompareChoices();
+ button.textContent='Added to comparison';
+ track('compare_select',{selection_mode:'map'});
+}
 function text(id,value){const target=$(id);if(target)target.textContent=String(value);}
 function element(tag,cl,value){const e=document.createElement(tag);if(cl)e.className=cl;if(value!==undefined)e.textContent=String(value);return e;}
 function formatted(iso,tz,opts){try{return new Intl.DateTimeFormat('en-US',{timeZone:tz||'America/Detroit',...opts}).format(new Date(iso));}catch{return 'Time unavailable';}}
@@ -114,7 +128,7 @@ function loadTiles(url,carto){
 function initMap(){
  if(!$('darkSkyMap'))return;
  if(typeof L==='undefined'){mapStatus('Map library could not load. All destinations are available in the linked list.');return;}
- try{state.map=L.map('darkSkyMap',{scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true});state.inspector=window.DarkSkyMapInspector?.mount({mapId:'darkSkyMap',getDesignation:p=>typeNames[p.type],getMapsUrl:googleMapsUrl})||null;state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();resetDarkSkyViewport();L.control.scale({imperial:true,metric:false}).addTo(state.map);const requested=new URLSearchParams(location.search).get('inspect');const selected=sites.find(p=>p.id===requested);if(selected&&state.inspector)state.inspector.selectPark(selected);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
+ try{state.map=L.map('darkSkyMap',{scrollWheelZoom:true,zoomControl:true,dragging:true,doubleClickZoom:true,touchZoom:true});state.inspector=window.DarkSkyMapInspector?.mount({mapId:'darkSkyMap',getDesignation:p=>typeNames[p.type],getMapsUrl:googleMapsUrl,...(!parkMode&&document.body.classList.contains('afterdark-mi')?{onCompare:addParkFromMap}:{})})||null;state.sitesLayer=L.layerGroup().addTo(state.map);state.focusLayer=L.layerGroup().addTo(state.map);state.ready=true;updatePins();resetDarkSkyViewport();L.control.scale({imperial:true,metric:false}).addTo(state.map);const requested=new URLSearchParams(location.search).get('inspect');const selected=sites.find(p=>p.id===requested);if(selected&&state.inspector)state.inspector.selectPark(selected);}catch(e){mapStatus('Map unavailable; use the destination links instead.');return;}
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),7000);
  fetch('/api/carto-basemap-config',{headers:{Accept:'application/json'},signal:controller.signal}).then(r=>{if(!r.ok)throw Error('CARTO config inaccessible');return r.json();})
  .then(c=>{if(c?.provider!=='CARTO'||typeof c.key!=='string'||!c.key.trim())throw Error('Missing public CARTO key');loadTiles('https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(c.key.trim()),true);mapStatus('Connecting to the CARTO Voyager basemap…');})
