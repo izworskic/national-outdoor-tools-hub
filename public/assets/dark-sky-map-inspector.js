@@ -72,6 +72,12 @@ function mount(opts){
      :'Find park on Google Maps (parking not verified) ↗'
     :isRegional?'Find legal access on Google Maps ↗':'Google Maps directions ↗',opts.getMapsUrl(p));
   }
+  // Optional comparison handoff for pages with named park checkboxes.
+  // Other tools do not receive this action unless they supply the callback.
+  if(typeof opts.onCompare==='function'){
+   const b=make('button','sky-inspector-action sky-inspector-secondary','Add park to sky comparison');
+   b.type='button';b.addEventListener('click',()=>opts.onCompare(p,b));actions.appendChild(b);
+  }
   if(typeof opts.onForecast==='function'&&p.country!=='CA'&&p.state!=='ON'){
    const b=make('button','sky-inspector-action sky-inspector-secondary','Use this park for my meteor forecast');
    b.type='button';b.addEventListener('click',()=>opts.onForecast(p));actions.appendChild(b);
