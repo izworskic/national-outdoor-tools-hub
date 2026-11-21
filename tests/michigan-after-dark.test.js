@@ -150,3 +150,15 @@ test('Map directions distinguish operator address, named-place search and unknow
  assert.match(thompson,/Find named park on Maps \(not verified parking\)/);
  assert.match(thompson,/maps\/search\/\?api=1/);
 });
+
+
+test('Michigan decision desk offers three real paths without replacing the existing finder',()=>{
+ assert.match(html,/class="ad-decision-desk"/);
+ assert.ok(html.includes('href="#darkSkyMap"'));
+ assert.ok(html.includes('href="#compare4"'));
+ assert.ok(html.includes('href="#ad-stories"'));
+ assert.ok(html.indexOf('class="ad-decision-desk"') < html.indexOf('id="darkSkyMap"'));
+ assert.equal((html.match(/class="ad-decision-desk"/g)||[]).length,1);
+ assert.ok(style.includes('.afterdark-mi .ad-decision-desk'));
+ assert.ok(style.includes('@media(max-width:560px)'));
+});
