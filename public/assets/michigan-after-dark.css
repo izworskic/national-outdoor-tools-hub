@@ -82,4 +82,8 @@
 .afterdark-mi .ad-desk-actions a>span:last-child{font-size:12px;line-height:1.45;color:#e0e9ed}
 @media(max-width:900px){.afterdark-mi .ad-decision-desk{grid-template-columns:1fr;gap:14px}}
 @media(max-width:560px){.afterdark-mi .ad-decision-desk{padding:15px;margin:12px 0 17px}.afterdark-mi .ad-desk-actions{grid-template-columns:1fr}.afterdark-mi .ad-desk-actions a{min-height:0;padding:12px 14px}.afterdark-mi .ad-desk-heading p:last-child{font-size:12px}}
+.afterdark-mi .ad-park-shortcuts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:11px;border-top:1px solid #455e6e}
+.afterdark-mi .ad-park-shortcuts>span{font-size:12px;color:#d2dfe8;margin-right:5px}
+.afterdark-mi .ad-park-shortcuts a{display:inline-flex;align-items:center;min-height:44px;padding:8px 11px;border:1px solid #66838c;border-radius:6px;color:#f4fbfa;font-size:12px;text-decoration:none}
+.afterdark-mi .ad-park-shortcuts a:hover,.afterdark-mi .ad-park-shortcuts a:focus-visible{background:#2e5860;outline:3px solid #f0b567;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.afterdark-mi *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
