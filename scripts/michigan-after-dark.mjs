@@ -82,7 +82,10 @@ export function applyMichiganAfterDark(html,sites){
  '<div class="ad-desk-actions">'+
  '<a class="ad-desk-primary" href="#darkSkyMap"><span class="ad-desk-step">01 · Find a place</span><strong>Explore the park map</strong><span>Compare Michigan locations and open their forecasts.</span></a>'+
  '<a href="#compare4"><span class="ad-desk-step">02 · Check the sky</span><strong>Compare four parks</strong><span>Use modeled clouds and moonlight, not a promise of visibility.</span></a>'+
- '<a href="#ad-stories"><span class="ad-desk-step">03 · Prepare to go</span><strong>Know the landscape</strong><span>Read park-specific arrival guidance before leaving.</span></a></div></nav>';
+ '<a href="#ad-stories"><span class="ad-desk-step">03 · Prepare to go</span><strong>Know the landscape</strong><span>Read park-specific arrival guidance before leaving.</span></a></div>'+
+ '<div class="ad-park-shortcuts" aria-label="Open a park planner directly"><span>Start with a destination:</span>'+
+ ['headlands','port-crescent','keweenaw'].map(id=>{const p=sites.find(x=>x.slug===id);return '<a href="'+ROOT+E(id)+'/">'+E(p.name)+' <span aria-hidden="true">↗</span></a>';}).join('')+
+ '</div></nav>';
  if(!html.includes('<main class="wrap">'))throw new Error('Missing main wrapper for decision desk');
  html=html.replace('<main class="wrap">','<main class="wrap">'+desk);
  // Lead with the working finder and map. Keep archival imagery, narratives and all

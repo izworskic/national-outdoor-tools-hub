@@ -162,3 +162,12 @@ test('Michigan decision desk offers three real paths without replacing the exist
  assert.ok(style.includes('.afterdark-mi .ad-decision-desk'));
  assert.ok(style.includes('@media(max-width:560px)'));
 });
+
+
+test('Featured first-screen park shortcuts use existing canonical park planners',()=>{
+ assert.match(html,/class="ad-park-shortcuts"/);
+ for(const slug of ['headlands','port-crescent','keweenaw']){
+  assert.ok(html.includes('href="/national-tools/dark-sky/'+slug+'/"'));
+ }
+ assert.ok(style.includes('.afterdark-mi .ad-park-shortcuts'));
+});
