@@ -152,26 +152,16 @@ test('Map directions distinguish operator address, named-place search and unknow
 });
 
 
-test('Michigan decision desk offers three real paths without replacing the existing finder',()=>{
- assert.match(html,/class="ad-decision-desk"/);
- assert.ok(html.includes('href="#darkSkyMap"'));
- assert.ok(html.includes('href="#compare4"'));
- assert.ok(html.includes('href="#ad-stories"'));
- assert.ok(html.indexOf('class="ad-decision-desk"') < html.indexOf('id="darkSkyMap"'));
- assert.equal((html.match(/class="ad-decision-desk"/g)||[]).length,1);
- assert.ok(style.includes('.afterdark-mi .ad-decision-desk'));
- assert.ok(style.includes('@media(max-width:560px)'));
-});
-
-
-test('Featured first-screen park shortcuts use existing canonical park planners',()=>{
- assert.match(html,/class="ad-park-shortcuts"/);
+test('Live map leads without redundant decision menu and featured parks remain available',()=>{
+ assert.doesNotMatch(html,/ad-decision-desk|Choose the next step|01 · Find a place/);
+ assert.ok(html.indexOf('id="darkSkyMap"') < html.indexOf('class="ad-park-shortcuts"'));
+ assert.ok(html.indexOf('class="ad-park-shortcuts"') < html.indexOf('id="ad-stories"'));
  for(const slug of ['headlands','port-crescent','keweenaw']){
   assert.ok(html.includes('href="/national-tools/dark-sky/'+slug+'/"'));
  }
  assert.ok(style.includes('.afterdark-mi .ad-park-shortcuts'));
+ assert.ok(!style.includes('.ad-desk-actions'));
 });
-
 
 test('Michigan map can add a named park to existing four-park comparison without changing forecast ownership',()=>{
  const js=fs.readFileSync('public/assets/great-lakes-dark-sky.js','utf8');
