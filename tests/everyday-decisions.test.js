@@ -55,16 +55,18 @@ test('House Reality Check is in the ordered structured-data catalog exactly once
 });
 
 test('Holiday Travel has one searchable Everyday card and one canonical ItemList entry',()=>{
-  const section=html.match(/<section class="catalog-group everyday-decisions"[\\s\\S]*?<\\/section>/)?.[0];
-  assert.ok(section,'Everyday catalog missing');
-  assert.match(section,/data-tool-id="holiday-travel" data-personas="everyday trip"/);
-  assert.match(section,/data-tags="[^"]*thanksgiving christmas[^"]*"/);
-  assert.match(section,/href="https:\\/\\/chrisizworski\\.com\\/holiday-travel\\/"/);
-  assert.equal((html.match(/data-tool-id="holiday-travel"/g)||[]).length,1);
+  const begin=html.indexOf('<section class="catalog-group everyday-decisions"');
+  const finish=html.indexOf('</section>',begin);
+  assert.ok(begin>=0 && finish>begin,'Everyday catalog missing');
+  const section=html.slice(begin,finish);
+  assert.ok(section.includes('data-tool-id="holiday-travel" data-personas="everyday trip"'));
+  assert.ok(section.includes('thanksgiving christmas'));
+  assert.ok(section.includes('href="https://chrisizworski.com/holiday-travel/"'));
+  assert.equal(html.split('data-tool-id="holiday-travel"').length-1,1);
   const schema=JSON.parse(html.split('<script type="application/ld+json">')[1].split('</script>')[0]);
   const list=schema['@graph'].find(x=>x['@id']==='https://chrisizworski.com/national-tools/#toollist');
   assert.equal(list.itemListElement.filter(x=>x.url==='https://chrisizworski.com/holiday-travel/').length,1);
-  assert.equal(list.numberOfItems,(html.match(/data-search-card/g)||[]).length);
+  assert.equal(list.numberOfItems,html.split('data-search-card').length-1);
 });
 
 test('desktop filter layout and Everyday lane styling support the sixth intent',()=>{
