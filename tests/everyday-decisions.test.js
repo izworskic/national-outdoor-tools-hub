@@ -27,14 +27,14 @@ test('Everyday Decisions stays separate from outdoor national and regional taxon
   assert.ok(everydayStart>nationalStart);
   assert.ok(regionalStart>everydayStart);
   const everydaySlice=html.slice(everydayStart,regionalStart);
-  for (const id of ['house-fit', 'flight-tracker', 'agentbase']) assert.match(everydaySlice, new RegExp(`data-tool-id="${id}"`));
+  for (const id of ['house-fit', 'flight-tracker', 'holiday-travel', 'agentbase']) assert.match(everydaySlice, new RegExp(`data-tool-id="${id}"`));
   assert.doesNotMatch(everydaySlice,/data-tool-id="rivers"/);
   assert.doesNotMatch(everydaySlice,/class="catalog-group region-cluster"/);
   assert.match(html,/Outdoor remains the core\. Everyday Decisions stays separate\./);
 });
 
 test('directory build pipeline preserves the new family',()=>{
-  assert.match(organizer,/const everydayIds=\['house-fit','flight-tracker','agentbase'\]/);
+  assert.match(organizer,/const everydayIds=\['house-fit','flight-tracker','holiday-travel','agentbase'\]/);
   assert.match(organizer,/\.\.\.everydayIds/);
   assert.match(organizer,/const everyday=`<section class="catalog-group everyday-decisions"/);
   assert.match(organizer,/html\.slice\(0,start\)\+national\+'\\n\\n'\+everyday\+'\\n\\n'\+regional/);
@@ -52,6 +52,19 @@ test('House Reality Check is in the ordered structured-data catalog exactly once
   assert.equal(matches[0].name,'Can I Afford This House? True Monthly Cost');
   assert.equal(list.numberOfItems,list.itemListElement.length);
   assert.match(list.name,/Everyday Decisions/);
+});
+
+test('Holiday Travel has one searchable Everyday card and one canonical ItemList entry',()=>{
+  const section=html.match(/<section class="catalog-group everyday-decisions"[\\s\\S]*?<\\/section>/)?.[0];
+  assert.ok(section,'Everyday catalog missing');
+  assert.match(section,/data-tool-id="holiday-travel" data-personas="everyday trip"/);
+  assert.match(section,/data-tags="[^"]*thanksgiving christmas[^"]*"/);
+  assert.match(section,/href="https:\\/\\/chrisizworski\\.com\\/holiday-travel\\/"/);
+  assert.equal((html.match(/data-tool-id="holiday-travel"/g)||[]).length,1);
+  const schema=JSON.parse(html.split('<script type="application/ld+json">')[1].split('</script>')[0]);
+  const list=schema['@graph'].find(x=>x['@id']==='https://chrisizworski.com/national-tools/#toollist');
+  assert.equal(list.itemListElement.filter(x=>x.url==='https://chrisizworski.com/holiday-travel/').length,1);
+  assert.equal(list.numberOfItems,(html.match(/data-search-card/g)||[]).length);
 });
 
 test('desktop filter layout and Everyday lane styling support the sixth intent',()=>{
