@@ -60,6 +60,7 @@ test('Holiday Travel has one searchable Everyday card and one canonical ItemList
   assert.ok(begin>=0 && finish>begin,'Everyday catalog missing');
   const section=html.slice(begin,finish);
   assert.ok(section.includes('data-tool-id="holiday-travel" data-personas="everyday trip"'));
+  assert.match(section, /data-tool-id="holiday-travel"[^>]*data-months="10,11,12,1"/);
   assert.ok(section.includes('thanksgiving christmas'));
   assert.ok(section.includes('href="https://chrisizworski.com/holiday-travel/"'));
   assert.equal(html.split('data-tool-id="holiday-travel"').length-1,1);
