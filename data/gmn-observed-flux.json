@@ -1,18 +1,18 @@
 {
   "version": 1,
   "source": "https://globalmeteornetwork.org/flux/csv/",
-  "refreshedAt": "2026-11-25T21:45:06.975Z",
-  "lastGoodAt": "2026-11-24T07:26:59.798Z",
+  "refreshedAt": "2026-11-26T08:27:10.703Z",
+  "lastGoodAt": "2026-11-24T20:49:43.051Z",
   "observations": [
     {
       "iauCode": "LEO",
-      "observedAt": "2026-11-24T07:25:33.581Z",
-      "flux": 2.739,
+      "observedAt": "2026-11-24T20:49:43.051Z",
+      "flux": 3.109,
       "unit": "meteors/1000 km2/hour (+6.5 mag)",
-      "confidenceLow": 2.309,
-      "confidenceHigh": 3.226,
+      "confidenceLow": 2.649,
+      "confidenceHigh": 3.626,
       "sourceFile": "https://globalmeteornetwork.org/flux/csv/flux_LEO_sol=224.00-245.00_year_2026.csv",
-      "meteorCount": 147,
+      "meteorCount": 162,
       "timeBasis": "approximate bin center derived from GMN mean solar longitude (J2000)"
     }
   ],
